@@ -52,7 +52,7 @@ namespace TSMapEditor.UI.Windows
             cbEveryDiff = FindChild<XNACheckBox>(nameof(cbEveryDiff));
             btnApply = FindChild<EditorButton>(nameof(btnApply));
 
-            ddColor.AddItem("None");
+            ddColor.AddItem("无");
             Array.ForEach(Trigger.SupportedColors, sc =>
             {
                 ddColor.AddItem(sc.Name, sc.Value);
@@ -69,7 +69,7 @@ namespace TSMapEditor.UI.Windows
             }
 
             string name = tbName.Text;
-            string color = ddColor.SelectedItem.Text == "None" ? string.Empty : ddColor.SelectedItem.Text;
+            string color = ddColor.SelectedItem.Text == "无" ? string.Empty : ddColor.SelectedItem.Text;
             int elapsedTime = tbElapsedTime.Value;
             int count = tbNumTriggers.Value;
             int delay = tbDelay.Value;
@@ -111,29 +111,29 @@ namespace TSMapEditor.UI.Windows
         {
             if (string.IsNullOrWhiteSpace(tbName.Text))
             {
-                EditorMessageBox.Show(WindowManager, "Missing Trigger Name",
-                    "Please enter a name for the triggers", MessageBoxButtons.OK);
+                EditorMessageBox.Show(WindowManager, "缺少触发器名称",
+                    "请输入触发器的名称", MessageBoxButtons.OK);
                 return false;
             }
 
             if (tbNumTriggers.Value < 2)
             {
-                EditorMessageBox.Show(WindowManager, "Invalid Number of Triggers",
-                    "Please enter a value of 2 or more", MessageBoxButtons.OK);
+                EditorMessageBox.Show(WindowManager, "触发器数量值无效",
+                    "请输入 2 或更大的值", MessageBoxButtons.OK);
                 return false;
             }
 
             if (tbElapsedTime.Value < 0)
             {
-                EditorMessageBox.Show(WindowManager, "Invalid Elapsed Time",
-                    "Please enter a value of 0 or more", MessageBoxButtons.OK);
+                EditorMessageBox.Show(WindowManager, "无效的经过时间",
+                    "请输入 0 或更大的值", MessageBoxButtons.OK);
                 return false;
             }
 
             if (tbDelay.Value < 10)
             {
-                EditorMessageBox.Show(WindowManager, "Invalid Random Delay",
-                    "Please enter a value of 10 or more", MessageBoxButtons.OK);
+                EditorMessageBox.Show(WindowManager, "无效的随机延迟",
+                    "请输入 10 或更大的值", MessageBoxButtons.OK);
                 return false;
             }
 
@@ -163,7 +163,7 @@ namespace TSMapEditor.UI.Windows
 
                 if (diffGlobalVariableIndex < 0)
                 {
-                    Logger.Log($"{nameof(CreateRandomTriggerSetWindow)}.{nameof(CreateBaseTrigger)}: {difficulty} difficulty global variable not found!");                    
+                    Logger.Log($"{nameof(CreateRandomTriggerSetWindow)}.{nameof(CreateBaseTrigger)}:全局变量 {difficulty} 未找到!");                    
                 } 
                 else
                 {

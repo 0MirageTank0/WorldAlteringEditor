@@ -16,7 +16,7 @@ namespace TSMapEditor.UI
         public Parser(WindowManager windowManager)
         {
             if (_instance != null)
-                throw new InvalidOperationException("Only one instance of Parser can exist at a time.");
+                throw new InvalidOperationException("一次只能存在一个 Parser 实例.");
 
             globalConstants = new Dictionary<string, int>();
             RefreshResolutionConstants(windowManager);
@@ -57,7 +57,7 @@ namespace TSMapEditor.UI
 
             var control = Find(primaryControl.Children, controlName);
             if (control == null)
-                throw new KeyNotFoundException($"Control '{controlName}' not found while parsing input '{Input}'");
+                throw new KeyNotFoundException($"解析输入“{Input}”时找不到控件“{controlName}”");
 
             return control;
         }
@@ -197,7 +197,7 @@ namespace TSMapEditor.UI
                 return GetExprValue();
             }
             else
-                throw new INIConfigException("Unexpected character " + c + " when parsing input: " + Input);
+                throw new INIConfigException(" 在解析" + Input + "时出现意外的字符'" + c + "'");
         }
 
         private void SkipWhitespace()
@@ -316,7 +316,7 @@ namespace TSMapEditor.UI
                     return GetControl(parameters[0]).Right;
                 case "isGreater":
                     if (parameters.Count != 2)
-                        throw new INIConfigException($"Incorrect number of parameters for function {functionName} in expression {Input}");
+                        throw new INIConfigException($"表达式 {Input} 中函数 {functionName} 的参数数量不正确");
 
                     int value = GetExprValueWithContextSave(parameters[0], parsingControl);
                     int value2 = GetExprValueWithContextSave(parameters[1], parsingControl);
@@ -334,21 +334,21 @@ namespace TSMapEditor.UI
                     parsingControl.CenterOnParentHorizontally();
                     return parsingControl.X;
                 default:
-                    throw new INIConfigException("Unknown function " + functionName + " in expression " + Input);
+                    throw new INIConfigException("在表达式" + Input + "中发现未知函数" + functionName);
             }
         }
 
         private void ConsumeChar(char token)
         {
             if (Input[tokenPlace] != token)
-                throw new INIConfigException("Parse error: expected '" + token + "' in expression " + Input);
+                throw new INIConfigException("解析错误： 在表达中" + Input + "预期 '" + token + "'");
             tokenPlace++;
         }
 
         private char PeekChar()
         {
             if (IsEndOfInput())
-                throw new INIConfigException("Parse error: unexpected end of input in expression " + Input);
+                throw new INIConfigException("解析错误：" + Input + "意外结束");
 
             return Input[tokenPlace];
         }

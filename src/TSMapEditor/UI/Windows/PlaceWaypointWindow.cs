@@ -38,13 +38,13 @@ namespace TSMapEditor.UI.Windows
             tbWaypointNumber.MaximumTextLength = (Constants.MaxWaypoint - 1).ToString(CultureInfo.InvariantCulture).Length;
 
             lblDescription = FindChild<XNALabel>(nameof(lblDescription));
-            lblDescription.Text = $"Input waypoint number (0-{Constants.MaxWaypoint - 1}):";            
+            lblDescription.Text = $"输入路径点编号(0-{Constants.MaxWaypoint - 1}):";            
 
             FindChild<EditorButton>("btnPlace").LeftClick += BtnPlace_LeftClick;
 
             // Init color dropdown options
             ddWaypointColor = FindChild<XNADropDown>(nameof(ddWaypointColor));
-            ddWaypointColor.AddItem("None");
+            ddWaypointColor.AddItem("无");
             Array.ForEach(Waypoint.SupportedColors, sc => ddWaypointColor.AddItem(sc.Name, sc.Value));
         }
 
@@ -63,8 +63,8 @@ namespace TSMapEditor.UI.Windows
             if (map.Waypoints.Exists(w => w.Identifier == tbWaypointNumber.Value))
             {
                 EditorMessageBox.Show(WindowManager,
-                    "Waypoint already exists",
-                    $"A waypoint with the given number {tbWaypointNumber.Value} already exists on the map!",
+                    "路径点已存在",
+                    $"地图上已存在具有 {tbWaypointNumber.Value} 编号的路径点!",
                     MessageBoxButtons.OK);
 
                 return;
@@ -84,8 +84,8 @@ namespace TSMapEditor.UI.Windows
             if (map.Waypoints.Count == Constants.MaxWaypoint)
             {
                 EditorMessageBox.Show(WindowManager,
-                    "Maximum waypoints reached",
-                    "All valid waypoints on the map are already in use!",
+                    "到达最大路径点数量",
+                    "无法添加新的路径点!",
                     MessageBoxButtons.OK);
 
                 return;

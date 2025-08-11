@@ -7,7 +7,6 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <UseWindowsForms>true</UseWindowsForms>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
-    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -414,6 +413,18 @@
     <None Update="Content\SpriteFont1.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Content\SpriteFont2.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Content\SpriteFont3.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Content\SpriteFont4.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Content\SpriteFont5.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Content\star.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -473,18 +484,25 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Rampastring.XNAUI.WindowsDX">
+      <HintPath>Rampastring.XNAUI.WindowsDX.dll</HintPath>
+    </Reference>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.3" />
     <PackageReference Include="Rampastring.Tools" Version="2.0.7" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.3" />
-    <PackageReference Include="Rampastring.XNAUI.WindowsDX" Version="3.0.6" />
+<!--    <PackageReference Include="Rampastring.XNAUI.WindowsDX" Version="3.0.6" />-->
     <PackageReference Include="SixLabors.ImageSharp" Version="2.1.10" />
+    <PackageReference Include="TextCopy" Version="6.2.1" />
     <PackageReference Include="Westwind.Scripting" Version="1.3.3" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\ToolIcons\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Content\Rampastring.XNAUI.WindowsDX.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>    
     <None Include="Config\Scripts\Apply Animated Water.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

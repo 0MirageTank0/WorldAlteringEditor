@@ -84,13 +84,13 @@ namespace TSMapEditor.Models
 
             if (VeteranLevel > 1)
             {
-                stringBuilder.Append("Veteran Level: " + (VeteranLevel > 2 ? "Elite" : "Veteran"));
+                stringBuilder.Append("老兵登记: " + (VeteranLevel > 2 ? "精英" : "老兵"));
                 stringBuilder.Append(Environment.NewLine + Environment.NewLine);
             }
 
             if (TaskForce == null)
             {
-                stringBuilder.Append("No TaskForce set");
+                stringBuilder.Append("未设置作战小队");
             }
             else
             {

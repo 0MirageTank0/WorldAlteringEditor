@@ -43,7 +43,7 @@ namespace TSMapEditor.UI.Sidebar
             SearchBox.Y = Constants.UIEmptyTopSpace;
             SearchBox.Width = Width - Constants.UIEmptySideSpace * 2;
             SearchBox.Height = Constants.UITextBoxHeight;
-            SearchBox.Suggestion = "Search object... (CTRL + F)";
+            SearchBox.Suggestion = "搜索对象... (CTRL + F)";
             AddChild(SearchBox);
             SearchBox.TextChanged += SearchBox_TextChanged;
             SearchBox.EnterPressed += SearchBox_EnterPressed;
@@ -162,7 +162,7 @@ namespace TSMapEditor.UI.Sidebar
 
             if (Map.EditorConfig.TerrainObjectCollections.Count > 0)
             {
-                var collectionsCategory = new TreeViewCategory() { Text = "Collections" };
+                var collectionsCategory = new TreeViewCategory() { Text = "集合" };
                 categories.Add(collectionsCategory);
 
                 foreach (var collection in Map.EditorConfig.TerrainObjectCollections)
@@ -197,7 +197,7 @@ namespace TSMapEditor.UI.Sidebar
 
                 if (string.IsNullOrEmpty(terrainType.EditorCategory))
                 {
-                    category = FindOrMakeCategory("Uncategorized", categories);
+                    category = FindOrMakeCategory("未分类", categories);
                 }
                 else
                 {

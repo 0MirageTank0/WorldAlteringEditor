@@ -9,7 +9,7 @@ namespace TSMapEditor.UI.CursorActions.HeightActions
         {
         }
 
-        public override string GetName() => "Raise Ground (Steep Ramps)";
+        public override string GetName() => "提升地面 (坡道)";
 
         public override void OnActionEnter()
         {

@@ -32,7 +32,7 @@ namespace TSMapEditor.UI.Controls
         {
             T child = FindChild<T>(Children, childName);
             if (child == null && !optional)
-                throw new KeyNotFoundException("Could not find required child control: " + childName);
+                throw new KeyNotFoundException("找不到所需的子控件: " + childName);
 
             return child;
         }
@@ -55,7 +55,7 @@ namespace TSMapEditor.UI.Controls
         public override void Initialize()
         {
             if (_initialized)
-                throw new InvalidOperationException("INItializableWindow cannot be initialized twice.");
+                throw new InvalidOperationException("INItializableWindow不能初始化两次.");
 
             var dsc = Path.DirectorySeparatorChar;
 
@@ -69,7 +69,7 @@ namespace TSMapEditor.UI.Controls
                 else if (File.Exists(defaultConfigIniPath))
                     ConfigIni = new IniFile(defaultConfigIniPath);
                 else
-                    throw new FileNotFoundException("Config INI not found: " + configIniPath);
+                    throw new FileNotFoundException("未找到配置 INI: " + configIniPath);
             }
 
             Parser.Instance.SetPrimaryControl(this);
@@ -131,7 +131,7 @@ namespace TSMapEditor.UI.Controls
                     {
                         var child = CreateChildControl(control, kvp.Value);
                         if (!ReadINIForControl(child))
-                            throw new INIConfigException("No section exists for child control " + kvp.Value);
+                            throw new INIConfigException("不存在用于子控件的节" + kvp.Value);
 
                         child.Initialize();
                     }
@@ -140,7 +140,7 @@ namespace TSMapEditor.UI.Controls
                         string childName = GetChildControlName(control, kvp.Value);
                         var child = Children.First(cc => cc.Name == childName);
                         if (child == null)
-                            throw new INIConfigException($"Processing {control.Name} in {nameof(INItializableWindow)}: Unable to find child control {kvp.Value} while calculating layout");
+                            throw new INIConfigException($"在 {nameof(INItializableWindow)}中处理 {control.Name} ：找不到子控件 {kvp.Value} 的布局");
 
                         ReadINIForControl(child, true);
                     }
@@ -170,7 +170,7 @@ namespace TSMapEditor.UI.Controls
                 {
                     string[] parts = kvp.Value.Split(',');
                     if (parts.Length != 2)
-                        throw new FormatException("Invalid format for AnchorPoint: " + kvp.Value);
+                        throw new FormatException("AnchorPoint 的格式无效: " + kvp.Value);
                     ((XNALabel)control).AnchorPoint = new Vector2(Parser.Instance.GetExprValue(parts[0], control), Parser.Instance.GetExprValue(parts[1], control));
                 }
                 else if (!isForLayout && kvp.Key == "$MaxValue" && control is XNATrackbar)
@@ -268,7 +268,7 @@ namespace TSMapEditor.UI.Controls
 
             if (FindChild<XNAControl>(childName, true) != null)
             {
-                throw new INIConfigException("A control named " + childName + " has been defined more than once.");
+                throw new INIConfigException("名为" + childName + "的控件已多次定义。");
             }
 
             var childControl = EditorGUICreator.Instance.CreateControl(WindowManager, parts[1]);
@@ -282,11 +282,10 @@ namespace TSMapEditor.UI.Controls
             string[] parts = keyValue.Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
 
             if (parts.Length != 2)
-                throw new INIConfigException("Invalid child control definition " + keyValue);
+                throw new INIConfigException("子控件定义无效" + keyValue);
 
             if (string.IsNullOrWhiteSpace(parts[0]))
-                throw new INIConfigException("Empty name in child control definition for " + parent.Name);
-
+                throw new INIConfigException(parent.Name + "中存在定义了空名称的子控件");
             return parts[0];
         }
     }

@@ -104,7 +104,7 @@ namespace TSMapEditor.UI.Windows
         private void FillUpgradesForDropDown(XNADropDown dropDown, int index, List<BuildingType> upgrades)
         {
             dropDown.Items.Clear();
-            dropDown.AddItem("None");
+            dropDown.AddItem("无");
             dropDown.AllowDropDown = false;
 
             if (structure.ObjectType.Upgrades > index)

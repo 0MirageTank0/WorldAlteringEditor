@@ -2,6 +2,7 @@ using Rampastring.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using TSMapEditor.CCEngine;
 using TSMapEditor.UI;
 
@@ -68,6 +69,7 @@ namespace TSMapEditor.Models
         {
             var iniFile = Helpers.ReadConfigINI("Theaters.ini");
             var section = iniFile.GetSection("Theaters");
+            var uiNames = iniFile.GetSection("UIName");
             if (section == null)
                 return;
 
@@ -78,7 +80,7 @@ namespace TSMapEditor.Models
                 if (theaterSection == null)
                     continue;
 
-                Theater theater = new Theater(theaterName);
+                Theater theater = new Theater(uiNames.GetStringValue(theaterName,theaterName));
                 theater.ReadPropertiesFromIniSection(theaterSection);
                 Theaters.Add(theater);
             }
@@ -215,8 +217,8 @@ namespace TSMapEditor.Models
 
                 if (TriggerEventTypes.ContainsKey(triggerEventType.ID))
                 {
-                    throw new INIConfigException($"Error while adding Trigger Event {triggerEventType.Name}: " + 
-                                                 $"a Trigger Event with ID {triggerEventType.ID} already exists!");
+                    throw new INIConfigException($"添加触发器事件时出错 {triggerEventType.Name}: " + 
+                                                 $"具有 ID {triggerEventType.ID} 的触发器事件 已经存在!");
                 }
 
                 TriggerEventTypes.Add(triggerEventType.ID, triggerEventType);
@@ -364,13 +366,14 @@ namespace TSMapEditor.Models
             const string sectionName = "TeamTypeFlags";
 
             var keys = iniFile.GetSectionKeys(sectionName);
+            var uiNames = iniFile.GetSection("UINames");
             if (keys == null)
                 return;
 
             foreach (var key in keys)
             {
                 string value = iniFile.GetStringValue(sectionName, key, string.Empty);
-                var teamTypeFlag = new TeamTypeFlag(key, Conversions.BooleanFromString(value, false));
+                var teamTypeFlag = new TeamTypeFlag(uiNames.GetStringValue(key,key),key, Conversions.BooleanFromString(value, false));
                 TeamTypeFlags.Add(teamTypeFlag);
             }
         }

@@ -106,7 +106,7 @@ namespace TSMapEditor.UI.Windows
 
             if (Constants.IsRA2YR)
             {
-                btnEditHouseType.Text = "Edit Country";
+                btnEditHouseType.Text = "编辑所属方";
                 newHouseWindow = new NewHouseWindow(WindowManager, map);
                 var newHouseWindowDarkeningPanel = DarkeningPanel.InitializeAndAddToParentControlWithChild(WindowManager, Parent, newHouseWindow);
                 newHouseWindowDarkeningPanel.Hidden += NewHouseWindowDarkeningPanel_Hidden;
@@ -180,7 +180,7 @@ namespace TSMapEditor.UI.Windows
                         // We need to always delete the associated HouseType, if that fails for some reason then
                         // something has gone terribly wrong in our internal editor logic.
                         if (!map.DeleteHouseType(editedHouse.HouseType))
-                            throw new InvalidOperationException("Failed to delete HouseType associated with house " + editedHouse.ININame);
+                            throw new InvalidOperationException("无法删除与国家关联的 HouseType" + editedHouse.ININame);
                     }
 
                     editedHouse = null;
@@ -195,9 +195,9 @@ namespace TSMapEditor.UI.Windows
             if (map.Houses.Count > 0)
             {
                 EditorMessageBox.Show(WindowManager,
-                    "Houses already exist",
-                    "Cannot generate standard because the map already has one or more houses specified." + Environment.NewLine + Environment.NewLine +
-                    "If you want to generate standard houses, please delete the existing houses first.", MessageBoxButtons.OK);
+                    "国家已经存在",
+                    "无法生成标准国家，因为地图已分配了一或多个国家." + Environment.NewLine + Environment.NewLine +
+                    "如果要生成标准国家，请先删除现有国家.", MessageBoxButtons.OK);
 
                 return;
             }
@@ -217,14 +217,14 @@ namespace TSMapEditor.UI.Windows
         {
             if (editedHouse == null)
             {
-                EditorMessageBox.Show(WindowManager, "No House Selected", "Select a house first.", MessageBoxButtons.OK);
+                EditorMessageBox.Show(WindowManager, "未选择国家", "请先选国家.", MessageBoxButtons.OK);
                 return;
             }
 
             var dialog = EditorMessageBox.Show(WindowManager,
-                "Are you sure?",
-                "This enables the \"AI Repairs\" flag on all buildings of the house, which makes the AI repair them." + Environment.NewLine + Environment.NewLine +
-                "No un-do is available. Do you wish to continue?", MessageBoxButtons.YesNo);
+                "是否确定?",
+                "这会在国家的所有建筑物上启用“AI Repairs”标志，从而使 AI 修复它们." + Environment.NewLine + Environment.NewLine +
+                "此操作无法撤销。您想继续吗?", MessageBoxButtons.YesNo);
             dialog.YesClickedAction = _ =>
             {
                 map.Structures.FindAll(s => s.Owner == editedHouse).ForEach(b => b.AIRepairable = true);
@@ -236,14 +236,14 @@ namespace TSMapEditor.UI.Windows
         {
             if (editedHouse == null)
             {
-                EditorMessageBox.Show(WindowManager, "No House Selected", "Select a house first.", MessageBoxButtons.OK);
+                EditorMessageBox.Show(WindowManager, "未选择国家", "请先选择国家.", MessageBoxButtons.OK);
                 return;
             }
 
             var dialog = EditorMessageBox.Show(WindowManager,
-                "Are you sure?",
-                "This disables the \"AI Repairs\" flag on all buildings of the house, which makes the AI NOT repair them." + Environment.NewLine + Environment.NewLine +
-                "No un-do is available. Do you wish to continue?", MessageBoxButtons.YesNo);
+                "是否确定?",
+                "这会禁用房屋所有建筑物上的“AI Repairs”标志，从而使 AI 不会修复它们." + Environment.NewLine + Environment.NewLine +
+                "此操作无法撤销。您想继续吗?", MessageBoxButtons.YesNo);
             dialog.YesClickedAction = _ =>
             {
                 map.Structures.FindAll(s => s.Owner == editedHouse).ForEach(b => b.AIRepairable = false);
@@ -441,7 +441,7 @@ namespace TSMapEditor.UI.Windows
             lbHouseList.Clear();
             ddHouseOfHumanPlayer.Items.Clear();
 
-            ddHouseOfHumanPlayer.AddItem("None");
+            ddHouseOfHumanPlayer.AddItem("无");
 
             ddActsLike.Items.Clear();
 
@@ -478,7 +478,7 @@ namespace TSMapEditor.UI.Windows
                 return;
             }
 
-            string stats = "Power: " + map.Structures.Aggregate<Structure, int>(0, (value, structure) => 
+            string stats = "电力: " + map.Structures.Aggregate<Structure, int>(0, (value, structure) => 
             {
                 if (structure.Owner == editedHouse)
                     return value + structure.ObjectType.Power;
@@ -486,12 +486,12 @@ namespace TSMapEditor.UI.Windows
                 return value;
             }) + Environment.NewLine;
 
-            stats += Environment.NewLine + "Aircraft: " + map.Aircraft.Count(s => s.Owner == editedHouse);
-            stats += Environment.NewLine + "Infantry: " + map.Infantry.Count(s => s.Owner == editedHouse);
-            stats += Environment.NewLine + "Vehicles: " + map.Units.Count(s => s.Owner == editedHouse);
-            stats += Environment.NewLine + "Buildings: " + map.Structures.Count(s => s.Owner == editedHouse);
-            stats += Environment.NewLine + "  AI repairable: " + map.Structures.Count(s => s.Owner == editedHouse && s.AIRepairable);
-            stats += Environment.NewLine + "  not AI repairable: " + map.Structures.Count(s => s.Owner == editedHouse && !s.AIRepairable);
+            stats += Environment.NewLine + "飞行器: " + map.Aircraft.Count(s => s.Owner == editedHouse);
+            stats += Environment.NewLine + "步兵: " + map.Infantry.Count(s => s.Owner == editedHouse);
+            stats += Environment.NewLine + "载具: " + map.Units.Count(s => s.Owner == editedHouse);
+            stats += Environment.NewLine + "建筑物: " + map.Structures.Count(s => s.Owner == editedHouse);
+            stats += Environment.NewLine + "  AI维修启用: " + map.Structures.Count(s => s.Owner == editedHouse && s.AIRepairable);
+            stats += Environment.NewLine + "  AI维修未启用: " + map.Structures.Count(s => s.Owner == editedHouse && !s.AIRepairable);
 
             lblStatsValue.Text = stats;
         }

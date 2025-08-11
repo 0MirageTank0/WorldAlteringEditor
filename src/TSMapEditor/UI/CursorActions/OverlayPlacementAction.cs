@@ -15,7 +15,9 @@ namespace TSMapEditor.UI.CursorActions
         {
         }
 
-        public override string GetName() => "Place Overlay";
+        public override string GetName() => "放置覆盖物";
+
+        public override bool DrawMapCrossLine => true;
 
         public event EventHandler OverlayTypeChanged;
 

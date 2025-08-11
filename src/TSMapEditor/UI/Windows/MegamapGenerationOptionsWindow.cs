@@ -54,13 +54,13 @@ namespace TSMapEditor.UI.Windows
 
             if (IsForPreview)
             {
-                lblDescription.Text = "Preview generation options:";
-                btnGenerate.Text = "Generate Preview";
+                lblDescription.Text = "预览生成选项:";
+                btnGenerate.Text = "生成预览";
             }
             else
             {
-                lblDescription.Text = "Megamap extraction options:";
-                btnGenerate.Text = "Extract Megamap";
+                lblDescription.Text = "巨型地图提取选项:";
+                btnGenerate.Text = "提取巨型地图";
             }
 
             Show();

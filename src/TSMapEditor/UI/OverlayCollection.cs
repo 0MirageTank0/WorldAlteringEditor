@@ -27,7 +27,7 @@ namespace TSMapEditor.UI
         public static OverlayCollection InitFromIniSection(IniSection iniSection, List<OverlayType> overlayTypes)
         {
             var overlayCollection = new OverlayCollection();
-            overlayCollection.Name = iniSection.GetStringValue("Name", "Unnamed Collection");
+            overlayCollection.Name = iniSection.GetStringValue("Name", "未命名集合");
             overlayCollection.AllowedTheaters = iniSection.GetListValue("AllowedTheaters", ',', s => s);
 
             var entryList = new List<OverlayCollectionEntry>();
@@ -55,12 +55,12 @@ namespace TSMapEditor.UI
                 var overlayType = overlayTypes.Find(o => o.ININame == overlayTypeName);
                 if (overlayType == null)
                 {
-                    throw new INIConfigException($"Overlay type \"{overlayTypeName}\" not found while initializing overlay collection \"{overlayCollection.Name}\"!");
+                    throw new INIConfigException($"在初始化覆盖物集合\"{overlayCollection.Name}\"时未找到\"{overlayTypeName}\"!");
                 }
 
                 if (frame < 0)
                 {
-                    throw new INIConfigException($"Frame below zero defined in entry #{i} in overlay collection \"{overlayCollection.Name}\"!");
+                    throw new INIConfigException($"在覆盖物集合\"{overlayCollection.Name}\"中第#{i}个的frame小于零!");
                 }
 
                 entryList.Add(new OverlayCollectionEntry(overlayType, frame));

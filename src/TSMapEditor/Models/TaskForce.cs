@@ -49,7 +49,7 @@ namespace TSMapEditor.Models
     }
 
     /// <summary>
-    /// A taskforce. A group of unit types that can be used in team types.
+    /// 特遣部队 A taskforce. A group of unit types that can be used in team types.
     /// </summary>
     public class TaskForce : IIDContainer, IHintable
     {

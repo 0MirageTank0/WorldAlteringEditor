@@ -13,7 +13,7 @@ namespace TSMapEditor.UI.CursorActions
         {
         }
 
-        public override string GetName() => "Place Waypoint";
+        public override string GetName() => "放置路径点";
 
         public PlaceWaypointWindow PlaceWaypointWindow { get; set; }
 

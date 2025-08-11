@@ -6,21 +6,22 @@ namespace TSMapEditor.Misc
     {        
         public static NamedColor[] GenericSupportedNamedColors = new NamedColor[]
         {
-            new NamedColor("Teal", new Color(0, 196, 196)),
-            new NamedColor("Green", new Color(0, 255, 0)),
-            new NamedColor("Dark Green", Color.Green),
-            new NamedColor("Lime Green", Color.LimeGreen),
-            new NamedColor("Yellow", Color.Yellow),
-            new NamedColor("Orange", Color.Orange),
-            new NamedColor("Red", Color.Red),
-            new NamedColor("Blood Red", Color.DarkRed),
-            new NamedColor("Pink", Color.HotPink),
-            new NamedColor("Cherry", Color.Pink),
-            new NamedColor("Purple", Color.MediumPurple),
-            new NamedColor("Sky Blue", Color.SkyBlue),
-            new NamedColor("Blue", new Color(40, 40, 255)),
-            new NamedColor("Brown", Color.Brown),
-            new NamedColor("Metalic", new Color(160, 160, 200)),
+            new NamedColor("蓝绿色", new Color(0, 196, 196)),
+            new NamedColor("绿色", new Color(0, 255, 0)),
+            new NamedColor("深绿色", Color.Green),
+            new NamedColor("柠檬绿", Color.LimeGreen),
+            new NamedColor("黄色", Color.Yellow),
+            new NamedColor("橙色", Color.Orange),
+            new NamedColor("红色", Color.Red),
+            new NamedColor("血红色", Color.DarkRed),
+            new NamedColor("粉色", Color.HotPink),
+            new NamedColor("樱桃红", Color.Pink),
+            new NamedColor("紫色", Color.MediumPurple),
+            new NamedColor("天蓝色", Color.SkyBlue),
+            new NamedColor("蓝色", new Color(40, 40, 255)),
+            new NamedColor("棕色", Color.Brown),
+            new NamedColor("金属色", new Color(160, 160, 200)),
+
         };
     }
 

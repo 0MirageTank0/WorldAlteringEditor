@@ -19,7 +19,7 @@ namespace TSMapEditor.UI.CursorActions.HeightActions
 
         private int desiredHeightLevel = -1;
 
-        public override string GetName() => "Flatten Ground";
+        public override string GetName() => "平整地面";
 
         public override void OnActionEnter()
         {

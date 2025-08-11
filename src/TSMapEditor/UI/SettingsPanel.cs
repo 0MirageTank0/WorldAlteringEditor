@@ -97,14 +97,14 @@ namespace TSMapEditor.UI
             var lblHeader = new XNALabel(WindowManager);
             lblHeader.Name = nameof(lblHeader);
             lblHeader.FontIndex = Constants.UIBoldFont;
-            lblHeader.Text = "Settings";
+            lblHeader.Text = "设置";
             lblHeader.Y = Constants.UIEmptyTopSpace;
             AddChild(lblHeader);
             lblHeader.CenterOnParentHorizontally();
 
             var lblRenderScale = new XNALabel(WindowManager);
             lblRenderScale.Name = nameof(lblRenderScale);
-            lblRenderScale.Text = "Render Scale:";
+            lblRenderScale.Text = "UI比例：";
             lblRenderScale.X = Constants.UIEmptySideSpace;
             lblRenderScale.Y = lblHeader.Bottom + Constants.UIEmptyTopSpace + 1;
             AddChild(lblRenderScale);
@@ -132,7 +132,7 @@ namespace TSMapEditor.UI
 
             var lblTargetFPS = new XNALabel(WindowManager);
             lblTargetFPS.Name = nameof(lblTargetFPS);
-            lblTargetFPS.Text = "Target FPS:";
+            lblTargetFPS.Text = "目标FPS：";
             lblTargetFPS.X = Constants.UIEmptySideSpace;
             lblTargetFPS.Y = ddRenderScale.Bottom + Constants.UIEmptyTopSpace + 1;
             AddChild(lblTargetFPS);
@@ -149,7 +149,7 @@ namespace TSMapEditor.UI
 
             var lblTheme = new XNALabel(WindowManager);
             lblTheme.Name = nameof(lblTheme);
-            lblTheme.Text = "Theme:";
+            lblTheme.Text = "主题:";
             lblTheme.X = lblRenderScale.X;
             lblTheme.Y = ddTargetFPS.Bottom + Constants.UIEmptyTopSpace;
             AddChild(lblTheme);
@@ -165,7 +165,7 @@ namespace TSMapEditor.UI
 
             var lblScrollRate = new XNALabel(WindowManager);
             lblScrollRate.Name = nameof(lblScrollRate);
-            lblScrollRate.Text = "Scroll Rate:";
+            lblScrollRate.Text = "滚动速度:";
             lblScrollRate.X = lblRenderScale.X;
             lblScrollRate.Y = ddTheme.Bottom + Constants.UIEmptyTopSpace;
             AddChild(lblScrollRate);
@@ -176,7 +176,7 @@ namespace TSMapEditor.UI
             ddScrollRate.Y = lblScrollRate.Y - 1;
             ddScrollRate.Width = ddRenderScale.Width;
             AddChild(ddScrollRate);
-            var scrollRateNames = new string[] { "Fastest", "Faster", "Fast", "Normal", "Slow", "Slower", "Slowest" };
+            var scrollRateNames = new string[] { "最快", "更快", "快", "正常", "慢", "更慢", "最慢" };
             var scrollRateValues = new int[] { 21, 18, 15, 12, 9, 6, 3 };
             for (int i = 0; i < scrollRateNames.Length; i++)
             {
@@ -187,33 +187,33 @@ namespace TSMapEditor.UI
             chkBorderless.Name = nameof(chkBorderless);
             chkBorderless.X = Constants.UIEmptySideSpace;
             chkBorderless.Y = ddScrollRate.Bottom + Constants.UIVerticalSpacing;
-            chkBorderless.Text = "Start In Borderless Mode";
+            chkBorderless.Text = "无边界模式";
             AddChild(chkBorderless);
 
             chkUseBoldFont = new XNACheckBox(WindowManager);
             chkUseBoldFont.Name = nameof(chkUseBoldFont);
             chkUseBoldFont.X = Constants.UIEmptySideSpace;
             chkUseBoldFont.Y = chkBorderless.Bottom + Constants.UIVerticalSpacing;
-            chkUseBoldFont.Text = "Use Bold Font";
+            chkUseBoldFont.Text = "使用粗体字体";
             AddChild(chkUseBoldFont);
 
             chkGraphicsLevel = new XNACheckBox(WindowManager);
             chkGraphicsLevel.Name = nameof(chkGraphicsLevel);
             chkGraphicsLevel.X = Constants.UIEmptySideSpace;
             chkGraphicsLevel.Y = chkUseBoldFont.Bottom + Constants.UIVerticalSpacing;
-            chkGraphicsLevel.Text = "Enhanced Graphical Quality";
+            chkGraphicsLevel.Text = "图形质量增强";
             AddChild(chkGraphicsLevel);
 
             chkSmartScriptActionCloning = new XNACheckBox(WindowManager);
             chkSmartScriptActionCloning.Name = nameof(chkSmartScriptActionCloning);
             chkSmartScriptActionCloning.X = Constants.UIEmptySideSpace;
             chkSmartScriptActionCloning.Y = chkGraphicsLevel.Bottom + Constants.UIVerticalSpacing;
-            chkSmartScriptActionCloning.Text = "Smart Script Action Cloning";
+            chkSmartScriptActionCloning.Text = "脚本行为智能克隆";
             AddChild(chkSmartScriptActionCloning);
 
             var lblTextEditorPath = new XNALabel(WindowManager);
             lblTextEditorPath.Name = nameof(lblTextEditorPath);
-            lblTextEditorPath.Text = "Text Editor Path:";
+            lblTextEditorPath.Text = "文本编辑器路径:";
             lblTextEditorPath.X = Constants.UIEmptySideSpace;
             lblTextEditorPath.Y = chkSmartScriptActionCloning.Bottom + Constants.UIVerticalSpacing * 2;
             AddChild(lblTextEditorPath);

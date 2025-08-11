@@ -9,7 +9,7 @@ namespace TSMapEditor.UI.CursorActions.HeightActions
         {
         }
 
-        public override string GetName() => "Raise Cells";
+        public override string GetName() => "提升单元格";
 
         public override bool DrawCellCursor => true;
 

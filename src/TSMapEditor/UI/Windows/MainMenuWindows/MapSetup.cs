@@ -53,7 +53,7 @@ namespace TSMapEditor.UI.Windows.MainMenuWindows
             if (createNew)
             {
                 if (newMapParameters == null)
-                    throw new NullReferenceException("Null new map parameters encountered when creating a new map!");
+                    throw new NullReferenceException("创建新地图时遇到的新地图参数为 Null！");
 
                 map.InitNew(gameConfigIniFiles, newMapParameters.Theater, newMapParameters.MapSize, newMapParameters.StartingLevel);
             }
@@ -69,11 +69,11 @@ namespace TSMapEditor.UI.Windows.MainMenuWindows
                 }
                 catch (IniParseException ex)
                 {
-                    return "The selected file does not appear to be a proper map file (INI file). Maybe it's corrupted?\r\n\r\nReturned error: " + ex.Message;
+                    return "所选文件似乎不是正确的地图文件（INI 文件）。也许它已损坏？\r\n\r\n返回的错误： " + ex.Message;
                 }
                 catch (MapLoadException ex)
                 {
-                    return "Failed to load the selected map file.\r\n\r\nReturned error: " + ex.Message;
+                    return "无法加载选定的映射文件。\r\n\r\n返回错误： " + ex.Message;
                 }
             }
 
@@ -83,7 +83,7 @@ namespace TSMapEditor.UI.Windows.MainMenuWindows
             map.Rules.Sounds = sounds;
 
             Console.WriteLine();
-            Console.WriteLine("Map created.");
+            Console.WriteLine("地图已创建.");
 
             LoadedMap = map;
 
@@ -100,7 +100,7 @@ namespace TSMapEditor.UI.Windows.MainMenuWindows
             Theater theater = LoadedMap.EditorConfig.Theaters.Find(t => t.UIName.Equals(LoadedMap.TheaterName, StringComparison.InvariantCultureIgnoreCase));
             if (theater == null)
             {
-                throw new InvalidOperationException("Theater of map not found: " + LoadedMap.TheaterName);
+                throw new InvalidOperationException("地图游戏环境资源未找到: " + LoadedMap.TheaterName);
             }
             theater.ReadConfigINI(gameDirectory, ccFileManager);
 
@@ -127,13 +127,13 @@ namespace TSMapEditor.UI.Windows.MainMenuWindows
 
             if (errorListHeight > windowManager.RenderResolutionY - margin)
             {
-                EditorMessageBox.Show(windowManager, "Errors while loading map",
-                    "A massive number of errors was encountered while loading the map. See MapEditorLog.log for details.", MessageBoxButtons.OK);
+                EditorMessageBox.Show(windowManager, "加载地图时出错",
+                    "加载地图时遇到大量错误。有关详细信息，请参阅MapEditorLog.log。", MessageBoxButtons.OK);
             }
             else if (MapLoader.MapLoadErrors.Count > 0)
             {
-                EditorMessageBox.Show(windowManager, "Errors while loading map",
-                    "One or more errors were encountered while loading the map:\r\n\r\n" + errorList, MessageBoxButtons.OK);
+                EditorMessageBox.Show(windowManager, "加载地图时出错",
+                    "加载地图时遇到一个或多个错误：\r\n\r\n" + errorList, MessageBoxButtons.OK);
             }
         }
 
@@ -150,7 +150,7 @@ namespace TSMapEditor.UI.Windows.MainMenuWindows
 
                 var tiles = cliffType.Tiles;
                 if (tiles.Count == 0)
-                    throw new INIConfigException($"Connected terrain type {cliffType.IniName} has 0 tiles!");
+                    throw new INIConfigException($"地形类型 {cliffType.IniName} 有 0 个图块！");
 
                 foreach (var cliffTypeTile in cliffType.Tiles)
                 {
@@ -158,8 +158,8 @@ namespace TSMapEditor.UI.Windows.MainMenuWindows
 
                     if (tileSet == null)
                     {
-                        string errorMessage = $"Unable to find TileSet \"{cliffTypeTile.TileSetName}\" " +
-                            $"for connected terrain type \"{cliffType.IniName}\", tile index {cliffTypeTile.Index}";
+                        string errorMessage = $"找不到地形 \"{cliffTypeTile.TileSetName}\" " +
+                            $"terrain type \"{cliffType.IniName}\", tile index {cliffTypeTile.Index}";
 #if DEBUG
                         throw new INIConfigException(errorMessage);
 #else

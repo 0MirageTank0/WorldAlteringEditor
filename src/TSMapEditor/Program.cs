@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using TSMapEditor.Rendering;
 
@@ -7,7 +8,8 @@ namespace TSMapEditor
     static class Program
     {
         public static string[] args;
-
+        [DllImport("kernel32.dll")]
+        static extern IntPtr GetCurrentProcess();
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -21,8 +23,7 @@ namespace TSMapEditor
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.ThrowException);
             Application.ThreadException += Application_ThreadException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-
-            Environment.CurrentDirectory = Application.StartupPath.Replace('\\', '/');
+            
             new GameClass().Run();
         }
 
@@ -38,7 +39,7 @@ namespace TSMapEditor
 
         private static void HandleException(Exception ex)
         {
-            MessageBox.Show("The map editor failed to launch.\r\n\r\nReason: " + ex.Message + "\r\n\r\n Stack trace: " + ex.StackTrace);
+            MessageBox.Show("地图编辑器无法启动。\r\n\r\n原因: " + ex.Message + "\r\n\r\n Stack trace: " + ex.StackTrace);
         }
 
         public static void DisableExceptionHandler()

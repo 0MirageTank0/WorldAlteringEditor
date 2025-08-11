@@ -11,7 +11,7 @@ namespace TSMapEditor.UI.CursorActions
             previewSmudge = new Smudge();
         }
 
-        public override string GetName() => "Place Smudge";
+        public override string GetName() => "放置污迹";
 
         private SmudgeType _smudgeType;
         public SmudgeType SmudgeType 

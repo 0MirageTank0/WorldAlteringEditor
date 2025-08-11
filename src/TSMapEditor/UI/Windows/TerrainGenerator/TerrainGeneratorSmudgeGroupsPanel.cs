@@ -43,7 +43,7 @@ namespace TSMapEditor.UI.Windows.TerrainGenerator
                 lblSmudgeTypes.X = Constants.UIEmptySideSpace;
                 lblSmudgeTypes.Y = y;
                 lblSmudgeTypes.FontIndex = Constants.UIBoldFont;
-                lblSmudgeTypes.Text = $"Smudge Types (Group #{i + 1})";
+                lblSmudgeTypes.Text = $"污迹类型名称 (组 #{i + 1})";
                 AddChild(lblSmudgeTypes);
 
                 var tbSmudgeTypes = new EditorTextBox(WindowManager);
@@ -58,7 +58,7 @@ namespace TSMapEditor.UI.Windows.TerrainGenerator
                 lblOpenChance.Name = nameof(lblOpenChance) + i;
                 lblOpenChance.X = tbSmudgeTypes.Right + Constants.UIHorizontalSpacing;
                 lblOpenChance.Y = lblSmudgeTypes.Y;
-                lblOpenChance.Text = "Open cell chance:";
+                lblOpenChance.Text = "开放单元格几率:";
                 AddChild(lblOpenChance);
 
                 var tbOpenChance = new EditorNumberTextBox(WindowManager);
@@ -74,7 +74,7 @@ namespace TSMapEditor.UI.Windows.TerrainGenerator
                 lblOccupiedChance.Name = nameof(lblOccupiedChance) + i;
                 lblOccupiedChance.X = tbOpenChance.Right + Constants.UIHorizontalSpacing;
                 lblOccupiedChance.Y = lblOpenChance.Y;
-                lblOccupiedChance.Text = "Occupied cell chance:";
+                lblOccupiedChance.Text = "占用单元格几率:";
                 AddChild(lblOccupiedChance);
 
                 var tbOccupiedChance = new EditorNumberTextBox(WindowManager);
@@ -109,8 +109,8 @@ namespace TSMapEditor.UI.Windows.TerrainGenerator
                     var smudgeType = map.Rules.SmudgeTypes.Find(tt => tt.ININame == parts[a]);
                     if (smudgeType == null)
                     {
-                        EditorMessageBox.Show(WindowManager, "Generator Config Error",
-                            $"Specified smudge type '{ parts[a] }' does not exist!", MessageBoxButtons.OK);
+                        EditorMessageBox.Show(WindowManager, "生成器配置错误",
+                            $"指定的污迹类型'{ parts[a] }' 不存在!", MessageBoxButtons.OK);
                         return null;
                     }
                     smudgeTypes.Add(smudgeType);

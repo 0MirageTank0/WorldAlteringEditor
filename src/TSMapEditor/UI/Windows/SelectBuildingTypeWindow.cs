@@ -35,7 +35,7 @@ namespace TSMapEditor.UI.Windows
         {
             lbObjectList.Clear();
 
-            lbObjectList.AddItem(new XNAListBoxItem() { Text = "None" });
+            lbObjectList.AddItem(new XNAListBoxItem() { Text = "无" });
 
             foreach (BuildingType buildingType in map.Rules.BuildingTypes)
             {

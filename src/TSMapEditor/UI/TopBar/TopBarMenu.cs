@@ -13,6 +13,7 @@ using TSMapEditor.Models.Enums;
 using Rampastring.Tools;
 using System.Diagnostics;
 using System.ComponentModel;
+using TSMapEditor.UI.Notifications;
 
 #if WINDOWS
 using System.Windows.Forms;
@@ -22,12 +23,13 @@ namespace TSMapEditor.UI.TopBar
 {
     class TopBarMenu : EditorPanel
     {
-        public TopBarMenu(WindowManager windowManager, MutationManager mutationManager, MapUI mapUI, Map map, WindowController windowController) : base(windowManager)
+        public TopBarMenu(WindowManager windowManager, MutationManager mutationManager, MapUI mapUI, Map map, WindowController windowController,INotificationManager notificationManager) : base(windowManager)
         {
             this.mutationManager = mutationManager;
             this.mapUI = mapUI;
             this.map = map;
             this.windowController = windowController;
+            this.notificationManager = notificationManager;
         }
 
         public event EventHandler<FileSelectedEventArgs> OnFileSelected;
@@ -38,7 +40,7 @@ namespace TSMapEditor.UI.TopBar
         private readonly MapUI mapUI;
         private readonly Map map;
         private readonly WindowController windowController;
-
+        private readonly INotificationManager notificationManager;
         private MenuButton[] menuButtons;
 
         private DeleteTubeCursorAction deleteTunnelCursorAction;
@@ -73,47 +75,47 @@ namespace TSMapEditor.UI.TopBar
 
             var fileContextMenu = new EditorContextMenu(WindowManager);
             fileContextMenu.Name = nameof(fileContextMenu);
-            fileContextMenu.AddItem("New", () => windowController.CreateNewMapWindow.Open(), null, null, null);
-            fileContextMenu.AddItem("Open", () => Open(), null, null, null);
+            fileContextMenu.AddItem("新建地图", () => windowController.CreateNewMapWindow.Open(), null, null, null);
+            fileContextMenu.AddItem("打开地图", () => Open(), null, null, null);
 
-            fileContextMenu.AddItem("Save", () => SaveMap());
-            fileContextMenu.AddItem("Save As", () => SaveAs(), null, null, null);
+            fileContextMenu.AddItem("保存", () => SaveMap());
+            fileContextMenu.AddItem("另存为", () => SaveAs(), null, null, null);
             fileContextMenu.AddItem(" ", null, () => false, null, null);
-            fileContextMenu.AddItem("Reload Input File",
+            fileContextMenu.AddItem("重新加载",
                 () => InputFileReloadRequested?.Invoke(this, EventArgs.Empty),
                 () => !string.IsNullOrWhiteSpace(map.LoadedINI.FileName),
                 null, null);
             fileContextMenu.AddItem(" ", null, () => false, null, null);
-            fileContextMenu.AddItem("Extract Megamap...", () => windowController.MegamapGenerationOptionsWindow.Open(false));
-            fileContextMenu.AddItem("Generate Map Preview...", WriteMapPreviewConfirmation);
+            fileContextMenu.AddItem("提取巨型地图...", () => windowController.MegamapGenerationOptionsWindow.Open(false));
+            fileContextMenu.AddItem("生成地图预览图...", WriteMapPreviewConfirmation);
             fileContextMenu.AddItem(" ", null, () => false, null, null, null);
-            fileContextMenu.AddItem("Open With Text Editor", OpenWithTextEditor, () => !string.IsNullOrWhiteSpace(map.LoadedINI.FileName));
+            fileContextMenu.AddItem("使用文本编辑器打开", OpenWithTextEditor, () => !string.IsNullOrWhiteSpace(map.LoadedINI.FileName));
             fileContextMenu.AddItem(" ", null, () => false, null, null);
-            fileContextMenu.AddItem("Exit", WindowManager.CloseGame);
+            fileContextMenu.AddItem("退出", WindowManager.CloseGame);
 
             var fileButton = new MenuButton(WindowManager, fileContextMenu);
             fileButton.Name = nameof(fileButton);
-            fileButton.Text = "File";
+            fileButton.Text = "文件";
             AddChild(fileButton);
 
             var editContextMenu = new EditorContextMenu(WindowManager);
             editContextMenu.Name = nameof(editContextMenu);
-            editContextMenu.AddItem("Configure Copied Objects...", () => windowController.CopiedEntryTypesWindow.Open(), null, null, null, () => KeyboardCommands.Instance.ConfigureCopiedObjects.GetKeyDisplayString());
-            editContextMenu.AddItem("Copy", () => KeyboardCommands.Instance.Copy.DoTrigger(), null, null, null, () => KeyboardCommands.Instance.Copy.GetKeyDisplayString());
-            editContextMenu.AddItem("Copy Custom Shape", () => KeyboardCommands.Instance.CopyCustomShape.DoTrigger(), null, null, null, () => KeyboardCommands.Instance.CopyCustomShape.GetKeyDisplayString());
-            editContextMenu.AddItem("Paste", () => KeyboardCommands.Instance.Paste.DoTrigger(), null, null, null, () => KeyboardCommands.Instance.Paste.GetKeyDisplayString());
+            editContextMenu.AddItem("配置复制的对象...", () => windowController.CopiedEntryTypesWindow.Open(), null, null, null, () => KeyboardCommands.Instance.ConfigureCopiedObjects.GetKeyDisplayString());
+            editContextMenu.AddItem("复制", () => KeyboardCommands.Instance.Copy.DoTrigger(), null, null, null, () => KeyboardCommands.Instance.Copy.GetKeyDisplayString());
+            editContextMenu.AddItem("复制自定义形状", () => KeyboardCommands.Instance.CopyCustomShape.DoTrigger(), null, null, null, () => KeyboardCommands.Instance.CopyCustomShape.GetKeyDisplayString());
+            editContextMenu.AddItem("粘贴", () => KeyboardCommands.Instance.Paste.DoTrigger(), null, null, null, () => KeyboardCommands.Instance.Paste.GetKeyDisplayString());
             editContextMenu.AddItem(" ", null, () => false, null, null);
-            editContextMenu.AddItem("Undo", () => mutationManager.Undo(), () => mutationManager.CanUndo(), null, null, () => KeyboardCommands.Instance.Undo.GetKeyDisplayString());
-            editContextMenu.AddItem("Redo", () => mutationManager.Redo(), () => mutationManager.CanRedo(), null, null, () => KeyboardCommands.Instance.Redo.GetKeyDisplayString());
-            editContextMenu.AddItem("Action History", () => windowController.HistoryWindow.Open());
+            editContextMenu.AddItem("撤销", () => mutationManager.Undo(), () => mutationManager.CanUndo(), null, null, () => KeyboardCommands.Instance.Undo.GetKeyDisplayString());
+            editContextMenu.AddItem("重做", () => mutationManager.Redo(), () => mutationManager.CanRedo(), null, null, () => KeyboardCommands.Instance.Redo.GetKeyDisplayString());
+            editContextMenu.AddItem("操作历史", () => windowController.HistoryWindow.Open());
             editContextMenu.AddItem(" ", null, () => false, null, null);
-            editContextMenu.AddItem("Basic", () => windowController.BasicSectionConfigWindow.Open(), null, null, null);
-            editContextMenu.AddItem("Map Size", () => windowController.MapSizeWindow.Open(), null, null, null, null);
+            editContextMenu.AddItem("基础设置", () => windowController.BasicSectionConfigWindow.Open(), null, null, null);
+            editContextMenu.AddItem("地图大小", () => windowController.MapSizeWindow.Open(), null, null, null, null);
             editContextMenu.AddItem(" ", null, () => false, null, null);
-            editContextMenu.AddItem("Lighting", () => windowController.LightingSettingsWindow.Open(), null, null, null);
+            editContextMenu.AddItem("光照", () => windowController.LightingSettingsWindow.Open(), null, null, null);
             editContextMenu.AddItem(" ", null, () => false, null, null);
-            editContextMenu.AddItem("Place Tunnel", () => mapUI.EditorState.CursorAction = placeTubeCursorAction, null, null, null, () => KeyboardCommands.Instance.PlaceTunnel.GetKeyDisplayString());
-            editContextMenu.AddItem("Delete Tunnel", () => mapUI.EditorState.CursorAction = deleteTunnelCursorAction, null, null, null);
+            editContextMenu.AddItem("放置隧道", () => mapUI.EditorState.CursorAction = placeTubeCursorAction, null, null, null, () => KeyboardCommands.Instance.PlaceTunnel.GetKeyDisplayString());
+            editContextMenu.AddItem("删除隧道", () => mapUI.EditorState.CursorAction = deleteTunnelCursorAction, null, null, null);
             editContextMenu.AddItem(" ", null, () => false, null, null);
 
             int bridgeCount = map.EditorConfig.Bridges.Count;
@@ -122,12 +124,12 @@ namespace TSMapEditor.UI.TopBar
                 var bridges = map.EditorConfig.Bridges;
                 if (bridgeCount == 1 && bridges[0].Kind == BridgeKind.Low)
                 {
-                    editContextMenu.AddItem("Draw Low Bridge", () => mapUI.EditorState.CursorAction =
+                    editContextMenu.AddItem("绘制低桥梁", () => mapUI.EditorState.CursorAction =
                         new PlaceBridgeCursorAction(mapUI, bridges[0]), null, null, null);
                 }
                 else
                 {
-                    editContextMenu.AddItem("Draw Bridge...", SelectBridge, null, null, null);
+                    editContextMenu.AddItem("绘制桥梁...", SelectBridge, null, null, null);
                 }
             }
 
@@ -138,114 +140,114 @@ namespace TSMapEditor.UI.TopBar
             {
                 if (cliffCount == 1)
                 {
-                    editContextMenu.AddItem("Draw Connected Tiles", () => mapUI.EditorState.CursorAction =
+                    editContextMenu.AddItem("绘制连接地形", () => mapUI.EditorState.CursorAction =
                         new DrawCliffCursorAction(mapUI, theaterMatchingCliffs[0]), null, null, null);
                 }
                 else
                 {
-                    editContextMenu.AddItem("Repeat Last Connected Tile", RepeatLastConnectedTile, null, null, null, () => KeyboardCommands.Instance.RepeatConnectedTile.GetKeyDisplayString());
-                    editContextMenu.AddItem("Draw Connected Tiles...", () => windowController.SelectConnectedTileWindow.Open(), null, null, null, () => KeyboardCommands.Instance.PlaceConnectedTile.GetKeyDisplayString());
+                    editContextMenu.AddItem("绘制最近的连接地形", RepeatLastConnectedTile, null, null, null, () => KeyboardCommands.Instance.RepeatConnectedTile.GetKeyDisplayString());
+                    editContextMenu.AddItem("绘制连接地形...", () => windowController.SelectConnectedTileWindow.Open(), null, null, null, () => KeyboardCommands.Instance.PlaceConnectedTile.GetKeyDisplayString());
                 }
             }
 
             editContextMenu.AddItem("Toggle IceGrowth", () => { mapUI.EditorState.CursorAction = toggleIceGrowthCursorAction; toggleIceGrowthCursorAction.ToggleIceGrowth = true; mapUI.EditorState.HighlightIceGrowth = true; }, null, null, null);
             editContextMenu.AddItem("Clear IceGrowth", () => { mapUI.EditorState.CursorAction = toggleIceGrowthCursorAction; toggleIceGrowthCursorAction.ToggleIceGrowth = false; mapUI.EditorState.HighlightIceGrowth = true; }, null, null, null);
             editContextMenu.AddItem(" ", null, () => false, null, null);
-            editContextMenu.AddItem("Manage Base Nodes", ManageBaseNodes_Selected, null, null, null);
+            editContextMenu.AddItem("管理基地节点", ManageBaseNodes_Selected, null, null, null);
 
             if (map.Rules.OverlayTypes.Exists(ot => ot.ININame == Constants.VeinholeMonsterTypeName) && map.Rules.OverlayTypes.Exists(ot => ot.ININame == Constants.VeinholeDummyTypeName))
             {
                 editContextMenu.AddItem(" ", null, () => false, null, null);
-                editContextMenu.AddItem("Place Veinhole Monster", () => mapUI.EditorState.CursorAction = placeVeinholeMonsterCursorAction, null, null, null, null);
+                editContextMenu.AddItem("放置 Veinhole Monster", () => mapUI.EditorState.CursorAction = placeVeinholeMonsterCursorAction, null, null, null, null);
             }
 
             var editButton = new MenuButton(WindowManager, editContextMenu);
             editButton.Name = nameof(editButton);
             editButton.X = fileButton.Right;
-            editButton.Text = "Edit";
+            editButton.Text = "编辑";
             AddChild(editButton);
 
             var viewContextMenu = new EditorContextMenu(WindowManager);
             viewContextMenu.Name = nameof(viewContextMenu);
-            viewContextMenu.AddItem("Configure Rendered Objects...", () => windowController.RenderedObjectsConfigurationWindow.Open());
+            viewContextMenu.AddItem("配置物体可见性...", () => windowController.RenderedObjectsConfigurationWindow.Open());
             viewContextMenu.AddItem(" ", null, () => false, null, null);
-            viewContextMenu.AddItem("Toggle Impassable Cells", () => mapUI.EditorState.HighlightImpassableCells = !mapUI.EditorState.HighlightImpassableCells, null, null, null);
-            viewContextMenu.AddItem("Toggle IceGrowth Preview", () => mapUI.EditorState.HighlightIceGrowth = !mapUI.EditorState.HighlightIceGrowth, null, null, null);
+            viewContextMenu.AddItem("切换不可通行可见性", () => mapUI.EditorState.HighlightImpassableCells = !mapUI.EditorState.HighlightImpassableCells, null, null, null);
+            viewContextMenu.AddItem("切换IceGrowth可见性", () => mapUI.EditorState.HighlightIceGrowth = !mapUI.EditorState.HighlightIceGrowth, null, null, null);
             viewContextMenu.AddItem(" ", null, () => false, null, null);
-            viewContextMenu.AddItem("View Minimap", () => windowController.MinimapWindow.Open());
+            viewContextMenu.AddItem("显示小地图", () => windowController.MinimapWindow.Open());
             viewContextMenu.AddItem(" ", null, () => false, null, null);
-            viewContextMenu.AddItem("Find Waypoint...", () => windowController.FindWaypointWindow.Open());
-            viewContextMenu.AddItem("Center of Map", () => mapUI.Camera.CenterOnMapCenterCell());
+            viewContextMenu.AddItem("查找路径点...", () => windowController.FindWaypointWindow.Open());
+            viewContextMenu.AddItem("地图中心", () => mapUI.Camera.CenterOnMapCenterCell());
             viewContextMenu.AddItem(" ", null, () => false, null, null);
-            viewContextMenu.AddItem("No Lighting", () => mapUI.EditorState.LightingPreviewState = LightingPreviewMode.NoLighting);
-            viewContextMenu.AddItem("Normal Lighting", () => mapUI.EditorState.LightingPreviewState = LightingPreviewMode.Normal);
+            viewContextMenu.AddItem("无光照", () => mapUI.EditorState.LightingPreviewState = LightingPreviewMode.NoLighting);
+            viewContextMenu.AddItem("正常光照", () => mapUI.EditorState.LightingPreviewState = LightingPreviewMode.Normal);
             if (Constants.IsRA2YR)
             {
-                viewContextMenu.AddItem("Lightning Storm Lighting", () => mapUI.EditorState.LightingPreviewState = LightingPreviewMode.IonStorm);
-                viewContextMenu.AddItem("Dominator Lighting", () => mapUI.EditorState.LightingPreviewState = LightingPreviewMode.Dominator);
+                viewContextMenu.AddItem("闪电风暴光照", () => mapUI.EditorState.LightingPreviewState = LightingPreviewMode.IonStorm);
+                viewContextMenu.AddItem("心灵控制仪光照", () => mapUI.EditorState.LightingPreviewState = LightingPreviewMode.Dominator);
             }
             else
             {
                 viewContextMenu.AddItem("Ion Storm Lighting", () => mapUI.EditorState.LightingPreviewState = LightingPreviewMode.IonStorm);
             }
             viewContextMenu.AddItem(" ", null, () => false, null, null);
-            viewContextMenu.AddItem("Toggle Fullscreen Mode", () => KeyboardCommands.Instance.ToggleFullscreen.DoTrigger());
+            viewContextMenu.AddItem("切换全屏模式", () => KeyboardCommands.Instance.ToggleFullscreen.DoTrigger());
 
             var viewButton = new MenuButton(WindowManager, viewContextMenu);
             viewButton.Name = nameof(viewButton);
             viewButton.X = editButton.Right;
-            viewButton.Text = "View";
+            viewButton.Text = "视图";
             AddChild(viewButton);
 
             var toolsContextMenu = new EditorContextMenu(WindowManager);
             toolsContextMenu.Name = nameof(toolsContextMenu);
             // toolsContextMenu.AddItem("Options");
             if (windowController.AutoApplyImpassableOverlayWindow.IsAvailable)
-                toolsContextMenu.AddItem("Apply Impassable Overlay...", () => windowController.AutoApplyImpassableOverlayWindow.Open(), null, null, null);
+                toolsContextMenu.AddItem("应用不可通行覆盖物...", () => windowController.AutoApplyImpassableOverlayWindow.Open(), null, null, null);
 
-            toolsContextMenu.AddItem("Terrain Generator Options...", () => windowController.TerrainGeneratorConfigWindow.Open(), null, null, null, () => KeyboardCommands.Instance.ConfigureTerrainGenerator.GetKeyDisplayString());
-            toolsContextMenu.AddItem("Generate Terrain", () => EnterTerrainGenerator(), null, null, null, () => KeyboardCommands.Instance.GenerateTerrain.GetKeyDisplayString());
+            toolsContextMenu.AddItem("地形生成器选项...", () => windowController.TerrainGeneratorConfigWindow.Open(), null, null, null, () => KeyboardCommands.Instance.ConfigureTerrainGenerator.GetKeyDisplayString());
+            toolsContextMenu.AddItem("生成地形", () => EnterTerrainGenerator(), null, null, null, () => KeyboardCommands.Instance.GenerateTerrain.GetKeyDisplayString());
             toolsContextMenu.AddItem(" ", null, () => false, null, null);
-            toolsContextMenu.AddItem("Apply INI Code...", () => windowController.ApplyINICodeWindow.Open(), null, null, null);
-            toolsContextMenu.AddItem("Run Script...", () => windowController.RunScriptWindow.Open(), null, null, null, null);
+            toolsContextMenu.AddItem("应用 INI 代码...", () => windowController.ApplyINICodeWindow.Open(), null, null, null);
+            toolsContextMenu.AddItem("运行 WAE 脚本...", () => windowController.RunScriptWindow.Open(), null, null, null, null);
             toolsContextMenu.AddItem(" ", null, () => false, null, null);
-            toolsContextMenu.AddItem("Deletion Options...", () => windowController.DeletionModeConfigurationWindow.Open());
+            toolsContextMenu.AddItem("删除设置...", () => windowController.DeletionModeConfigurationWindow.Open());
             toolsContextMenu.AddItem(" ", null, () => false, null, null);
-            toolsContextMenu.AddItem("Change Map Height...", () => windowController.ChangeHeightWindow.Open(), null, () => !Constants.IsFlatWorld, null, null);
+            toolsContextMenu.AddItem("更改地图高度...", () => windowController.ChangeHeightWindow.Open(), null, () => !Constants.IsFlatWorld, null, null);
             toolsContextMenu.AddItem(" ", null, () => false, () => !Constants.IsFlatWorld, null);
-            toolsContextMenu.AddItem("Smoothen Ice", SmoothenIce, null, null, null, null);
+            toolsContextMenu.AddItem("平滑冰面", SmoothenIce, null, null, null, null);
             toolsContextMenu.AddItem(" ", null, () => false, null, null);
-            toolsContextMenu.AddItem("Check Distance...", () => mapUI.EditorState.CursorAction = checkDistanceCursorAction, null, null, null, () => KeyboardCommands.Instance.CheckDistance.GetKeyDisplayString());
-            toolsContextMenu.AddItem("Check Distance (Pathfinding)...", () => mapUI.EditorState.CursorAction = checkDistancePathfindingCursorAction, null, null, null, () => KeyboardCommands.Instance.CheckDistancePathfinding.GetKeyDisplayString());
+            toolsContextMenu.AddItem("测量距离...", () => mapUI.EditorState.CursorAction = checkDistanceCursorAction, null, null, null, () => KeyboardCommands.Instance.CheckDistance.GetKeyDisplayString());
+            toolsContextMenu.AddItem("测量距离(寻路算法)...", () => mapUI.EditorState.CursorAction = checkDistancePathfindingCursorAction, null, null, null, () => KeyboardCommands.Instance.CheckDistancePathfinding.GetKeyDisplayString());
             toolsContextMenu.AddItem(" ", null, () => false, null, null);
-            toolsContextMenu.AddItem("Calculate Credits...", () => mapUI.EditorState.CursorAction = calculateTiberiumValueCursorAction, null, null, null, () => KeyboardCommands.Instance.CalculateCredits.GetKeyDisplayString());
+            toolsContextMenu.AddItem("计算矿石价值...", () => mapUI.EditorState.CursorAction = calculateTiberiumValueCursorAction, null, null, null, () => KeyboardCommands.Instance.CalculateCredits.GetKeyDisplayString());
             toolsContextMenu.AddItem(" ", null, () => false, null, null);
-            toolsContextMenu.AddItem("Load Map-Wide Overlay...", () => MapWideOverlayLoadRequested?.Invoke(this, EventArgs.Empty), null, null, null, null);
+            toolsContextMenu.AddItem("加载地图范围的叠加...", () => MapWideOverlayLoadRequested?.Invoke(this, EventArgs.Empty), null, null, null, null);
             toolsContextMenu.AddItem(" ", null, () => false, null, null);
-            toolsContextMenu.AddItem("Configure Hotkeys...", () => windowController.HotkeyConfigurationWindow.Open(), null, null, null);
+            toolsContextMenu.AddItem("配置热键...", () => windowController.HotkeyConfigurationWindow.Open(), null, null, null);
             toolsContextMenu.AddItem(" ", null, () => false, null, null);
-            toolsContextMenu.AddItem("About", () => windowController.AboutWindow.Open(), null, null, null, null);
+            toolsContextMenu.AddItem("关于", () => windowController.AboutWindow.Open(), null, null, null, null);
 
             var toolsButton = new MenuButton(WindowManager, toolsContextMenu);
             toolsButton.Name = nameof(toolsButton);
             toolsButton.X = viewButton.Right;
-            toolsButton.Text = "Tools";
+            toolsButton.Text = "工具";
             AddChild(toolsButton);
 
             var scriptingContextMenu = new EditorContextMenu(WindowManager);
             scriptingContextMenu.Name = nameof(scriptingContextMenu);
-            scriptingContextMenu.AddItem("Houses", () => windowController.HousesWindow.Open(), null, null, null);
-            scriptingContextMenu.AddItem("Triggers", () => windowController.TriggersWindow.Open(), null, null, null);
-            scriptingContextMenu.AddItem("TaskForces", () => windowController.TaskForcesWindow.Open(), null, null, null);
-            scriptingContextMenu.AddItem("Scripts", () => windowController.ScriptsWindow.Open(), null, null, null);
-            scriptingContextMenu.AddItem("TeamTypes", () => windowController.TeamTypesWindow.Open(), null, null, null);
-            scriptingContextMenu.AddItem("Local Variables", () => windowController.LocalVariablesWindow.Open(), null, null, null);
-            scriptingContextMenu.AddItem("AITriggers", () => windowController.AITriggersWindow.Open(), null, null, null, null);
+            scriptingContextMenu.AddItem("所属方", () => windowController.HousesWindow.Open(), null, null, null);
+            scriptingContextMenu.AddItem("触发器", () => windowController.TriggersWindow.Open(), null, null, null);
+            scriptingContextMenu.AddItem("特遣部队", () => windowController.TaskForcesWindow.Open(), null, null, null);
+            scriptingContextMenu.AddItem("动作脚本", () => windowController.ScriptsWindow.Open(), null, null, null);
+            scriptingContextMenu.AddItem("作战小队", () => windowController.TeamTypesWindow.Open(), null, null, null);
+            scriptingContextMenu.AddItem("局部变量", () => windowController.LocalVariablesWindow.Open(), null, null, null);
+            scriptingContextMenu.AddItem("AI触发器", () => windowController.AITriggersWindow.Open(), null, null, null, null);
 
             var scriptingButton = new MenuButton(WindowManager, scriptingContextMenu);
             scriptingButton.Name = nameof(scriptingButton);
             scriptingButton.X = toolsButton.Right;
-            scriptingButton.Text = "Scripting";
+            scriptingButton.Text = "脚本编辑";
             AddChild(scriptingButton);
 
             base.Initialize();
@@ -295,13 +297,13 @@ namespace TSMapEditor.UI.TopBar
             {
                 if (ex is UnauthorizedAccessException || ex is IOException)
                 {
-                    Logger.Log("Failed to save the map file. Returned error message: " + ex.Message);
+                    Logger.Log("无法保存地图文件.返回错误消息: " + ex.Message);
 
-                    EditorMessageBox.Show(WindowManager, "Failed to save map",
-                        "Failed to write the map file. Please make sure that WAE has write access to the path." + Environment.NewLine + Environment.NewLine +
-                        "A common source of this error is trying to save the map to Program Files or another" + Environment.NewLine +
-                        "write-protected directory without running WAE with administrative rights." + Environment.NewLine + Environment.NewLine +
-                        "Returned error was: " + ex.Message, Windows.MessageBoxButtons.OK);
+                    EditorMessageBox.Show(WindowManager, "无法保存地图",
+                        "写入映射文件失败.请确保WAE具有对路径的写入访问权限." + Environment.NewLine + Environment.NewLine +
+                        "此错误的常见来源是尝试将映射保存到 Program Files 或其他" + Environment.NewLine +
+                        "写入受保护的目录，但未使用管理权限运行WAE." + Environment.NewLine + Environment.NewLine +
+                        "返回的错误: " + ex.Message, Windows.MessageBoxButtons.OK);
                 }
                 else
                 {
@@ -312,15 +314,13 @@ namespace TSMapEditor.UI.TopBar
 
         private void WriteMapPreviewConfirmation()
         {
-            var messageBox = EditorMessageBox.Show(WindowManager, "Confirmation",
-                "This will write the current minimap as the map preview to the map file." + Environment.NewLine + Environment.NewLine +
-                "This provides the map with a preview if it is used as a custom map" + Environment.NewLine + 
-                "in the CnCNet Client or in-game, but is not necessary if the map will" + Environment.NewLine +
-                "have an external preview. It will also significantly increase the size" + Environment.NewLine +
-                "of the map file." + Environment.NewLine + Environment.NewLine +
-                "Do you want to continue?" + Environment.NewLine + Environment.NewLine +
-                "Note: The preview won't be actually written to the map before" + Environment.NewLine + 
-                "you save the map.", Windows.MessageBoxButtons.YesNo);
+            var messageBox = EditorMessageBox.Show(WindowManager, "确认",
+                "这会将当前小地图作为地图预览写入地图文件." + Environment.NewLine + Environment.NewLine +
+                "如果地图用作自定义地图，则在 CnCNet 客户端或游戏中" + Environment.NewLine + 
+                "这将为地图提供预览，但这会显著增加地图文件的尺寸." + Environment.NewLine +
+                "确定继续吗？" + Environment.NewLine + Environment.NewLine +
+                "注意：在保存地图之前，预览实际上不会写入地图" + Environment.NewLine
+                , Windows.MessageBoxButtons.YesNo);
 
             messageBox.YesClickedAction = _ => windowController.MegamapGenerationOptionsWindow.Open(true);
         }
@@ -343,7 +343,7 @@ namespace TSMapEditor.UI.TopBar
 
                 if (textEditorPath == null)
                 {
-                    EditorMessageBox.Show(WindowManager, "No text editor found!", "No valid text editor has been configured and no default choice was found.", Windows.MessageBoxButtons.OK);
+                    EditorMessageBox.Show(WindowManager, "未找到文本编辑器!", "未配置有效的文本编辑器，也未找到默认选项。", Windows.MessageBoxButtons.OK);
                     return;
                 }
             }
@@ -354,10 +354,10 @@ namespace TSMapEditor.UI.TopBar
             }
             catch (Exception ex) when (ex is Win32Exception || ex is ObjectDisposedException)
             {
-                Logger.Log("Failed to launch text editor! Message: " + ex.Message);
-                EditorMessageBox.Show(WindowManager, "Failed to launch text editor",
-                    "An error occurred when trying to open the map file with the text editor." + Environment.NewLine + Environment.NewLine +
-                    "Received error was: " + ex.Message, Windows.MessageBoxButtons.OK);
+                Logger.Log("无法启动文本编辑器! 信息: " + ex.Message);
+                EditorMessageBox.Show(WindowManager, "无法启动文本编辑器",
+                    "尝试使用文本编辑器打开地图文件时出错." + Environment.NewLine + Environment.NewLine +
+                    "错误: " + ex.Message, Windows.MessageBoxButtons.OK);
             }
         }
 
@@ -387,9 +387,9 @@ namespace TSMapEditor.UI.TopBar
         {
             if (map.Houses.Count == 0)
             {
-                EditorMessageBox.Show(WindowManager, "Houses Required",
-                    "The map has no houses set up. Houses need to be configured before base nodes can be added." + Environment.NewLine + Environment.NewLine +
-                    "You can configure Houses from Scripting -> Houses.", TSMapEditor.UI.Windows.MessageBoxButtons.OK);
+                EditorMessageBox.Show(WindowManager, "需要所属方",
+                    "地图上没有设置所属方。需要先配置所属方，然后才能添加基础节点." + Environment.NewLine + Environment.NewLine +
+                    "可从 脚本编辑 -> 所属方 进行配置所属方.", TSMapEditor.UI.Windows.MessageBoxButtons.OK);
 
                 return;
             }
@@ -407,6 +407,7 @@ namespace TSMapEditor.UI.TopBar
         {
             if (windowController.TerrainGeneratorConfigWindow.TerrainGeneratorConfig == null)
             {
+                notificationManager.AddNotification("需要先配置地形生成器");
                 windowController.TerrainGeneratorConfigWindow.Open();
                 return;
             }

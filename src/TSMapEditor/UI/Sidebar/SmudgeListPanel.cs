@@ -42,7 +42,7 @@ namespace TSMapEditor.UI.Sidebar
             SearchBox.Y = Constants.UIEmptyTopSpace;
             SearchBox.Width = Width - Constants.UIEmptySideSpace * 2;
             SearchBox.Height = Constants.UITextBoxHeight;
-            SearchBox.Suggestion = "Search smudge... (CTRL + F)";
+            SearchBox.Suggestion = "搜索污迹... (CTRL + F)";
             AddChild(SearchBox);
             SearchBox.TextChanged += SearchBox_TextChanged;
             SearchBox.EnterPressed += SearchBox_EnterPressed;
@@ -167,13 +167,13 @@ namespace TSMapEditor.UI.Sidebar
 
             categories.Add(new TreeViewCategory()
             {
-                Text = "Erase Smudges",
+                Text = "擦除污迹",
                 Tag = new object()
             });
 
             if (Map.EditorConfig.SmudgeCollections.Count > 0)
             {
-                var collectionsCategory = new TreeViewCategory() { Text = "Collections" };
+                var collectionsCategory = new TreeViewCategory() { Text = "集合" };
                 categories.Add(collectionsCategory);
 
                 foreach (var collection in Map.EditorConfig.SmudgeCollections)
@@ -208,7 +208,7 @@ namespace TSMapEditor.UI.Sidebar
 
                 if (string.IsNullOrEmpty(smudgeType.EditorCategory))
                 {
-                    category = FindOrMakeCategory("Uncategorized", categories);
+                    category = FindOrMakeCategory("未分类", categories);
                 }
                 else
                 {

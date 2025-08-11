@@ -10,7 +10,7 @@ namespace TSMapEditor.UI.CursorActions
         {
         }
 
-        public override string GetName() => "Place CellTag";
+        public override string GetName() => "放置单元标记";
 
         private Tag _tag;
         public Tag Tag

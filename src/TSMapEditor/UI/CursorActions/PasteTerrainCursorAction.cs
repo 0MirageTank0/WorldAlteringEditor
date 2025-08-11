@@ -22,7 +22,7 @@ namespace TSMapEditor.UI.CursorActions
             this.keyboard = keyboard;
         }
 
-        public override string GetName() => "Paste Copied Terrain";
+        public override string GetName() => "粘贴地形";
 
         public override bool HandlesKeyboardInput => true;
 
@@ -91,7 +91,7 @@ namespace TSMapEditor.UI.CursorActions
 
             if (!System.Windows.Forms.Clipboard.ContainsData(Constants.ClipboardMapDataFormatValue))
             {
-                Logger.Log(nameof(PasteTerrainCursorAction) + ": invalid clipboard data format, exiting action");
+                Logger.Log(nameof(PasteTerrainCursorAction) + ": 剪贴板数据格式无效，正在退出");
                 ExitAction();
                 return;
             }
@@ -106,7 +106,7 @@ namespace TSMapEditor.UI.CursorActions
             }
             catch (CopiedMapDataSerializationException ex)
             {
-                Logger.Log(nameof(PasteTerrainCursorAction) + ": exception when decoding data from clipboard, exiting action. Message: " + ex.Message);
+                Logger.Log(nameof(PasteTerrainCursorAction) + ": 从剪贴板解码数据时出现异常，消息: " + ex.Message);
                 ExitAction();
             }
         }

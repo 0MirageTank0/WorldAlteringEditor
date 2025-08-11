@@ -83,7 +83,7 @@ namespace TSMapEditor.UI.Windows
         {
             if (editedLocalVariable == null)
             {
-                EditorMessageBox.Show(WindowManager, "Select a variable", "Please select a variable first.", MessageBoxButtons.OK);
+                EditorMessageBox.Show(WindowManager, "选择变量", "请先选择一个变量.", MessageBoxButtons.OK);
                 return;
             }
 
@@ -104,7 +104,7 @@ namespace TSMapEditor.UI.Windows
                         {
                             if (Conversions.IntFromString(action.Parameters[i], -1) == editedLocalVariable.Index)
                             {
-                                list.Add($"Trigger action of '{trigger.Name}' ({trigger.ID})");
+                                list.Add($"触发动作'{trigger.Name}' ({trigger.ID})");
                                 break;
                             }
                         }
@@ -124,7 +124,7 @@ namespace TSMapEditor.UI.Windows
                         {
                             if (Conversions.IntFromString(triggerEvent.Parameters[i], -1) == editedLocalVariable.Index)
                             {
-                                list.Add($"Trigger event of '{trigger.Name}' ({trigger.ID})");
+                                list.Add($"触发事件'{trigger.Name}' ({trigger.ID})");
                                 break;
                             }
                         }
@@ -144,7 +144,7 @@ namespace TSMapEditor.UI.Windows
                     if (scriptActionType.ParamType == TriggerParamType.LocalVariable &&
                         scriptAction.Argument == editedLocalVariable.Index)
                     {
-                        list.Add($"Script action of '{script.Name}' ({script.ININame})");
+                        list.Add($"脚本动作'{script.Name}' ({script.ININame})");
                     }
                 }
             });
@@ -152,14 +152,14 @@ namespace TSMapEditor.UI.Windows
 
             if (list.Count == 0)
             {
-                EditorMessageBox.Show(WindowManager, "No usages found",
-                    $"No triggers or scripts make use of the selected local variable '{editedLocalVariable.Name}'", MessageBoxButtons.OK);
+                EditorMessageBox.Show(WindowManager, "未找到用法",
+                    $"没有触发器或脚本使用选定的局部变量 '{editedLocalVariable.Name}'", MessageBoxButtons.OK);
             }
             else
             {
                 EditorMessageBox.Show(WindowManager,
-                    "Local Variable Usages",
-                    $"The following usages were found for the selected local variable '{editedLocalVariable.Name}':" + Environment.NewLine + Environment.NewLine +
+                    "局部变量用法",
+                    $"为所选局部变量'{editedLocalVariable.Name}'找到了以下用法:" + Environment.NewLine + Environment.NewLine +
                     string.Join(Environment.NewLine, list.Select(e => "- " + e)),
                     MessageBoxButtons.OK);
             }

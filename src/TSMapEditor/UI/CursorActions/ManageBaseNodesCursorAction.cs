@@ -21,7 +21,7 @@ namespace TSMapEditor.UI.CursorActions
         private BaseNode draggedBaseNode = null;
         private bool isDragging = false;
 
-        public override string GetName() => "Manage Base Nodes";
+        public override string GetName() => "管理基地节点";
 
         public override bool DrawCellCursor => true;
 
@@ -31,14 +31,14 @@ namespace TSMapEditor.UI.CursorActions
 
         public override void DrawPreview(Point2D cellCoords, Point2D cameraTopLeftPoint)
         {
-            string text = "Placement actions:" + Environment.NewLine +
-                "Click on building to place a base node." + Environment.NewLine +
-                "Hold SHIFT while clicking to also delete the source building." + Environment.NewLine +
-                "Hold CTRL while clicking to erase a base node." + Environment.NewLine + Environment.NewLine +
-                "Hold M while dragging a base node to move it." + Environment.NewLine + Environment.NewLine +
-                "Ordering actions:" + Environment.NewLine +
-                "Press E while hovering over a base node to shift it to be built earlier." + Environment.NewLine +
-                "Press D while hovering over a base node to shift it to be built later.";
+            string text = 
+                "单击建筑物以放置基地节点." + Environment.NewLine +
+                "按住 SHIFT 键并单击以同时删除源建筑物." + Environment.NewLine +
+                "按住 CTRL 键并单击以擦除基础节点." + Environment.NewLine + Environment.NewLine +
+                "按住 M 键，同时拖动基础节点以移动它." + Environment.NewLine + Environment.NewLine +
+                "排序操作 (需将鼠标悬停在基地节点上):" + Environment.NewLine +
+                "按 E 键可提前其建造时刻." + Environment.NewLine +
+                "按 D 键可延后其建造时刻.";
 
             DrawText(cellCoords, cameraTopLeftPoint, 60, -240, text, UISettings.ActiveSettings.AltColor);
 

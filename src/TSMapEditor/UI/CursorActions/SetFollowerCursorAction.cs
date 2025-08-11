@@ -16,7 +16,7 @@ namespace TSMapEditor.UI.CursorActions
         {
         }
 
-        public override string GetName() => "Select Follower";
+        public override string GetName() => "选择追随者";
 
         public sealed override bool DrawCellCursor => true;
 
@@ -29,7 +29,7 @@ namespace TSMapEditor.UI.CursorActions
             Point2D cellTopLeftPoint = CellMath.CellTopLeftPointFromCellCoords_3D(cellCoords, CursorActionTarget.Map) - cameraTopLeftPoint;
             cellTopLeftPoint = cellTopLeftPoint.ScaleBy(CursorActionTarget.Camera.ZoomLevel);
 
-            const string text = "Left-click on a unit to set it as Follower\r\n\r\nPress ESC to clear follower";
+            const string text = "左键单击一个单位将其设置为“追随者”\r\n\r\n按 ESC 清除“追随者”";
             var textDimensions = Renderer.GetTextDimensions(text, Constants.UIBoldFont);
             int x = cellTopLeftPoint.X + (int)(Constants.CellSizeX - textDimensions.X) / 2;
             int y = cellTopLeftPoint.Y + (int)(Constants.CellSizeY - textDimensions.Y) / 2;

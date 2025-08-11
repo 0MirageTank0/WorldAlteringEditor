@@ -13,7 +13,9 @@ namespace TSMapEditor.UI.CursorActions
         {
         }
 
-        public override string GetName() => "Place Overlay Collection";
+        public override string GetName() => "放置覆盖物集合";
+        
+        public override bool DrawMapCrossLine => true;
 
         private OverlayCollection _overlayCollection;
         public OverlayCollection OverlayCollection
@@ -23,7 +25,7 @@ namespace TSMapEditor.UI.CursorActions
             {
                 if (value.Entries.Length == 0)
                 {
-                    throw new InvalidOperationException($"Overlay collection {value.Name} has no overlay entries!");
+                    throw new InvalidOperationException($"覆盖物集合 {value.Name} 不存在任何覆盖物!");
                 }
 
                 _overlayCollection = value;

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Microsoft.VisualBasic.Logging;
 using TSMapEditor.GameMath;
 using TSMapEditor.Misc;
 using TSMapEditor.Models;
@@ -151,6 +152,9 @@ namespace TSMapEditor.UI
         /// temporarily entering this control's area with the left mouse button down.
         /// </summary>
         private bool leftPressedDownOnControl = false;
+
+        private bool middlePressedDown = false;
+        private Point middlePressedPos = new Point(); 
 
         private int currentEventID = 0;
 
@@ -449,6 +453,14 @@ namespace TSMapEditor.UI
             base.OnMouseEnter();
         }
 
+        public override void OnMouseMiddleDown(InputEventArgs inputEventArgs)
+        {
+            base.OnMouseMiddleDown(inputEventArgs);
+            middlePressedDown = true;
+            middlePressedPos.X = Cursor.Location.X;
+            middlePressedPos.Y = Cursor.Location.Y;
+        }
+        
         public override void OnMouseLeftDown(InputEventArgs inputEventArgs)
         {
             inputEventArgs.Handled = true;
@@ -493,6 +505,15 @@ namespace TSMapEditor.UI
                     rightClickScrollInitPos = GetCursorPoint();
                     Camera.FloatTopLeftPoint = Camera.TopLeftPoint.ToXNAVector();
                 }
+            }
+
+            if (middlePressedDown)
+            {
+                var offsetX = (int)((Cursor.Location.X - middlePressedPos.X) / Camera.ZoomLevel);
+                var offsetY = (int)((Cursor.Location.Y - middlePressedPos.Y) / Camera.ZoomLevel);
+                Camera.TopLeftPoint = new Point2D(Camera.TopLeftPoint.X - offsetX, Camera.TopLeftPoint.Y - offsetY);
+                middlePressedPos.X = Cursor.Location.X;
+                middlePressedPos.Y = Cursor.Location.Y;
             }
         }
 
@@ -554,6 +575,7 @@ namespace TSMapEditor.UI
             }
             else if (CursorAction != null)
             {
+                mapView.InvalidateMap();
                 CursorAction = null;
             }
 
@@ -631,18 +653,19 @@ namespace TSMapEditor.UI
             if (leftPressedDownOnControl && !Cursor.LeftDown)
                 leftPressedDownOnControl = false;
 
+            if (middlePressedDown && !Cursor.MiddleDown)
+                middlePressedDown = false;
+            
             windowController.MinimapWindow.CameraRectangle = new Rectangle(Camera.TopLeftPoint.ToXNAPoint(), new Point2D(Width, Height).ScaleBy(1.0 / Camera.ZoomLevel).ToXNAPoint());
 
             var tile = CalculateBestTileUnderCursor();
 
             tileUnderCursor = tile;
             TileInfoDisplay.MapTile = tile;
-
             if (IsActive && tileUnderCursor != null)
             {
                 var tilePosition = GetRelativeTilePositionFromCursorPosition(tileUnderCursor);
                 TechnoUnderCursor = tileUnderCursor.GetTechno(tilePosition);
-
                 if (KeyboardCommands.Instance.DeleteObject.AreKeysDown(Keyboard))
                 {
                     if (WindowManager.SelectedControl == null || WindowManager.SelectedControl is not XNATextBox)
@@ -696,7 +719,7 @@ namespace TSMapEditor.UI
 
             BrushSize singleTileBrushSize = Map.EditorConfig.BrushSizes.Find(bs => bs.Width == 1 && bs.Height == 1);
             if (singleTileBrushSize == null)
-                throw new InvalidOperationException($"{nameof(DeleteObjectFromCell)}: 1x1 sized brush not found!");
+                throw new InvalidOperationException($"{nameof(DeleteObjectFromCell)}: 找不到 1x1 大小的笔刷!");
 
             if (Map.HasObjectToDelete(cellCoords, EditorState.DeletionMode))
                 MutationManager.PerformMutation(new DeleteObjectMutation(MutationTarget, tile.CoordsToPoint(), singleTileBrushSize, EditorState.DeletionMode));

@@ -34,9 +34,9 @@ namespace TSMapEditor.CCEngine
         }
 
         public int ID { get; set; }
-        public string Name { get; set; } = "Unknown action";
-        public string Description { get; set; } = "No description";
-        public string ParamDescription { get; set; } = "Use 0";
+        public string Name { get; set; } = "未知动作";
+        public string Description { get; set; } = "无描述";
+        public string ParamDescription { get; set; } = "无参数";
         public string OptionsSectionName { get; set; } = string.Empty;
         public TriggerParamType ParamType { get; set; } = TriggerParamType.Unknown;
         public List<ScriptActionPresetOption> PresetOptions { get; } = new List<ScriptActionPresetOption>(0);

@@ -54,7 +54,12 @@ namespace TSMapEditor.UI
         /// while this cursor action is active.
         /// </summary>
         public virtual bool DrawCellCursor => false;
-
+        /// <summary>
+        /// Override in derived classes to enable the map cross line to be drawn
+        /// </summary>
+        public virtual bool DrawMapCrossLine => false;
+        public virtual int CrossLineXBold => 0;
+        public virtual int CrossLineYBold => 0;
         /// <summary>
         /// Override in derived classes to disable "see-through" cell cursor behaviour.
         /// "See-through" behaviour allows the cursor action to reach cells behind "walls"

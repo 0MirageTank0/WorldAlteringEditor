@@ -40,8 +40,8 @@ namespace TSMapEditor.UI.Windows
             string filePath = (string)lbINIFiles.SelectedItem.Tag;
             if (!File.Exists(filePath))
             {
-                EditorMessageBox.Show(WindowManager, "Can't find file",
-                    "The selected INI file doesn't exist! Maybe it was deleted?", MessageBoxButtons.OK);
+                EditorMessageBox.Show(WindowManager, "找不到文件",
+                    "所选的 INI 文件不存在！也许它被删除了？", MessageBoxButtons.OK);
 
                 return;
             }
@@ -53,7 +53,7 @@ namespace TSMapEditor.UI.Windows
             {
                 confirmation = Renderer.FixText(confirmation, Constants.UIDefaultFont, Width).Text;
 
-                var messageBox = EditorMessageBox.Show(WindowManager, "Are you sure?",
+                var messageBox = EditorMessageBox.Show(WindowManager, "是否确定？",
                     confirmation, MessageBoxButtons.YesNo);
                 messageBox.YesClickedAction = (_) => ApplyCode();
             }
@@ -66,9 +66,9 @@ namespace TSMapEditor.UI.Windows
         private void ApplyCode()
         {
             if (stagingINI == null)
-                throw new InvalidOperationException("Staging INI is null!");
+                throw new InvalidOperationException("暂存 INI 为空！");
 
-            string successMessage = "INI code successfully added to map.";
+            string successMessage = "INI 代码已成功添加到地图中。";
             successMessage = stagingINI.GetStringValue(EditorSection, "Success", successMessage);
             successMessage = Renderer.FixText(successMessage, Constants.UIDefaultFont, Width).Text;
 
@@ -76,7 +76,7 @@ namespace TSMapEditor.UI.Windows
 
             IniFile.ConsolidateIniFiles(map.LoadedINI, stagingINI);
 
-            EditorMessageBox.Show(WindowManager, "Code Applied", successMessage, MessageBoxButtons.OK);
+            EditorMessageBox.Show(WindowManager, "代码已应用", successMessage, MessageBoxButtons.OK);
         }
 
         public void Open()
@@ -87,8 +87,8 @@ namespace TSMapEditor.UI.Windows
 
             if (!Directory.Exists(directoryPath))
             {
-                Logger.Log("Map INI code directory not found!");
-                EditorMessageBox.Show(WindowManager, "Error", "Map INI code directory not found!\r\n\r\nExpected path: " + directoryPath, MessageBoxButtons.OK);
+                Logger.Log("找不到地图INI代码目录！");
+                EditorMessageBox.Show(WindowManager, "错误", "找不到地图INI代码目录！\r\n\r\n预期路径: " + directoryPath, MessageBoxButtons.OK);
                 return;
             }
 

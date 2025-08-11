@@ -74,7 +74,7 @@ namespace TSMapEditor.UI.Windows
             }
             catch (FormatException)
             {
-                throw new INIConfigException($"Invalid options specified for {nameof(ddVeterancy)} in {nameof(InfantryOptionsWindow)}. Options must start with a number followed by a space.");
+                throw new INIConfigException($"在 {nameof(InfantryOptionsWindow)} 中为 {nameof(ddVeterancy)} 指定的选项无效。选项必须以数字开头，后跟空格.");
             }
 
             FindChild<EditorButton>("btnOK").LeftClick += BtnOK_LeftClick;
@@ -108,7 +108,7 @@ namespace TSMapEditor.UI.Windows
 
         private void RefreshValues()
         {
-            lblSelectedInfantryValue.Text = infantry.ObjectType.GetEditorDisplayName() + ", sub cell: " + infantry.SubCell;
+            lblSelectedInfantryValue.Text = infantry.ObjectType.GetEditorDisplayName() + ", 子单元: " + infantry.SubCell;
             trbStrength.Value = infantry.HP;
             ddMission.SelectedIndex = ddMission.Items.FindIndex(item => item.Text == infantry.Mission);
             int veterancyIndex = ddVeterancy.Items.FindIndex(i => (int)i.Tag == infantry.Veterancy);

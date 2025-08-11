@@ -14,7 +14,9 @@ namespace TSMapEditor.UI.CursorActions
         {
         }
 
-        public override string GetName() => "Place Infantry";
+        public override string GetName() => "放置步兵";
+        
+        public override bool DrawMapCrossLine => true;
 
         private Infantry infantry;
 
@@ -81,7 +83,7 @@ namespace TSMapEditor.UI.CursorActions
         public override void LeftDown(Point2D cellCoords)
         {
             if (InfantryType == null)
-                throw new InvalidOperationException(nameof(InfantryType) + " cannot be null");
+                throw new InvalidOperationException(nameof(InfantryType) + " 不能为 null");
 
             var tile = CursorActionTarget.Map.GetTile(cellCoords);
             SubCell freeSubCell = tile.GetFreeSubCellSpot();

@@ -48,8 +48,8 @@ namespace TSMapEditor.UI.Windows
             string filePath = (string)lbScriptFiles.SelectedItem.Tag;
             if (!File.Exists(filePath))
             {
-                EditorMessageBox.Show(WindowManager, "Can't find file",
-                    "The selected file does not exist! Maybe it was deleted?", MessageBoxButtons.OK);
+                EditorMessageBox.Show(WindowManager, "找不到文件",
+                    "所选文件不存在！也许它被删除了?", MessageBoxButtons.OK);
 
                 return;
             }
@@ -60,10 +60,10 @@ namespace TSMapEditor.UI.Windows
 
             if (error != null)
             {
-                Logger.Log("Compilation error when attempting to run script: " + error);
+                Logger.Log("尝试运行脚本时出现编译错误: " + error);
                 EditorMessageBox.Show(WindowManager, "Error",
-                    "Compiling the script failed! Check its syntax, or contact its author for support." + Environment.NewLine + Environment.NewLine +
-                    "Returned error was: " + error, MessageBoxButtons.OK);
+                    "编译脚本失败！检查其语法，或联系其作者寻求支持." + Environment.NewLine + Environment.NewLine +
+                    "返回的错误是: " + error, MessageBoxButtons.OK);
                 return;
             }
 
@@ -73,7 +73,7 @@ namespace TSMapEditor.UI.Windows
 
                 confirmation = Renderer.FixText(confirmation, Constants.UIDefaultFont, Width).Text;
 
-                var messageBox = EditorMessageBox.Show(WindowManager, "Are you sure?",
+                var messageBox = EditorMessageBox.Show(WindowManager, "是否确定?",
                     confirmation, MessageBoxButtons.YesNo);
                 messageBox.YesClickedAction = (_) => ApplyCode();
 
@@ -83,24 +83,24 @@ namespace TSMapEditor.UI.Windows
                 error = ScriptRunner.RunScriptV2();
 
                 if (error != null)
-                    EditorMessageBox.Show(WindowManager, "Error running script", error, MessageBoxButtons.OK);
+                    EditorMessageBox.Show(WindowManager, "运行脚本时出错", error, MessageBoxButtons.OK);
             }
             else
             {
-                EditorMessageBox.Show(WindowManager, "Unsupported Scripting API Version",
-                    "Script uses an unsupported scripting API version: " + ScriptRunner.ActiveScriptAPIVersion, MessageBoxButtons.OK);
+                EditorMessageBox.Show(WindowManager, "不支持的脚本 API 版本",
+                    "脚本使用不受支持的脚本 API 版本: " + ScriptRunner.ActiveScriptAPIVersion, MessageBoxButtons.OK);
             }
         }
 
         private void ApplyCode()
         {
             if (scriptPath == null)
-                throw new InvalidOperationException("Pending script path is null!");
+                throw new InvalidOperationException("挂起的脚本路径为 null!");
 
             string result = ScriptRunner.RunScriptV1(scriptDependencies.Map, scriptPath);
             result = Renderer.FixText(result, Constants.UIDefaultFont, Width).Text;
 
-            EditorMessageBox.Show(WindowManager, "Result", result, MessageBoxButtons.OK);
+            EditorMessageBox.Show(WindowManager, "结果", result, MessageBoxButtons.OK);
             ScriptRun?.Invoke(this, EventArgs.Empty);
         }
 
@@ -112,8 +112,8 @@ namespace TSMapEditor.UI.Windows
 
             if (!Directory.Exists(directoryPath))
             {
-                Logger.Log("WAE scipts directory not found!");
-                EditorMessageBox.Show(WindowManager, "Error", "Scripts directory not found!\r\n\r\nExpected path: " + directoryPath, MessageBoxButtons.OK);
+                Logger.Log("找不到 WAE scipts 目录!");
+                EditorMessageBox.Show(WindowManager, "错误", "找不到脚本目录！\r\n\r\n预期路径: " + directoryPath, MessageBoxButtons.OK);
                 return;
             }
 

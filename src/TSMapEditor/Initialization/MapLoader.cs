@@ -38,11 +38,11 @@ namespace TSMapEditor.Initialization
 
         public static void PreCheckMapIni(IniFile mapIni)
         {
-            Logger.Log("Performing pre-load map checkup.");
+            Logger.Log("执行预加载地图检查.");
 
             var section = mapIni.GetSection("Map");
             if (section == null)
-                throw new MapLoadException("[Map] does not exist in the loaded file!");
+                throw new MapLoadException("[Map] 在加载的文件中不存在!");
 
             string size = section.GetStringValue("Size", null);
             if (size == null)
@@ -56,28 +56,28 @@ namespace TSMapEditor.Initialization
 
             if (width > Constants.MaxMapWidth)
             {
-                throw new MapLoadException($"Map width cannot be greater than " +
-                    $"{Constants.MaxMapWidth} cells; the map is {width} cells wide!");
+                throw new MapLoadException($"地图宽度不能大于" +
+                    $"{Constants.MaxMapWidth} 单元格,地图宽是 {width} !");
             }
 
             if (height > Constants.MaxMapHeight)
             {
-                throw new MapLoadException("Map height cannot be greater than " +
-                    $"{Constants.MaxMapHeight} cells; the map is {height} cells high!");
+                throw new MapLoadException("地图高度不能大于" +
+                    $"{Constants.MaxMapHeight} 单元格,地图高是 {height} !");
             }
 
-            Logger.Log("Pre-load map checkup complete.");
+            Logger.Log("预加载地图检查完成.");
         }
 
         public static void PostCheckMap(IMap map, TheaterGraphics theaterGraphics)
         {
-            Logger.Log("Performing post-load map checkup.");
+            Logger.Log("执行加载后地图检查.");
 
             map.DoForAllValidTiles(t =>
             {
                 if (t.TileIndex >= theaterGraphics.TileCount)
                 {
-                    AddMapLoadError($"Invalid tile index {t.TileIndex} for cell at {t.CoordsToPoint()} - setting it to 0");
+                    AddMapLoadError($"{t.CoordsToPoint()} 单元格的图块索引 {t.TileIndex} 无效 - 将其设置为 0");
                     t.TileIndex = 0;
                     t.SubTileIndex = 0;
                     return;
@@ -88,14 +88,14 @@ namespace TSMapEditor.Initialization
                 int maxSubTileIndex = tile.SubTileCount - 1;
                 if (t.SubTileIndex > maxSubTileIndex)
                 {
-                    AddMapLoadError($"Invalid sub-tile index {t.SubTileIndex} for cell at {t.CoordsToPoint()} (max: {maxSubTileIndex}) - setting it to 0. " +
-                        $"TileSet: {tileSet.SetName} ({tileSet.FileName}), index of tile within its set: {tile.TileIndexInTileSet}");
+                    AddMapLoadError($"对于 {t.CoordsToPoint()} 处的单元格,子图块索引 {t.SubTileIndex} 无效(最大值:{maxSubTileIndex}) - 将其设置为 0." +
+                        $"图块集: {tileSet.SetName} ({tileSet.FileName}),其集合内的图块索引:{tile.TileIndexInTileSet}");
 
                     t.SubTileIndex = 0;
 
                     if (maxSubTileIndex < 0)
                     {
-                        AddMapLoadError($"    Maximum sub-tile count of 0 detected for tile at {t.CoordsToPoint()}, also setting the cell's tile index to 0.");
+                        AddMapLoadError($"在 {t.CoordsToPoint()} 处检测到的图块的最大子图块计数为 0,同时将单元格的图块索引设置为 0.");
                         t.TileIndex = 0;
                     }
 
@@ -104,23 +104,23 @@ namespace TSMapEditor.Initialization
 
                 if (tile.GetSubTile(t.SubTileIndex).TmpImage == null)
                 {
-                    AddMapLoadError($"Null sub-tile {t.SubTileIndex} for cell at {t.CoordsToPoint()} - clearing the tile. " +
-                        $"TileSet: {tileSet.SetName} ({tileSet.FileName}), index of tile within its set: {tile.TileIndexInTileSet}");
+                    AddMapLoadError($"位于单元格({t.CoordsToPoint()}) 的子图集 {t.SubTileIndex} 为null - 已清除图块. " +
+                        $"图块集: {tileSet.SetName} ({tileSet.FileName}), 其集合内图块的索引: {tile.TileIndexInTileSet}");
 
                     t.ChangeTileIndex(0, 0);
                 }
             });
 
-            Logger.Log("Post-load map checkup complete.");
+            Logger.Log("加载后地图检查完成.");
         }
 
         public static void ReadMapSection(IMap map, IniFile mapIni)
         {
-            Logger.Log("Reading [Map] section.");
+            Logger.Log("读取 [Map] 节.");
 
             var section = mapIni.GetSection("Map");
             if (section == null)
-                throw new MapLoadException("[Map] does not exist in the loaded file!");
+                throw new MapLoadException("[Map]节 在加载的文件中不存在!");
 
             string size = section.GetStringValue("Size", null);
             string[] parts = size.Split(',');
@@ -144,12 +144,12 @@ namespace TSMapEditor.Initialization
 
             map.TheaterName = section.GetStringValue("Theater", string.Empty);
 
-            Logger.Log("[Map] section read successfully.");
+            Logger.Log("[Map]节 读取成功.");
         }
 
         public static void ReadIsoMapPack(IMap map, IniFile mapIni)
         {
-            Logger.Log("Reading IsoMapPack5.");
+            Logger.Log("读取 IsoMapPack5.");
 
             var section = mapIni.GetSection("IsoMapPack5");
             if (section == null)
@@ -160,7 +160,7 @@ namespace TSMapEditor.Initialization
 
             if (section.Keys.Count == 0)
             {
-                Logger.Log("[IsoMapPack5] has no data!");
+                Logger.Log("[IsoMapPack5] 没有数据!");
                 map.SetTileData(new List<MapTile>(0));
                 return;
             }
@@ -170,9 +170,9 @@ namespace TSMapEditor.Initialization
 
             byte[] compressedData = Convert.FromBase64String(sb.ToString());
             if (compressedData.Length < 4)
-                throw new InvalidOperationException("Invalid IsoMapPack5 format");
+                throw new InvalidOperationException("无效的 IsoMapPack5 格式");
 
-            Logger.Log("IsoMapPack5 CompressedData length: " + compressedData.Length);
+            Logger.Log("IsoMapPack5 压缩数据长度: " + compressedData.Length);
 
             List<byte> uncompressedData = new List<byte>();
 
@@ -183,10 +183,10 @@ namespace TSMapEditor.Initialization
                 ushort inputSize = BitConverter.ToUInt16(compressedData, position);
                 ushort outputSize = BitConverter.ToUInt16(compressedData, position + 2);
 
-                Logger.Log("Decoding IsoMapPack5 block: pos: " + position + ", inSize: " + inputSize + ", outSize: " + outputSize);
+                Logger.Log("解码 IsoMapPack5 块: pos: " + position + ", inSize: " + inputSize + ", outSize: " + outputSize);
 
                 if (position + inputSize + 4 > compressedData.Length)
-                    throw new InvalidOperationException("Error decoding IsoMapPack5");
+                    throw new InvalidOperationException("解码 IsoMapPack5 时出错");
 
                 byte[] inData = new byte[inputSize];
                 Array.Copy(compressedData, position + 4, inData, 0, inputSize);
@@ -215,12 +215,12 @@ namespace TSMapEditor.Initialization
 
             map.SetTileData(tiles);
 
-            Logger.Log("IsoMapPack5 read successfully.");
+            Logger.Log("IsoMapPack5 读取成功.");
         }
 
         public static void ReadBasicSection(IMap map, IniFile mapIni)
         {
-            Logger.Log("Reading [Basic] section.");
+            Logger.Log("读取 [Basic]节.");
 
             var section = mapIni.GetSection("Basic");
             if (section == null)
@@ -228,12 +228,12 @@ namespace TSMapEditor.Initialization
 
             map.Basic.ReadPropertiesFromIniSection(section);
 
-            Logger.Log("[Basic] section read successfully.");
+            Logger.Log("[Basic]节 读取成功.");
         }
 
         public static void ReadTerrainObjects(IMap map, IniFile mapIni)
         {
-            Logger.Log("Reading TerrainObjects.");
+            Logger.Log("读取 TerrainObjects");
 
             IniSection section = mapIni.GetSection("Terrain");
             if (section == null)
@@ -251,7 +251,7 @@ namespace TSMapEditor.Initialization
                 TerrainType terrainType = map.Rules.TerrainTypes.Find(tt => tt.ININame == kvp.Value);
                 if (terrainType == null)
                 {
-                    AddMapLoadError($"Skipping loading of terrain type {kvp.Value}, placed at {x}, {y}, because it does not exist in Rules.");
+                    AddMapLoadError($"跳过在 {x},{y} 处的地形类型 {kvp.Value}, 因为它在规则中不存在.");
                     continue;
                 }
 
@@ -259,7 +259,7 @@ namespace TSMapEditor.Initialization
                 var tile = map.GetTile(x, y);
                 if (tile == null)
                 {
-                    AddMapLoadError($"Terrain object {terrainType.ININame} has been placed outside of the valid map area, at {x}, {y}. Skipping placing it on the map.");
+                    AddMapLoadError($"地形对象 {terrainType.ININame} 已放置在有效地图区域之外的 {x},{y} 处,已忽略.");
                     continue;
                 }
 
@@ -267,7 +267,7 @@ namespace TSMapEditor.Initialization
                 tile.TerrainObject = terrainObject;
             }
 
-            Logger.Log("TerrainObjects read successfully.");
+            Logger.Log("TerrainObjects 读取成功.");
         }
 
         private static void FindAttachedTag(IMap map, TechnoBase techno, string attachedTagString)
@@ -277,7 +277,7 @@ namespace TSMapEditor.Initialization
                 Tag tag = map.Tags.Find(t => t.ID == attachedTagString);
                 if (tag == null)
                 {
-                    AddMapLoadError($"Unable to find tag {attachedTagString} attached to {techno.WhatAmI()} at {techno.Position}");
+                    AddMapLoadError($"找不到附加于 {techno.WhatAmI()}(坐标{techno.Position}) 的 {attachedTagString}");
                     return;
                 }
 
@@ -287,7 +287,7 @@ namespace TSMapEditor.Initialization
 
         public static void ReadBuildings(IMap map, IniFile mapIni)
         {
-            Logger.Log("Reading Structures.");
+            Logger.Log("读取建筑物.");
 
             IniSection section = mapIni.GetSection("Structures");
             if (section == null)
@@ -321,7 +321,7 @@ namespace TSMapEditor.Initialization
                 var buildingType = map.Rules.BuildingTypes.Find(bt => bt.ININame == buildingTypeId);
                 if (buildingType == null)
                 {
-                    AddMapLoadError($"Unable to find building type {buildingTypeId} - skipping adding it to map.");
+                    AddMapLoadError($"找不到建筑物类型 {buildingTypeId} - 已跳过");
                     continue;
                 }
 
@@ -350,7 +350,7 @@ namespace TSMapEditor.Initialization
                             var upgradeBuildingType = map.Rules.BuildingTypes.Find(b => b.ININame == upgradeIds[i]);
                             if (upgradeBuildingType == null)
                             {
-                                AddMapLoadError($"Invalid building upgrade specified for building {buildingTypeId}: " + upgradeIds[i]);
+                                AddMapLoadError($"为建筑物 {buildingTypeId} 指定的建筑物升级 {upgradeIds[i]} 无效");
                                 continue;
                             }
 
@@ -363,8 +363,8 @@ namespace TSMapEditor.Initialization
 
                             if (appliedUpgrades >= buildingType.Upgrades)
                             {
-                                AddMapLoadError($"Building {buildingTypeId} at {building.Position} has more upgrades ({appliedUpgrades + 1}) " +
-                                    $"than specified by its Upgrades= value ({buildingType.Upgrades}) in Rules. Skipping adding one or more of the building's upgrades.");
+                                AddMapLoadError($"建筑 {buildingTypeId} 在位置 {building.Position} 的升级数 ({appliedUpgrades + 1}) " +
+                                       $"超过了规则中 Upgrades= 值 ({buildingType.Upgrades}) 的限制.正在跳过添加该建筑的一个或多个升级.");
                                 break;
                             }
 
@@ -387,13 +387,13 @@ namespace TSMapEditor.Initialization
                     if (tile == null)
                     {
                         isClear = false;
-                        AddMapLoadError($"Building {buildingType.ININame} has been placed outside of the map at {cellCoords}. Skipping adding it to map.");
+                        AddMapLoadError($"建筑 {buildingType.ININame} 被放置在地图外的位置 {cellCoords}.正在跳过将其添加到地图.");
                         return;
                     }
 
                     if (tile.Structures.Count > 0)
                     {
-                        Logger.Log($"NOTE: Building {buildingType.ININame} exists in the cell at {cellCoords} that already contains other buildings: {string.Join(", ", tile.Structures.Select(s => s.ObjectType.ININame))}");
+                        Logger.Log($"注意: 建筑 {buildingType.ININame} 存在于位置 {cellCoords} 的单元格中,该单元格已包含其他建筑: {string.Join(", ", tile.Structures.Select(s => s.ObjectType.ININame))}");
                     }
                 }
 
@@ -414,12 +414,12 @@ namespace TSMapEditor.Initialization
 
             map.Structures.ForEach(s => s.UpdatePowerUpAnims());
 
-            Logger.Log("Structures read successfully.");
+            Logger.Log("建筑物读取成功.");
         }
 
         public static void ReadAircraft(IMap map, IniFile mapIni)
         {
-            Logger.Log("Reading Aircraft.");
+            Logger.Log("读取飞行物.");
 
             IniSection section = mapIni.GetSection("Aircraft");
             if (section == null)
@@ -450,7 +450,7 @@ namespace TSMapEditor.Initialization
                 var aircraftType = map.Rules.AircraftTypes.Find(ut => ut.ININame == aircraftTypeId);
                 if (aircraftType == null)
                 {
-                    AddMapLoadError($"Unable to find aircraft type {aircraftTypeId} - skipping adding it to map.");
+                    AddMapLoadError($"无法找到飞行器类型 {aircraftTypeId} - 正在跳过将其添加到地图.");
                     continue;
                 }
 
@@ -475,12 +475,12 @@ namespace TSMapEditor.Initialization
                     tile.Aircraft.Add(aircraft);
             }
 
-            Logger.Log("Aircraft read successfully.");
+            Logger.Log("飞行器读取成功.");
         }
 
         public static void ReadUnits(IMap map, IniFile mapIni)
         {
-            Logger.Log("Reading Units.");
+            Logger.Log("读取单位.");
 
             IniSection section = mapIni.GetSection("Units");
             if (section == null)
@@ -513,7 +513,7 @@ namespace TSMapEditor.Initialization
                 var unitType = map.Rules.UnitTypes.Find(ut => ut.ININame == unitTypeId);
                 if (unitType == null)
                 {
-                    AddMapLoadError($"Unable to find unit type {unitTypeId} - skipping adding it to map.");
+                    AddMapLoadError($"无法找到单位类型 {unitTypeId} - 正在跳过将其添加到地图.");
                     continue;
                 }
 
@@ -549,12 +549,12 @@ namespace TSMapEditor.Initialization
                 unit.FollowerUnit = map.Units[unit.FollowerID];
             }
 
-            Logger.Log("Units read successfully.");
+            Logger.Log("单位数据读取成功.");
         }
 
         public static void ReadInfantry(IMap map, IniFile mapIni)
         {
-            Logger.Log("Reading Infantry.");
+            Logger.Log("读取步兵.");
 
             IniSection section = mapIni.GetSection("Infantry");
             if (section == null)
@@ -587,7 +587,7 @@ namespace TSMapEditor.Initialization
                 var infantryType = map.Rules.InfantryTypes.Find(it => it.ININame == infantryTypeId);
                 if (infantryType == null)
                 {
-                    AddMapLoadError($"Unable to find infantry type {infantryTypeId} - skipping adding it to map.");
+                    AddMapLoadError($"无法找到步兵类型 {infantryTypeId} - 正在跳过将其添加到地图.");
                     continue;
                 }
 
@@ -614,12 +614,12 @@ namespace TSMapEditor.Initialization
                     tile.Infantry[(int)subCell] = infantry;
             }
 
-            Logger.Log("Infantry read successfully.");
+            Logger.Log("步兵读取成功.");
         }
 
         public static void ReadSmudges(IMap map, IniFile mapIni)
         {
-            Logger.Log("Reading Smudges.");
+            Logger.Log("读取污迹.");
 
             var smudgesSection = mapIni.GetSection("Smudge");
             if (smudgesSection == null)
@@ -631,7 +631,7 @@ namespace TSMapEditor.Initialization
 
                 if (values.Length < 3)
                 {
-                    AddMapLoadError($"Invalid syntax in smudge defined in map: {kvp.Value}");
+                    AddMapLoadError($"地图中定义的污渍语法无效: {kvp.Value}");
                     continue;
                 }
 
@@ -640,33 +640,33 @@ namespace TSMapEditor.Initialization
                 int y = Conversions.IntFromString(values[2], -1);
                 if (values.Length > 3 && values[3] != "0")
                 {
-                    AddMapLoadError($"Invalid syntax in smudge at {x},{y}: {kvp.Value}");
+                    AddMapLoadError($"位置 {x},{y} 的污迹语法无效: {kvp.Value}");
                     continue;
                 }
 
                 var smudgeType = map.Rules.SmudgeTypes.Find(st => st.ININame == smudgeTypeId);
                 if (smudgeType == null)
                 {
-                    AddMapLoadError($"Cell at {x},{y} contains a smudge '{smudgeTypeId}' that does not exist in Rules.ini. Ignoring it.");
+                    AddMapLoadError($"位置 {x},{y} 的单元格包含一个在 Rules.ini 中不存在的污迹 '{smudgeTypeId}'. 已忽略");
                     continue;
                 }
 
                 var cell = map.GetTile(x, y);
                 if (cell == null)
                 {
-                    AddMapLoadError($"Smudge at {x},{y} is placed outside of the map. Ignoring it.");
+                    AddMapLoadError($"位置 {x},{y} 的污渍被放置在地图外. 已忽略");
                     continue;
                 }
 
                 cell.Smudge = new Smudge() { SmudgeType = smudgeType, Position = new Point2D(x, y) };
             }
 
-            Logger.Log("Smudges read successfully.");
+            Logger.Log("污迹读取成功.");
         }
 
         public static void ReadOverlays(IMap map, IniFile mapIni)
         {
-            Logger.Log("Reading Overlays (OverlayPack and OverlayDataPack).");
+            Logger.Log("读取覆盖物 (OverlayPack与OverlayDataPack).");
 
             var overlayPackSection = mapIni.GetSection("OverlayPack");
             var overlayDataPackSection = mapIni.GetSection("OverlayDataPack");
@@ -714,7 +714,7 @@ namespace TSMapEditor.Initialization
 
                     if (overlayTypeIndex >= map.Rules.OverlayTypes.Count)
                     {
-                        AddMapLoadError("Ignoring overlay on tile at " + x + ", " + y + " because it's out of bounds compared to Rules.ini overlay list");
+                        AddMapLoadError("正在忽略位置 " + x + ", " + y + " 的覆盖层,因为它超出了 Rules.ini 覆盖层列表的范围");
                         continue;
                     }
 
@@ -729,12 +729,12 @@ namespace TSMapEditor.Initialization
                 }
             }
 
-            Logger.Log("Overlays read successfully.");
+            Logger.Log("覆盖物读取成功.");
         }
 
         public static void ReadWaypoints(IMap map, IniFile mapIni)
         {
-            Logger.Log("Reading Waypoints.");
+            Logger.Log("读取路径点.");
 
             var waypointsSection = mapIni.GetSection("Waypoints");
             if (waypointsSection == null)
@@ -745,7 +745,7 @@ namespace TSMapEditor.Initialization
                 var waypoint = Waypoint.ParseWaypoint(kvp.Key, kvp.Value);
                 if (waypoint == null)
                 {
-                    AddMapLoadError($"Invalid syntax encountered for waypoint: {kvp.Key}={kvp.Value}");
+                    AddMapLoadError($"路点语法无效: {kvp.Key}={kvp.Value}");
                     continue;
                 }
 
@@ -771,12 +771,12 @@ namespace TSMapEditor.Initialization
                     waypoint.Position = nearestCell;
                     tile = map.GetTile(waypoint.Position);
 
-                    AddMapLoadError($"Waypoint {waypoint.Identifier} at {oldPosition} was not within the valid map area. It has been moved to {waypoint.Position}.");
+                    AddMapLoadError($"路点 {waypoint.Identifier} 在位置 {oldPosition} 不在有效地图区域内.它已被移动到 {waypoint.Position}.");
                 }
 
                 if (tile.Waypoints.Count > 0)
                 {
-                    Logger.Log($"NOTE: Waypoint {waypoint.Identifier} exists in the cell at {waypoint.Position} that already contains other waypoints: {string.Join(", ", tile.Waypoints.Select(s => s.Identifier))}");
+                    Logger.Log($"注意: 路点 {waypoint.Identifier} 存在于位置 {waypoint.Position} 的单元格中,该单元格已包含其他路点: {string.Join(", ", tile.Waypoints.Select(s => s.Identifier))}");
                 }
 
                 waypoint.ParseEditorInfo(mapIni);
@@ -784,21 +784,21 @@ namespace TSMapEditor.Initialization
                 map.AddWaypoint(waypoint);
             }
 
-            Logger.Log("Waypoints read successfully.");
+            Logger.Log("路径点读取成功.");
         }
 
         public static void ReadTaskForces(IMap map, IniFile mapIni)
         {
-            Logger.Log("Reading TaskForces.");
+            Logger.Log("读取特遣部队.");
 
             map.TaskForces.ReadTaskForces(mapIni, map.Rules, AddMapLoadError);
 
-            Logger.Log("TaskForces read successfully.");
+            Logger.Log("特遣部队读取成功.");
         }
 
         public static void ReadTriggers(IMap map, IniFile mapIni)
         {
-            Logger.Log("Reading Triggers (Triggers, Events and Actions).");
+            Logger.Log("读取触发器 (Triggers, Events, Actions).");
 
             var section = mapIni.GetSection("Triggers");
             if (section == null)
@@ -831,7 +831,7 @@ namespace TSMapEditor.Initialization
                 trigger.LinkedTrigger = map.Triggers.Find(otherTrigger => otherTrigger.ID == trigger.LinkedTriggerId);
             }
 
-            Logger.Log("Triggers read successfully.");
+            Logger.Log("触发器读取成功.");
 
             TriggerFix(map);
         }
@@ -843,7 +843,7 @@ namespace TSMapEditor.Initialization
         /// </summary>
         private static void TriggerFix(IMap map)
         {
-            Logger.Log("Checking for bugged triggers.");
+            Logger.Log("检查有错误的触发器.");
 
             // Check for mismatched uncustomizable trigger action parameters
             foreach (var trigger in map.Triggers)
@@ -871,7 +871,7 @@ namespace TSMapEditor.Initialization
 
                         if (valueToSet != null)
                         {
-                            AddMapLoadError($"Trigger \"{trigger.Name}\" had action \"{triggerActionType.Name}\" with invalid value for uncustomizable parameter #{i}: \"{action.Parameters[i]}\". It has been automatically corrected to \"{valueToSet}\".");
+                            AddMapLoadError($"触发器 \"{trigger.Name}\" 的动作 \"{triggerActionType.Name}\" 中不可自定义参数 #{i} 的值无效: \"{action.Parameters[i]}\".已自动更正为 \"{valueToSet}\".");
                             action.Parameters[i] = valueToSet;
                         }
                     }
@@ -881,18 +881,18 @@ namespace TSMapEditor.Initialization
                     if (triggerActionType.Parameters[lastParamIndex].TriggerParamType == TriggerParamType.Unused && action.Parameters[lastParamIndex] != "A")
                     {
                         string valueToSet = "A";
-                        AddMapLoadError($"Trigger '{trigger.Name}' had action \"{triggerActionType.Name}\" with invalid value for uncustomizable parameter #{lastParamIndex}: \"{action.Parameters[lastParamIndex]}\". It has been automatically corrected to \"{valueToSet}\".");
+                        AddMapLoadError($"触发器 '{trigger.Name}' 的动作 \"{triggerActionType.Name}\" 中不可自定义参数 #{lastParamIndex} 的值无效: \"{action.Parameters[lastParamIndex]}\".已自动更正为 \"{valueToSet}\".");
                         action.Parameters[lastParamIndex] = valueToSet;
                     }
                 }
             }
 
-            Logger.Log("Checking for bugged triggers completed.");
+            Logger.Log("错误触发器的检查已完成.");
         }
 
         public static void ReadTags(IMap map, IniFile mapIni)
         {
-            Logger.Log("Reading Tags.");
+            Logger.Log("读取标签.");
 
             var section = mapIni.GetSection("Tags");
             if (section == null)
@@ -918,7 +918,7 @@ namespace TSMapEditor.Initialization
                 Trigger trigger = map.Triggers.Find(t => t.ID == triggerId);
                 if (trigger == null)
                 {
-                    AddMapLoadError("Ignoring tag " + kvp.Key + " because its related trigger " + triggerId + " does not exist!");
+                    AddMapLoadError("正在忽略标签 " + kvp.Key + ",因为其关联的触发器 " + triggerId + " 不存在！");
                     continue;
                 }
 
@@ -926,21 +926,21 @@ namespace TSMapEditor.Initialization
                 map.AddTag(tag);
             }
 
-            Logger.Log("Tags read successfully.");
+            Logger.Log("标签读取成功.");
         }
 
         public static void ReadScripts(IMap map, IniFile mapIni)
         {
-            Logger.Log("Reading ScriptTypes.");
+            Logger.Log("读取脚本.");
 
             map.Scripts.ReadScripts(mapIni, AddMapLoadError);
 
-            Logger.Log("ScriptTypes read successfully.");
+            Logger.Log("脚本读取成功.");
         }
 
         public static void ReadTeamTypes(IMap map, IniFile mapIni, List<TeamTypeFlag> teamTypeFlags)
         {
-            Logger.Log("Reading TeamTypes.");
+            Logger.Log("读取作战小队.");
 
             map.TeamTypes.ReadTeamTypes(mapIni,
                 name => map.FindHouseType(name),
@@ -951,12 +951,12 @@ namespace TSMapEditor.Initialization
                 AddMapLoadError,
                 false);
 
-            Logger.Log("TeamTypes read successfully.");
+            Logger.Log("作战小队读取成功.");
         }
 
         public static void ReadAITriggerTypes(IMap map, IniFile mapIni)
         {
-            Logger.Log("Reading AITriggerTypes.");
+            Logger.Log("读取AIAI触发器类型.");
 
             var section = mapIni.GetSection("AITriggerTypes");
             if (section == null)
@@ -970,7 +970,7 @@ namespace TSMapEditor.Initialization
                 string[] parts = kvp.Value.Split(',', StringSplitOptions.RemoveEmptyEntries);
                 if (parts.Length != AI_TRIGGER_PROPERTY_FIELD_COUNT)
                 {
-                    AddMapLoadError($"AITriggerType {kvp.Key} is invalid, skipping reading it.");
+                    AddMapLoadError($"AI触发器类型 {kvp.Key} 无效,正在跳过读取它.");
                     continue;
                 }
 
@@ -981,21 +981,21 @@ namespace TSMapEditor.Initialization
 
                 if (aiTriggerType.PrimaryTeam == null)
                 {
-                    AddMapLoadError($"AITriggerType \"{aiTriggerType.Name}\" ({kvp.Key}) has a nonexistent team ({parts[1]}) specified as its primary team!");
+                    AddMapLoadError($"AI触发器类型 \"{aiTriggerType.Name}\" ({kvp.Key}) 指定了一个不存在的队伍 ({parts[1]}) 作为其主要队伍！");
                 }
 
                 aiTriggerType.OwnerName = parts[2];
 
                 if (!int.TryParse(parts[3], CultureInfo.InvariantCulture, out int techLevel))
                 {
-                    AddMapLoadError($"AITriggerType {kvp.Key} has an invalid tech level, skipping parsing of the AI trigger.");
+                    AddMapLoadError($"AI触发器类型 {kvp.Key} 的科技等级无效,正在跳过解析该AI触发器.");
                     continue;
                 }
                 aiTriggerType.TechLevel = techLevel;
 
                 if (!int.TryParse(parts[4], CultureInfo.InvariantCulture, out int conditionType))
                 {
-                    AddMapLoadError($"AITriggerType {kvp.Key} has an invalid condition type, skipping parsing of the AI trigger.");
+                    AddMapLoadError($"AI触发器类型 {kvp.Key} 的条件类型无效,正在跳过解析该AI触发器.");
                     continue;
                 }
 
@@ -1007,7 +1007,7 @@ namespace TSMapEditor.Initialization
 
                     if (conditionObject == null)
                     {
-                        AddMapLoadError($"AITriggerType {kvp.Key} has a non-existent condition object \"{parts[5]}\"");
+                        AddMapLoadError($"AI触发器类型 {kvp.Key} 包含一个不存在的条件对象 \"{parts[5]}\"");
                     }
 
                     aiTriggerType.ConditionObject = conditionObject;
@@ -1017,7 +1017,7 @@ namespace TSMapEditor.Initialization
                 AITriggerComparator? comparator = AITriggerComparator.Parse(aiTriggerType.LoadedComparatorString);
                 if (comparator == null)
                 {
-                    AddMapLoadError($"Failed to parse comparator of AITriggerType {kvp.Key} ({aiTriggerType.Name})! Skipping loading of the AI trigger.");
+                    AddMapLoadError($"无法解析AI触发器类型 {kvp.Key} ({aiTriggerType.Name}) 的比较器！正在跳过加载该AI触发器.");
                     continue;
                 }
                 aiTriggerType.Comparator = comparator.Value;
@@ -1036,7 +1036,7 @@ namespace TSMapEditor.Initialization
 
                     if (aiTriggerType.SecondaryTeam == null)
                     {
-                        AddMapLoadError($"AITriggerType {kvp.Key} has a non-existent secondary team type \"{parts[14]}\"");
+                        AddMapLoadError($"AI触发器类型 {kvp.Key} 包含一个不存在的次要队伍类型 \"{parts[14]}\"");
                     }
                 }
 
@@ -1047,12 +1047,12 @@ namespace TSMapEditor.Initialization
                 map.AITriggerTypes.Add(aiTriggerType);
             }
 
-            Logger.Log("AITriggerTypes read successfully.");
+            Logger.Log("AI触发器类型读取成功.");
         }
 
         public static void ReadHouseTypes(IMap map, IniFile mapIni)
         {
-            Logger.Log("Reading HouseTypes. Using countries: " + Constants.IsRA2YR);
+            Logger.Log("读取所属方. 是否使用国家: " + Constants.IsRA2YR);
 
             var section = mapIni.GetSection(Constants.IsRA2YR ? "Countries" : "Houses");
             if (section == null)
@@ -1112,12 +1112,12 @@ namespace TSMapEditor.Initialization
                 }
             });
 
-            Logger.Log("HouseTypes read successfully.");
+            Logger.Log("所属方读取成功.");
         }
 
         public static void ReadHouses(IMap map, IniFile mapIni)
         {
-            Logger.Log("Reading Houses.");
+            Logger.Log("读取House国家.");
 
             var section = mapIni.GetSection("Houses");
             if (section == null)
@@ -1153,7 +1153,7 @@ namespace TSMapEditor.Initialization
                 var invalidBaseNodes = house.BaseNodes.FindAll(bn => !map.Rules.BuildingTypes.Exists(bt => bt.ININame == bn.StructureTypeName));
                 invalidBaseNodes.ForEach(bn =>
                 {
-                    AddMapLoadError($"Skipping loading invalid base node of house {houseName} for building type \"{bn.StructureTypeName}\". The building type does not exist in Rules!");
+                    AddMapLoadError($"正在跳过加载国家 {houseName} 的无效基地节点,该节点对应建筑类型 \"{bn.StructureTypeName}\".该建筑类型在规则中不存在！");
                     house.BaseNodes.Remove(bn);
                 });
 
@@ -1165,7 +1165,7 @@ namespace TSMapEditor.Initialization
                     if (houseType == null)
                     {
                         houseType = map.GetHouseTypes()[0];
-                        AddMapLoadError($"Nonexistent Country= or no Country= specified for House {houseName}. This makes it default to the first standard Country ({houseType.ININame}).");
+                        AddMapLoadError($"House {houseName} 的 Country 不存在或未指定.将使用 ({houseType.ININame}).");
                     }
                 }
                 else
@@ -1181,12 +1181,12 @@ namespace TSMapEditor.Initialization
                 }
             }
 
-            Logger.Log("Houses read successfully.");
+            Logger.Log("读取House国家成功.");
         }
 
         public static void ReadCellTags(IMap map, IniFile mapIni)
         {
-            Logger.Log("Reading CellTags.");
+            Logger.Log("读取单元标记.");
 
             var section = mapIni.GetSection("CellTags");
             if (section == null)
@@ -1209,12 +1209,12 @@ namespace TSMapEditor.Initialization
                 map.AddCellTag(new CellTag(coords.Value, tag));
             }
 
-            Logger.Log("CellTags read successfully.");
+            Logger.Log("单元标记读取成功.");
         }
 
         public static void ReadLocalVariables(IMap map, IniFile mapIni)
         {
-            Logger.Log("Reading local variables (VariableNames).");
+            Logger.Log("读取本地变量 (VariableNames).");
 
             var section = mapIni.GetSection("VariableNames");
             if (section == null)
@@ -1224,13 +1224,13 @@ namespace TSMapEditor.Initialization
             {
                 if (!int.TryParse(kvp.Key, out int variableIndex))
                 {
-                    AddMapLoadError($"Invalid local variable index in entry {kvp.Key}: {kvp.Value}, skipping reading local variable.");
+                    AddMapLoadError($"条目 {kvp.Key}: {kvp.Value} 中的局部变量索引无效,正在跳过读取该局部变量.");
                     continue;
                 }
 
                 if (map.LocalVariables.Exists(c => c.Index == variableIndex))
                 {
-                    AddMapLoadError($"Duplicate local variable index in entry {kvp.Key}: {kvp.Value}, skipping reading local variable.");
+                    AddMapLoadError($"条目 {kvp.Key}: {kvp.Value} 中的局部变量索引重复,正在跳过读取该局部变量.");
                     continue;
                 }
 
@@ -1238,7 +1238,7 @@ namespace TSMapEditor.Initialization
 
                 if (parts.Length != 2)
                 {
-                    AddMapLoadError($"Invalid local variable syntax in entry {kvp.Key}: {kvp.Value}, skipping reading local variable.");
+                    AddMapLoadError($"条目 {kvp.Key}: {kvp.Value} 中的局部变量语法无效,正在跳过读取该局部变量.");
                     continue;
                 }
 
@@ -1249,12 +1249,12 @@ namespace TSMapEditor.Initialization
                 map.LocalVariables.Add(localVariable);
             }
 
-            Logger.Log("Local variables read successfully.");
+            Logger.Log("局部变量加载成功.");
         }
 
         public static void ReadTubes(IMap map, IniFile mapIni)
         {
-            Logger.Log("Reading Tubes.");
+            Logger.Log("读取隧道.");
 
             var section = mapIni.GetSection("Tubes");
             if (section == null)
@@ -1282,7 +1282,7 @@ namespace TSMapEditor.Initialization
 
                 if (enterX < 1 || enterY < 1 || exitX < 1 || exitY < 1 || (int)initialFacing < -1 || initialFacing > TubeDirection.Max)
                 {
-                    AddMapLoadError("Invalid tube entry: " + kvp.Value);
+                    AddMapLoadError("无效的隧道条目: " + kvp.Value);
                     continue;
                 }
 
@@ -1290,7 +1290,7 @@ namespace TSMapEditor.Initialization
                 map.Tubes.Add(tube);
             }
 
-            Logger.Log("Tubes read successfully.");
+            Logger.Log("隧道读取成功.");
         }
     }
 }

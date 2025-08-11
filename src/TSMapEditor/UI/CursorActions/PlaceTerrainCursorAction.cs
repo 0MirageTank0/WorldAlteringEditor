@@ -15,7 +15,7 @@ namespace TSMapEditor.UI.CursorActions
         {
         }
 
-        public override string GetName() => "Place Terrain Tiles";
+        public override string GetName() => "放置地形";
 
         public override bool HandlesKeyboardInput => true;
 

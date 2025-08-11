@@ -3,6 +3,7 @@ using Rampastring.XNAUI;
 using Rampastring.XNAUI.XNAControls;
 using TSMapEditor.CCEngine;
 using TSMapEditor.Models;
+using TSMapEditor.UI.Controls;
 
 namespace TSMapEditor.UI.Windows
 {
@@ -14,13 +15,15 @@ namespace TSMapEditor.UI.Windows
         }
 
         private readonly Map map;
-
+        private EditorDescriptionPanel panelContent;
         public bool IsAddingNew { get; set; }
 
         public override void Initialize()
         {
             Name = nameof(SelectEventWindow);
             base.Initialize();
+            
+            panelContent = FindChild<EditorDescriptionPanel>(nameof(panelContent));
         }
 
         protected override void LbObjectList_SelectedIndexChanged(object sender, EventArgs e)
@@ -32,6 +35,7 @@ namespace TSMapEditor.UI.Windows
             }
 
             SelectedObject = (TriggerEventType)lbObjectList.SelectedItem.Tag;
+            panelContent.Text = SelectedObject.Description;
         }
 
         protected override void ListObjects()

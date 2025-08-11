@@ -53,8 +53,8 @@ namespace TSMapEditor.UI.Windows
         {
             if (string.IsNullOrWhiteSpace(tbHouseName.Text))
             {
-                EditorMessageBox.Show(WindowManager, "House Name Required",
-                    "Please input a name for the house.", MessageBoxButtons.OK);
+                EditorMessageBox.Show(WindowManager, "需要国家名称",
+                    "请输入国家名称.", MessageBoxButtons.OK);
 
                 return;
             }
@@ -119,7 +119,7 @@ namespace TSMapEditor.UI.Windows
         public void Open()
         {
             if (!Constants.IsRA2YR)
-                throw new NotSupportedException(nameof(NewHouseWindow) + " should only be used with Countries.");
+                throw new NotSupportedException(nameof(NewHouseWindow) + "只能与国家一起使用.");
 
             Show();
             ListParentCountries();

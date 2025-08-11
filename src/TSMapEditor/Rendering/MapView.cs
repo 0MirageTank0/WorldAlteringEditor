@@ -73,10 +73,11 @@ namespace TSMapEditor.Rendering
         private WindowManager windowManager;
 
         private GraphicsDevice GraphicsDevice => windowManager.GraphicsDevice;
-
+        private MapTile crossLineTile;
+        private int crossLineXBlod = 0;
+        private int crossLineYBlod = 0;
         public int Width => windowManager.RenderResolutionX;
         public int Height => windowManager.RenderResolutionY;
-
         public EditorState EditorState { get; private set; }
         public Map Map { get; private set; }
         public TheaterGraphics TheaterGraphics { get; private set; }
@@ -739,6 +740,17 @@ namespace TSMapEditor.Rendering
                     }
                 }
 
+                if (crossLineTile != null)
+                {
+                    var inXRange = tile.X >= crossLineTile.X && tile.X <= crossLineTile.X + crossLineXBlod;
+                    var inYRange = tile.Y >= crossLineTile.Y && tile.Y <= crossLineTile.Y + crossLineYBlod;
+                    if (inXRange || inYRange)
+                    {
+                        if(inXRange && inYRange)
+                            color = color * 0.5f;
+                        color = color * 0.5f;
+                    }
+                }
                 Renderer.DrawTexture(textureToDraw, new Rectangle(drawX, drawY,
                     Constants.CellSizeX, Constants.CellSizeY), null, color, 0f, Vector2.Zero, SpriteEffects.None, depth);
             }
@@ -1305,8 +1317,35 @@ namespace TSMapEditor.Rendering
 
                 startDrawPoint = startDrawPoint.ScaleBy(Camera.ZoomLevel);
                 endDrawPoint = endDrawPoint.ScaleBy(Camera.ZoomLevel);
-
+                
                 Renderer.DrawLine(startDrawPoint.ToXNAVector(), endDrawPoint.ToXNAVector(), lineColor, 1);
+                if (draggedOrRotatedObject is Structure gameObject)
+                {
+                    var heightOffset = 0;
+                    var cell = Map.GetTile(gameObject.Position);
+                    if (cell != null && !EditorState.Is2DMode)
+                        heightOffset = cell.Level * Constants.CellHeight;
+                    foreach (var edge in gameObject.ObjectType.ArtConfig.Foundation.Edges)
+                    {
+                        
+                        // Translate edge vertices from cell coordinate space to world coordinate space.
+                        var start = CellMath.CellTopLeftPointFromCellCoords(edge[0] + gameObject.Position, Map) + cameraAndCellCenterOffset;
+                        var end = CellMath.CellTopLeftPointFromCellCoords(edge[1] + gameObject.Position, Map) + cameraAndCellCenterOffset;
+
+                        // Height is an illusion, just move everything up or down.
+                        // Also offset X to match the top corner of an iso tile.
+                        start += new Point2D(0, - Constants.CellSizeX / 4 -heightOffset);
+                        end += new Point2D(0, - Constants.CellSizeX / 4 -heightOffset);
+                        start = start.ScaleBy(Camera.ZoomLevel);
+                        end = end.ScaleBy(Camera.ZoomLevel);
+                        // Draw edge.
+                        Renderer.DrawLine(start.ToXNAVector(), end.ToXNAVector(),lineColor);
+                        start += endDrawPoint - startDrawPoint;
+                        end += endDrawPoint - startDrawPoint;
+                        Renderer.DrawLine(start.ToXNAVector(), end.ToXNAVector(),lineColor);
+                    }
+                }
+
             }
             else if (isRotatingObject)
             {
@@ -1512,6 +1551,12 @@ namespace TSMapEditor.Rendering
             if (isActive && tileUnderCursor != null && cursorAction != null)
             {
                 cursorAction.PreMapDraw(tileUnderCursor.CoordsToPoint());
+                if (cursorAction.DrawMapCrossLine)
+                {
+                    crossLineTile = tileUnderCursor;
+                    crossLineXBlod = cursorAction.CrossLineXBold;
+                    crossLineYBlod = cursorAction.CrossLineYBold;
+                }
             }
 
             if (mapInvalidated || cameraMoved)
@@ -1540,6 +1585,12 @@ namespace TSMapEditor.Rendering
             {
                 cursorAction.PostMapDraw(tileUnderCursor.CoordsToPoint());
                 cursorAction.DrawPreview(tileUnderCursor.CoordsToPoint(), Camera.TopLeftPoint);
+                if (cursorAction.DrawMapCrossLine)
+                {
+                    crossLineTile = null;
+                    crossLineXBlod = 0;
+                    crossLineYBlod = 0;
+                }
             }
         }
 

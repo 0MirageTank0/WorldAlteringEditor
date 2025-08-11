@@ -27,14 +27,14 @@ namespace TSMapEditor.Models
         {
             if (string.IsNullOrWhiteSpace(iniString))
             {
-                Logger.Log($"{nameof(BaseNode)}.{nameof(FromIniString)}: null string or whitespace given as parameter");
+                Logger.Log($"{nameof(BaseNode)}.{nameof(FromIniString)}: 空字符串或空格作为参数");
                 return null;
             }
                 
             string[] parts = iniString.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
             if (parts.Length != 3)
             {
-                Logger.Log($"{nameof(BaseNode)}.{nameof(FromIniString)}: invalid string " + iniString);
+                Logger.Log($"{nameof(BaseNode)}.{nameof(FromIniString)}: 无效字符串 " + iniString);
                 return null;
             }
 
@@ -42,7 +42,7 @@ namespace TSMapEditor.Models
             int y = Conversions.IntFromString(parts[2], -1);
             if (x < 0 || y < 0)
             {
-                Logger.Log($"{nameof(BaseNode)}.{nameof(FromIniString)}: invalid coordinates given in string " + iniString);
+                Logger.Log($"{nameof(BaseNode)}.{nameof(FromIniString)}: 字符串中给出的坐标无效 " + iniString);
                 return null;
             }
 

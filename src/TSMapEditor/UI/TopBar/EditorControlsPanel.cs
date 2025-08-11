@@ -245,12 +245,12 @@ namespace TSMapEditor.UI.TopBar
                 string[] allBases = map.TheaterInstance.Theater.LATGrounds.FindAll(lg => lg.GroundTileSet == autoLATGround.GroundTileSet).Select(lg =>
                 {
                     if (lg.BaseTileSet == null)
-                        return "Clear";
+                        return "清除";
 
                     return lg.BaseTileSet.SetName;
                 }).ToArray();
 
-                toolTip.Text = $"{autoLATGround.GroundTileSet.SetName} (placed on top of {string.Join(" or ", allBases)})";
+                toolTip.Text = $"{autoLATGround.GroundTileSet.SetName} (放置在 {string.Join(" 或 ", allBases)})";
 
                 toolTip.ToolTipDelay = 0;
 

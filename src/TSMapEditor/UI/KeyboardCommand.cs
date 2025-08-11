@@ -128,7 +128,7 @@ namespace TSMapEditor.UI
             set
             {
                 if (action != null && value != null)
-                    throw new InvalidOperationException("KeyboardCommand.Action can only be set once.");
+                    throw new InvalidOperationException("KeyboardCommand.Action 只能设置一次.");
 
                 action = value;
             }

@@ -30,7 +30,7 @@ namespace TSMapEditor.UI.CursorActions
             targetCellCoords = Point2D.NegativeOne;
         }
 
-        public override string GetName() => "Check Distance (Path)";
+        public override string GetName() => "测量距离 (寻路)";
 
         private byte[][] landPathfindingCache;
         private byte[][] navalPathfindingCache;
@@ -107,13 +107,13 @@ namespace TSMapEditor.UI.CursorActions
 
             if (source == null)
             {
-                DrawText(cellCoords, cameraTopLeftPoint, "Click to select source coordinate, or right-click to exit", sourceColor);
+                DrawText(cellCoords, cameraTopLeftPoint, "单击以选择起始坐标，或右键单击退出", sourceColor);
                 return;
             }
 
             string instruction = Environment.NewLine + Environment.NewLine +
-                "Current mode: " + (isInfantry ? "Infantry" : "Vehicle") + " (switch by pressing I)" + Environment.NewLine + Environment.NewLine +
-                "Current movement zone: " + movementZone + " (cycle between Land, Water and both by pressing C)";
+                "当前模式: " + (isInfantry ? "步兵" : "载具") + " (按 I 切换)" + Environment.NewLine + Environment.NewLine +
+                "当前移动区域: " + movementZone + " (按 C 切换Land、Water、 Both)";
 
             Func<Point2D, Map, Point2D> getCellCenterPoint = Is2DMode ? CellMath.CellCenterPointFromCellCoords : CellMath.CellCenterPointFromCellCoords_3D;
 
@@ -142,9 +142,9 @@ namespace TSMapEditor.UI.CursorActions
             string text;
 
             if (pathCellCoords.Count == 0)
-                text = "No path found!\r\n\r\nClick to select new source coordinate, or right-click to exit" + instruction;
+                text = "未找到道路!\r\n\r\n单击以选择新的起始坐标，或右键单击退出" + instruction;
             else
-                text = "Path Length In Cells: " + pathCellCoords.Count + "\r\n\r\nClick to select new source coordinate, or right-click to exit" + instruction;
+                text = "道路长度: " + pathCellCoords.Count + " 个单元格" + "\r\n\r\n单击以选择新的起始坐标，或右键单击退出" + instruction;
 
             DrawText(cellCoords, cameraTopLeftPoint, text, pathColor);
         }

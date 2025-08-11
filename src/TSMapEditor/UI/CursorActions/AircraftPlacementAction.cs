@@ -13,7 +13,9 @@ namespace TSMapEditor.UI.CursorActions
             this.keyboard = keyboard;
         }
 
-        public override string GetName() => "Place Aircraft";
+        public override string GetName() => "放置飞行器";
+        
+        public override bool DrawMapCrossLine => true;
 
         private Aircraft aircraft;
 
@@ -81,7 +83,7 @@ namespace TSMapEditor.UI.CursorActions
         public override void LeftDown(Point2D cellCoords)
         {
             if (AircraftType == null)
-                throw new InvalidOperationException(nameof(AircraftType) + " cannot be null");
+                throw new InvalidOperationException(nameof(AircraftType) + " 不能为null");
 
             bool overlapObjects = KeyboardCommands.Instance.OverlapObjects.AreKeysOrModifiersDown(keyboard);
 

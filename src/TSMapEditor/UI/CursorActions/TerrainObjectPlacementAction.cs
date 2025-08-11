@@ -14,7 +14,9 @@ namespace TSMapEditor.UI.CursorActions
         {
         }
 
-        public override string GetName() => "Place Terrain Object";
+        public override string GetName() => "放置地形对象";
+
+        public override bool DrawMapCrossLine => true;
 
         private TerrainObject terrainObject;
 
@@ -67,7 +69,7 @@ namespace TSMapEditor.UI.CursorActions
         public override void LeftDown(Point2D cellCoords)
         {
             if (_terrainType == null)
-                throw new InvalidOperationException(nameof(TerrainType) + " cannot be null");
+                throw new InvalidOperationException(nameof(TerrainType) + " 不能为null");
 
             var cell = CursorActionTarget.Map.GetTile(cellCoords);
             if (cell.TerrainObject != null)

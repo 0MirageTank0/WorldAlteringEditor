@@ -20,7 +20,7 @@ namespace TSMapEditor.UI.CursorActions
             ActionExited += UndoOnExit;
         }
 
-        public override string GetName() => "Draw Connected Tiles";
+        public override string GetName() => "绘制可连接地形";
 
         public override bool HandlesKeyboardInput => true;
 
@@ -44,13 +44,13 @@ namespace TSMapEditor.UI.CursorActions
 
         public override void DrawPreview(Point2D cellCoords, Point2D cameraTopLeftPoint)
         {
-            const string mainText = "Click on a cell to place a new vertex.\r\n\r\n" +
-                "ENTER to confirm\r\n" +
-                "Backspace to go back one step\r\n";
+            const string mainText = "单击单元格以放置新节点.\r\n\r\n" +
+                "按 ENTER 键确认\r\n" +
+                "按 Backspace 键返回一步\r\n";
 
-            const string tabText = "TAB to toggle between front and back sides\r\n";
-            const string pageUpDownText = "PageUp to raise the tiles, PageDown to lower them\r\n";
-            const string exitText = "Right-click or ESC to exit";
+            const string tabText = "按 TAB 键在正面和背面之间切换\r\n";
+            const string pageUpDownText = "按 PageUp 键升高地表，PageDown 键降低地表\r\n";
+            const string exitText = "按 右键 或 ESC 键退出";
 
             string text = (Constants.IsFlatWorld, cliffType.FrontOnly) switch
             {

@@ -24,7 +24,7 @@ namespace TSMapEditor.UI
         public static SmudgeCollection InitFromIniSection(IniSection iniSection, List<SmudgeType> smudgeTypes)
         {
             var smudgeCollection = new SmudgeCollection();
-            smudgeCollection.Name = iniSection.GetStringValue("Name", "Unnamed Collection");
+            smudgeCollection.Name = iniSection.GetStringValue("Name", "未命名集合");
             smudgeCollection.AllowedTheaters = iniSection.GetListValue("AllowedTheaters", ',', s => s);
 
             var entryList = new List<SmudgeCollectionEntry>();
@@ -39,7 +39,7 @@ namespace TSMapEditor.UI
                 var smudgeType = smudgeTypes.Find(o => o.ININame == smudgeTypeName);
                 if (smudgeType == null)
                 {
-                    throw new INIConfigException($"Smudge type \"{smudgeTypeName}\" not found while initializing smudge collection \"{smudgeCollection.Name}\"!");
+                    throw new INIConfigException($"初始化涂抹集合 “{smudgeCollection.Name}” 时未找到涂抹类型 “{smudgeTypeName}”！");
                 }
 
                 entryList.Add(new SmudgeCollectionEntry(smudgeType));

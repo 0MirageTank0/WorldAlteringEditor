@@ -28,7 +28,7 @@ namespace TSMapEditor.UI.Controls
             set
             {
                 if (_contextMenu != null)
-                    throw new InvalidOperationException("The context menu of a menu button cannot be changed once assigned!");
+                    throw new InvalidOperationException("菜单按钮的上下文菜单一旦分配就无法更改！");
 
                 _contextMenu = value;
                 _contextMenu.EnabledChanged += ContextMenu_EnabledChanged;

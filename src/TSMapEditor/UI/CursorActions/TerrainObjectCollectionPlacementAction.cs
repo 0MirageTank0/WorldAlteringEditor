@@ -11,7 +11,7 @@ namespace TSMapEditor.UI.CursorActions
         {
         }
 
-        public override string GetName() => "Place TerrainObject Collection";
+        public override string GetName() => "放置地形对象集合";
 
         private TerrainObject terrainObject;
         private TerrainObjectCollection _terrainObjectCollection;
@@ -22,7 +22,7 @@ namespace TSMapEditor.UI.CursorActions
             {
                 if (value.Entries.Length == 0)
                 {
-                    throw new InvalidOperationException($"Terrain object collection {value.Name} has no terrain object entries!");
+                    throw new InvalidOperationException($"地形对象集合 {value.Name} 没有地形对象条目!");
                 }
 
                 _terrainObjectCollection = value;

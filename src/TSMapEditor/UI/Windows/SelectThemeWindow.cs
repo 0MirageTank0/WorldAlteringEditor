@@ -39,7 +39,7 @@ namespace TSMapEditor.UI.Windows
 
             if (includeNone)
             {
-                lbObjectList.AddItem(new XNAListBoxItem() { Text = "None" });
+                lbObjectList.AddItem(new XNAListBoxItem() { Text = "无" });
             }
 
             foreach (var theme in map.Rules.Themes.List)

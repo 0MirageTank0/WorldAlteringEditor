@@ -17,7 +17,7 @@ namespace TSMapEditor.UI.CursorActions
         {
         }
 
-        public override string GetName() => "Check Distance";
+        public override string GetName() => "测量距离";
 
         private Point2D? source;
         private List<Point2D> pathCellCoords = new List<Point2D>();
@@ -52,7 +52,7 @@ namespace TSMapEditor.UI.CursorActions
 
             if (source == null)
             {
-                DrawText(cellCoords, cameraTopLeftPoint, "Click to select source coordinate, or right-click to exit", sourceColor);
+                DrawText(cellCoords, cameraTopLeftPoint, "单击以选择起始坐标，或右键单击退出", sourceColor);
                 return;
             }
 
@@ -83,8 +83,8 @@ namespace TSMapEditor.UI.CursorActions
             int xDiff = cellCoords.X - source.Value.X;
             int yDiff = cellCoords.Y - source.Value.Y;
 
-            string text = "Path Length In Cells: " + pathLength + Environment.NewLine + 
-                "(X Diff:" + xDiff + ", Y Diff: " + yDiff + ")" + Environment.NewLine + Environment.NewLine + "Click to select new source coordinate, or right-click to exit";
+            string text = "路径长度: " + pathLength + " 个单元格" + Environment.NewLine + 
+                "(X 差异:" + xDiff + ", Y 差异: " + yDiff + ")" + Environment.NewLine + Environment.NewLine + "Click to select new source coordinate, or right-click to exit";
             DrawText(cellCoords, cameraTopLeftPoint, text, pathColor);
         }
 

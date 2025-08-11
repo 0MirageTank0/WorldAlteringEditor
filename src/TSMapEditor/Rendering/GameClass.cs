@@ -61,7 +61,6 @@ namespace TSMapEditor.Rendering
             Content.RootDirectory = "Content";
             graphics.SynchronizeWithVerticalRetrace = false;
             Window.Title = "C&C World-Altering Editor (WAE)";
-
             //IsFixedTimeStep = false;
             SetTargetFPS();
         }
@@ -123,7 +122,7 @@ namespace TSMapEditor.Rendering
 
             windowManager = new WindowManager(this, graphics);
             windowManager.Initialize(Content, Environment.CurrentDirectory + DSC + "Content" + DSC);
-
+            // windowManager.InitializeIME(Get);
             new Parser(windowManager);
 
             const int menuRenderWidth = 800;

@@ -39,7 +39,7 @@ namespace TSMapEditor.UI.Windows
         {
             lbObjectList.Clear();
 
-            lbObjectList.AddItem("None");
+            lbObjectList.AddItem("无");
 
             for (int i = 0; i < map.TheaterInstance.Theater.TileSets.Count; i++)
             {

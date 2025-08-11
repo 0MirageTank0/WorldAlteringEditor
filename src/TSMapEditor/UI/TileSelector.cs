@@ -83,7 +83,7 @@ namespace TSMapEditor.UI
             tbSearch = new EditorSuggestionTextBox(WindowManager);
             tbSearch.Name = nameof(tbSearch);
             tbSearch.Width = TileSetListWidth - btnSort.Width;
-            tbSearch.Suggestion = "Search TileSet...";
+            tbSearch.Suggestion = "搜索地形...";
             AddChild(tbSearch);
             UIHelpers.AddSearchTipsBoxToControl(tbSearch);
             tbSearch.TextChanged += TbSearch_TextChanged;
@@ -110,8 +110,8 @@ namespace TSMapEditor.UI
             var sortContextMenu = new EditorContextMenu(WindowManager);
             sortContextMenu.Name = nameof(sortContextMenu);
             sortContextMenu.Width = 200;
-            sortContextMenu.AddItem("Sort by ID", () => TileSetSortMode = TileSetSortMode.ID);
-            sortContextMenu.AddItem("Sort by Name", () => TileSetSortMode = TileSetSortMode.Name);
+            sortContextMenu.AddItem("按ID排序", () => TileSetSortMode = TileSetSortMode.ID);
+            sortContextMenu.AddItem("按名称排序", () => TileSetSortMode = TileSetSortMode.Name);
             AddChild(sortContextMenu);
 
             btnSort.LeftClick += (s, e) => sortContextMenu.Open(GetCursorPoint());
@@ -119,15 +119,15 @@ namespace TSMapEditor.UI
             tileSetContextMenu = new EditorContextMenu(WindowManager);
             tileSetContextMenu.Name = nameof(tileSetContextMenu);
             tileSetContextMenu.Width = 200;
-            tileSetContextMenu.AddItem("Pin",
+            tileSetContextMenu.AddItem("固定",
                 () => { lbTileSetList.SetTileSetAsFavourite(((TileSet)lbTileSetList.SelectedItem.Tag).Index); RefreshTileSets(); },
                 null,
                 () => lbTileSetList.SelectedItem != null && !lbTileSetList.IsTileSetFavourite(((TileSet)lbTileSetList.SelectedItem.Tag).Index));
-            tileSetContextMenu.AddItem("Unpin",
+            tileSetContextMenu.AddItem("取消固定",
                 () => { lbTileSetList.ClearFavouriteStatus(((TileSet)lbTileSetList.SelectedItem.Tag).Index); RefreshTileSets(); },
                 null,
                 () => lbTileSetList.SelectedItem != null && lbTileSetList.IsTileSetFavourite(((TileSet)lbTileSetList.SelectedItem.Tag).Index));
-            tileSetContextMenu.AddItem("Unselect", () => lbTileSetList.SelectedIndex = -1);
+            tileSetContextMenu.AddItem("取消选择", () => lbTileSetList.SelectedIndex = -1);
             AddChild(tileSetContextMenu);
 
             lbTileSetList.RightClick += LbTileSetList_RightClick;

@@ -12,7 +12,10 @@ namespace TSMapEditor.UI.CursorActions
         {
         }
 
-        public override string GetName() => "Place Connected Overlay";
+        public override string GetName() => "放置可连接覆盖物";
+        
+        public override bool DrawMapCrossLine => true;
+        
         public ConnectedOverlayType ConnectedOverlayType { get; set; }
         struct OriginalOverlayInfo
         {

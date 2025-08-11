@@ -99,7 +99,7 @@ namespace TSMapEditor.UI.Windows
             lblActionDescriptionValue = FindChild<XNALabel>(nameof(lblActionDescriptionValue));
             ddScriptColor = FindChild<XNADropDown>(nameof(ddScriptColor));            
 
-            ddScriptColor.AddItem("None");
+            ddScriptColor.AddItem("无");
             Array.ForEach(Script.SupportedColors, supportedColor =>
             {
                 ddScriptColor.AddItem(supportedColor.Name, supportedColor.Value);
@@ -124,10 +124,10 @@ namespace TSMapEditor.UI.Windows
             var sortContextMenu = new EditorContextMenu(WindowManager);
             sortContextMenu.Name = nameof(sortContextMenu);
             sortContextMenu.Width = lbScriptTypes.Width;
-            sortContextMenu.AddItem("Sort by ID", () => ScriptSortMode = ScriptSortMode.ID);
-            sortContextMenu.AddItem("Sort by Name", () => ScriptSortMode = ScriptSortMode.Name);
-            sortContextMenu.AddItem("Sort by Color", () => ScriptSortMode = ScriptSortMode.Color);
-            sortContextMenu.AddItem("Sort by Color, then by Name", () => ScriptSortMode = ScriptSortMode.ColorThenName);
+            sortContextMenu.AddItem("按 ID 排序", () => ScriptSortMode = ScriptSortMode.ID);
+            sortContextMenu.AddItem("按名称排序", () => ScriptSortMode = ScriptSortMode.Name);
+            sortContextMenu.AddItem("按颜色排序", () => ScriptSortMode = ScriptSortMode.Color);
+            sortContextMenu.AddItem("按颜色排序，然后按名称排序", () => ScriptSortMode = ScriptSortMode.ColorThenName);
             AddChild(sortContextMenu);
 
             FindChild<EditorButton>("btnSortOptions").LeftClick += (s, e) => sortContextMenu.Open(GetCursorPoint());
@@ -135,7 +135,7 @@ namespace TSMapEditor.UI.Windows
             var scriptContextMenu = new EditorContextMenu(WindowManager);
             scriptContextMenu.Name = nameof(scriptContextMenu);
             scriptContextMenu.Width = lbScriptTypes.Width;
-            scriptContextMenu.AddItem("View References", ShowScriptReferences);
+            scriptContextMenu.AddItem("查看引用", ShowScriptReferences);
             AddChild(scriptContextMenu);
 
             lbScriptTypes.AllowRightClickUnselect = false;
@@ -180,11 +180,11 @@ namespace TSMapEditor.UI.Windows
             actionListContextMenu = new EditorContextMenu(WindowManager);
             actionListContextMenu.Name = nameof(actionListContextMenu);
             actionListContextMenu.Width = 180;
-            actionListContextMenu.AddItem("Move Up", MoveActionUp, () => editedScript != null && lbActions.SelectedItem != null && lbActions.SelectedIndex > 0);
-            actionListContextMenu.AddItem("Move Down", MoveActionDown, () => editedScript != null && lbActions.SelectedItem != null && lbActions.SelectedIndex < lbActions.Items.Count - 1);
-            actionListContextMenu.AddItem("Clone Action", CloneAction, () => editedScript != null && lbActions.SelectedItem != null);
-            actionListContextMenu.AddItem("Insert New Action Here", InsertAction, () => editedScript != null && lbActions.SelectedItem != null);
-            actionListContextMenu.AddItem("Delete Action", ActionListContextMenu_Delete, () => editedScript != null && lbActions.SelectedItem != null);
+            actionListContextMenu.AddItem("上移", MoveActionUp, () => editedScript != null && lbActions.SelectedItem != null && lbActions.SelectedIndex > 0);
+            actionListContextMenu.AddItem("下移", MoveActionDown, () => editedScript != null && lbActions.SelectedItem != null && lbActions.SelectedIndex < lbActions.Items.Count - 1);
+            actionListContextMenu.AddItem("复制", CloneAction, () => editedScript != null && lbActions.SelectedItem != null);
+            actionListContextMenu.AddItem("在此处插入", InsertAction, () => editedScript != null && lbActions.SelectedItem != null);
+            actionListContextMenu.AddItem("删除行为", ActionListContextMenu_Delete, () => editedScript != null && lbActions.SelectedItem != null);
             AddChild(actionListContextMenu);
 
             lbActions.AllowRightClickUnselect = false;
@@ -313,7 +313,7 @@ namespace TSMapEditor.UI.Windows
             if (action.ParamType == TriggerParamType.Cell)
             {
                 editorState.CursorAction = selectCellCursorAction;
-                notificationManager.AddNotification("Select a cell from the map.");
+                notificationManager.AddNotification("从地图中选择一个单元格.");
             }
             else if (action.ParamType == TriggerParamType.BuildingWithProperty)
             {
@@ -349,8 +349,8 @@ namespace TSMapEditor.UI.Windows
 
             if (referringLocalTeamTypes.Count == 0 && referringGlobalTeamTypes.Count == 0)
             {
-                EditorMessageBox.Show(WindowManager, "No references found",
-                    $"The selected Script \"{editedScript.Name}\" ({editedScript.ININame}) is not used by any TeamTypes, either local (map) or global (AI.ini).", MessageBoxButtons.OK);
+                EditorMessageBox.Show(WindowManager, "未找到引用",
+                    $"所选脚本 \"{editedScript.Name}\" ({editedScript.ININame}) 不被任何作战小队使用，无论是本地 （map） 还是全局 （AI.ini）.", MessageBoxButtons.OK);
             }
             else
             {
@@ -358,8 +358,8 @@ namespace TSMapEditor.UI.Windows
                 referringLocalTeamTypes.ForEach(tt => stringBuilder.AppendLine($"- Local TeamType \"{tt.Name}\" ({tt.ININame})"));
                 referringGlobalTeamTypes.ForEach(tt => stringBuilder.AppendLine($"- Global TeamType \"{tt.Name}\" ({tt.ININame})"));
 
-                EditorMessageBox.Show(WindowManager, "Script References",
-                    $"The selected Script \"{editedScript.Name}\" ({editedScript.ININame}) is used by the following TeamTypes:" + Environment.NewLine + Environment.NewLine +
+                EditorMessageBox.Show(WindowManager, "未找到引用",
+                    $"所选脚本 \"{editedScript.Name}\" ({editedScript.ININame}) 被以下作战小队引用:" + Environment.NewLine + Environment.NewLine +
                     stringBuilder.ToString(), MessageBoxButtons.OK);
             }
         }
@@ -384,10 +384,10 @@ namespace TSMapEditor.UI.Windows
             else
             {
                 var messageBox = EditorMessageBox.Show(WindowManager,
-                    "Confirm",
-                    $"Are you sure you wish to delete '{editedScript.Name}'?" + Environment.NewLine + Environment.NewLine +
-                    $"You'll need to manually fix any TeamTypes using the Script." + Environment.NewLine + Environment.NewLine +
-                    "(You can hold Shift to skip this confirmation dialog.)",
+                    "确认",
+                    $"确定要删除'{editedScript.Name}'?" + Environment.NewLine + Environment.NewLine +
+                    $"需要手动修复所有引用此脚本的作战小队." + Environment.NewLine + Environment.NewLine +
+                    "(按住 Shift 键跳过此确认对话框.)",
                     MessageBoxButtons.YesNo);
                 messageBox.YesClickedAction = _ => DeleteScript();
             }
@@ -578,7 +578,7 @@ namespace TSMapEditor.UI.Windows
                 selTypeOfAction.Text = string.Empty;
                 selTypeOfAction.Tag = null;
                 tbParameterValue.Text = string.Empty;
-                lblParameterDescription.Text = "Parameter:";
+                lblParameterDescription.Text = "参数:";
                 lblActionDescriptionValue.Text = string.Empty;
                 return;
             }
@@ -592,7 +592,7 @@ namespace TSMapEditor.UI.Windows
             SetParameterEntryText(entry, action);
             tbParameterValue.TextChanged += TbParameterValue_TextChanged;
 
-            lblParameterDescription.Text = action == null ? "Parameter:" : action.ParamDescription + ":";
+            lblParameterDescription.Text = action == null ? "参数:" : action.ParamDescription + ":";
             lblActionDescriptionValue.Text = GetActionDescriptionFromIndex(entry.Action);
 
             string text = null;
@@ -668,7 +668,7 @@ namespace TSMapEditor.UI.Windows
             int value = buildingTypeIndex + (int)property;
 
             if (buildingType == null)
-                return value + " - invalid value";
+                return value + " - 无效值";
 
             return value + " - " + buildingType.GetEditorDisplayName() + " (" + description + ")";
         }
@@ -820,7 +820,7 @@ namespace TSMapEditor.UI.Windows
                 tbParameterValue.Text = string.Empty;
                 btnEditorPresetValues.ContextMenu.ClearItems();
                 lblActionDescriptionValue.Text = string.Empty;
-                lblParameterDescription.Text = "Parameter:";
+                lblParameterDescription.Text = "参数:";
                 ddScriptColor.SelectedIndex = -1;
 
                 return;
@@ -850,16 +850,16 @@ namespace TSMapEditor.UI.Windows
         {
             ScriptAction action = GetScriptAction(entry.Action);
             if (action == null)
-                return "#" + index + " - Unknown (" + entry.Argument.ToString(CultureInfo.InvariantCulture) + ")";
+                return "#" + index + " - 未知行为 (" + entry.Argument + ")";
 
-            return "#" + index + " - " + action.Name + " (" + entry.Argument.ToString(CultureInfo.InvariantCulture) + ")";
+            return "#" + index + " - " + action.Name + " (" + entry.Argument + ")";
         }
 
         private string GetActionNameFromIndex(int index)
         {
             ScriptAction action = GetScriptAction(index);
             if (action == null)
-                return index + " Unknown";
+                return index + " 未知";
 
             return index + " " + action.Name;
         }
@@ -867,7 +867,7 @@ namespace TSMapEditor.UI.Windows
         private string GetActionDescriptionFromIndex(int index)
         {
             ScriptAction action = GetScriptAction(index);
-            string description = action == null ? "Unknown script action. It has most likely been added with another editor." : action.Description;
+            string description = action == null ? "未知脚本行为。它很可能是用另一个编辑器添加的." : action.Description;
 
             return Renderer.FixText(description,
                 lblActionDescriptionValue.FontIndex,

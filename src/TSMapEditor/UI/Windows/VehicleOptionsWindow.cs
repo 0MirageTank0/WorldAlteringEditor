@@ -75,7 +75,7 @@ namespace TSMapEditor.UI.Windows
             }
             catch (FormatException)
             {
-                throw new INIConfigException($"Invalid options specified for {nameof(ddVeterancy)} in {nameof(VehicleOptionsWindow)}. Options must start with a number followed by a space.");
+                throw new INIConfigException($"在 {nameof(VehicleOptionsWindow)} 中为 {nameof(ddVeterancy)} 指定的选项无效。选项必须以数字开头，后跟空格.");
             }
 
             FindChild<EditorButton>("btnOK").LeftClick += BtnOK_LeftClick;
@@ -135,7 +135,7 @@ namespace TSMapEditor.UI.Windows
             ddVeterancy.SelectedIndex = Math.Max(0, veterancyIndex);
             tbGroup.Value = unit.Group;
             followerSelector.Tag = unit.FollowerUnit;
-            followerSelector.Text = unit.FollowerUnit == null ? "none" : unit.FollowerUnit.UnitType.GetEditorDisplayName() + " at " + unit.FollowerUnit.Position;
+            followerSelector.Text = unit.FollowerUnit == null ? "无" : unit.FollowerUnit.UnitType.GetEditorDisplayName() + " 位于 " + unit.FollowerUnit.Position;
             chkOnBridge.Checked = unit.High;
             chkAutocreateNoRecruitable.Checked = unit.AutocreateNoRecruitable;
             chkAutocreateYesRecruitable.Checked = unit.AutocreateYesRecruitable;

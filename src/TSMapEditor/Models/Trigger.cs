@@ -185,7 +185,7 @@ namespace TSMapEditor.Models
                 int conditionIndex = Conversions.IntFromString(dataArray[startIndex], -1);
                 if (!editorConfig.TriggerEventTypes.TryGetValue(conditionIndex, out TriggerEventType triggerEventType))
                 {
-                    throw new INIConfigException("The map contains a trigger event that is not defined in the editor's config. To prevent data loss, the map cannot be loaded. Event index: " + conditionIndex);
+                    throw new INIConfigException("该地图包含编辑器配置中未定义的触发器事件。为防止数据丢失，无法加载地图。事件索引: " + conditionIndex);
                 }
 
                 int additionalParams = triggerEventType.AdditionalParams;

@@ -91,8 +91,8 @@ namespace TSMapEditor.UI.Windows
             var technoTypeDarkeningPanel = DarkeningPanel.InitializeAndAddToParentControlWithChild(WindowManager, Parent, selectTechnoTypeWindow);
             technoTypeDarkeningPanel.Hidden += TechnoTypeDarkeningPanel_Hidden;
 
-            ddActions.AddItem("Advanced...");
-            ddActions.AddItem(new XNADropDownItem() { Text = "Clone for Easier Difficulties", Tag = new Action(CloneForEasierDifficulties) });
+            ddActions.AddItem("高级...");
+            ddActions.AddItem(new XNADropDownItem() { Text = "克隆为一个更简单的难度", Tag = new Action(CloneForEasierDifficulties) });
             ddActions.SelectedIndex = 0;
             ddActions.SelectedIndexChanged += DdActions_SelectedIndexChanged;            
 
@@ -105,18 +105,15 @@ namespace TSMapEditor.UI.Windows
                 return;
 
             var messageBox = EditorMessageBox.Show(WindowManager,
-                "Are you sure?",
-                "Cloning this AI trigger for easier difficulties will create duplicate instances" + Environment.NewLine +
-                "of this AI trigger for Medium and Easy difficulties, setting the difficulty" + Environment.NewLine +
-                "setting for each AI trigger to Medium and Easy, respectively." + Environment.NewLine +
-                "This will set the current AI trigger's difficulty to Hard only." + Environment.NewLine + Environment.NewLine +
-                "In case the AI trigger references a Primary or Secondary TeamTypes," + Environment.NewLine +
-                "those TeamTypes and their TaskForoces would be duplicated for easier difficulties." + Environment.NewLine +
-                "If those duplicates already exist, this action will set the AI triggers to use those " + Environment.NewLine +
-                "TeamTypes instead." + Environment.NewLine + Environment.NewLine +
-                "The script assumes that this AI Trigger has the words 'H' or 'Hard'" + Environment.NewLine +
-                "in their name and in their respective TeamTypes and TaskForces." + Environment.NewLine + Environment.NewLine +
-                "No un-do is available. Do you want to continue?", MessageBoxButtons.YesNo);
+                "是否确定？",
+                "以“更简单的难度克隆此 AI 触发器”将额外创建两个分别设置了" + Environment.NewLine +
+                "困难难度为中等、简单的AI触发器，这会将当前 AI 触发器的难度设置为仅困难" + Environment.NewLine +
+                "如果此 AI 触发器被‘作战小队’引用，则相关的‘作战小队’与‘特遣部队’同样会被复制" + Environment.NewLine +
+                "如果这些重复项已存在，则此操作会将 AI 触发器设置为改用这些‘作战小队’" + Environment.NewLine +
+                "" + Environment.NewLine + Environment.NewLine +
+                "该脚本假设此AI触发器的名称以及各自的‘作战小队’与‘特遣部队’中都有“H”或“Hard”字样。" + Environment.NewLine +
+                "" + Environment.NewLine + Environment.NewLine +
+                "此操作无法撤消。你想继续吗？", MessageBoxButtons.YesNo);
 
             messageBox.YesClickedAction = _ => DoCloneForEasierDifficulties();
         }
@@ -488,13 +485,13 @@ namespace TSMapEditor.UI.Windows
                 lbAITriggers.AddItem(new XNAListBoxItem() { Text = aitt.Name, Tag = aitt, TextColor = GetAITriggerUIColor(aitt) });
             });
 
-            ddSide.AddItem("0 all sides");
+            ddSide.AddItem("0 所有阵营");
             for (int i = 0; i < map.Rules.Sides.Count; i++)
             {
                 ddSide.AddItem((i + 1).ToString() + " " + map.Rules.Sides[i]);
             }
 
-            ddHouseType.AddItem("<all>");
+            ddHouseType.AddItem("<全部>");
             map.GetHouseTypes().ForEach(houseType => ddHouseType.AddItem(houseType.ININame, Helpers.GetHouseTypeUITextColor(houseType)));
 
             LbAITriggers_SelectedIndexChanged(this, EventArgs.Empty);

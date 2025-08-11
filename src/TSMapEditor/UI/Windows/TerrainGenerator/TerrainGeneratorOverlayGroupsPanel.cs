@@ -47,7 +47,7 @@ namespace TSMapEditor.UI.Windows.TerrainGenerator
                 lblTileSet.X = Constants.UIEmptySideSpace;
                 lblTileSet.Y = y;
                 lblTileSet.FontIndex = Constants.UIBoldFont;
-                lblTileSet.Text = $"Overlay Type Name (Group #{i + 1})";
+                lblTileSet.Text = $"覆盖物类型名称 (组 #{i + 1})";
                 AddChild(lblTileSet);
 
                 var selTileSet = new EditorTextBox(WindowManager);
@@ -62,7 +62,7 @@ namespace TSMapEditor.UI.Windows.TerrainGenerator
                 lblTileIndices.Name = nameof(lblTileIndices) + i;
                 lblTileIndices.X = selTileSet.Right + Constants.UIHorizontalSpacing;
                 lblTileIndices.Y = lblTileSet.Y;
-                lblTileIndices.Text = $"Indexes of frames to place (leave blank for all)";
+                lblTileIndices.Text = $"要放置的帧的索引(留空则表示所有)";
                 AddChild(lblTileIndices);
 
                 var tbTileIndices = new EditorTextBox(WindowManager);
@@ -77,7 +77,7 @@ namespace TSMapEditor.UI.Windows.TerrainGenerator
                 lblOpenChance.Name = nameof(lblOpenChance) + i;
                 lblOpenChance.X = tbTileIndices.Right + Constants.UIHorizontalSpacing;
                 lblOpenChance.Y = lblTileSet.Y;
-                lblOpenChance.Text = "Open cell chance:";
+                lblOpenChance.Text = "开放单元格几率:";
                 AddChild(lblOpenChance);
 
                 var tbOpenChance = new EditorNumberTextBox(WindowManager);
@@ -93,7 +93,7 @@ namespace TSMapEditor.UI.Windows.TerrainGenerator
                 lblOccupiedChance.Name = nameof(lblOccupiedChance) + i;
                 lblOccupiedChance.X = tbOpenChance.Right + Constants.UIHorizontalSpacing;
                 lblOccupiedChance.Y = lblOpenChance.Y;
-                lblOccupiedChance.Text = "Occupied cell chance:";
+                lblOccupiedChance.Text = "占用单元格几率:";
                 AddChild(lblOccupiedChance);
 
                 var tbOccupiedChance = new EditorNumberTextBox(WindowManager);
@@ -124,8 +124,8 @@ namespace TSMapEditor.UI.Windows.TerrainGenerator
                 var overlayType = map.Rules.OverlayTypes.Find(ot => ot.ININame == overlayTypeName);
                 if (overlayType == null)
                 {
-                    EditorMessageBox.Show(WindowManager, "Generator Config Error",
-                        $"An overlay type named '{ overlayTypeName }' does not exist! Make sure you typed the overlay type's INI name and spelled it correctly.", MessageBoxButtons.OK);
+                    EditorMessageBox.Show(WindowManager, "生成器配置错误",
+                        $"名为 '{ overlayTypeName }' 的覆盖物不存在! 确保您键入了覆盖物类型的 INI 名称并拼写正确.", MessageBoxButtons.OK);
                     return null;
                 }
 
@@ -139,8 +139,8 @@ namespace TSMapEditor.UI.Windows.TerrainGenerator
 
                     if (invalidElement != 0) // this can never be 0 if an invalid element exists, because each valid overlay has at least 1 frame
                     {
-                        EditorMessageBox.Show(WindowManager, "Generator Config Error",
-                            $"Frame '{ invalidElement }' does not exist in overlay type '{ overlayType.ININame }'!", MessageBoxButtons.OK);
+                        EditorMessageBox.Show(WindowManager, "生成器配置错误",
+                            $"帧'{ invalidElement }'在覆盖物类型中不存在'{ overlayType.ININame }'!", MessageBoxButtons.OK);
                         return null;
                     }
                 }

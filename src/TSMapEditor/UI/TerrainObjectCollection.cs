@@ -24,7 +24,7 @@ namespace TSMapEditor.UI
         public static TerrainObjectCollection InitFromIniSection(IniSection iniSection, List<TerrainType> terrainTypes)
         {
             var terrainObjectCollection = new TerrainObjectCollection();
-            terrainObjectCollection.Name = iniSection.GetStringValue("Name", "Unnamed Collection");
+            terrainObjectCollection.Name = iniSection.GetStringValue("Name", "未命名集合");
             terrainObjectCollection.AllowedTheaters = iniSection.GetListValue("AllowedTheaters", ',', s => s);
 
             var entryList = new List<TerrainObjectCollectionEntry>();
@@ -39,7 +39,7 @@ namespace TSMapEditor.UI
                 var terrainType = terrainTypes.Find(o => o.ININame == terrainTypeName);
                 if (terrainType == null)
                 {
-                    throw new INIConfigException($"Terrain object type \"{terrainTypeName}\" not found while initializing terrain object collection \"{terrainObjectCollection.Name}\"!");
+                    throw new INIConfigException($"初始化地形对象集合 “{terrainObjectCollection.Name}” 时找不到地形对象类型 “{terrainTypeName}”!");
                 }
 
                 entryList.Add(new TerrainObjectCollectionEntry(terrainType));

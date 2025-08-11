@@ -16,30 +16,34 @@ namespace TSMapEditor.UI.CursorActions
             this.keyboard = keyboard;
         }
 
-        public override string GetName() => "Place Building";
+        public override string GetName() => "放置建筑物";
+        public override bool DrawMapCrossLine => true;
 
         private Structure structure;
 
-        private BuildingType _buildingType;
+        private BuildingType buildingType;
 
         private readonly RKeyboard keyboard;
-
+        public override int CrossLineXBold => buildingXWidth;
+        public override int CrossLineYBold => buildingYWidth;
+        private int buildingXWidth;
+        private int buildingYWidth;
         public BuildingType BuildingType
         {
-            get => _buildingType;
+            get => buildingType;
             set
             {
-                if (_buildingType != value)
+                if (buildingType != value)
                 {
-                    _buildingType = value;
+                    buildingType = value;
 
-                    if (_buildingType == null)
+                    if (buildingType == null)
                     {
                         structure = null;
                     }
                     else
                     {
-                        structure = new Structure(_buildingType) { Owner = CursorActionTarget.MutationTarget.ObjectOwner };
+                        structure = new Structure(buildingType) { Owner = CursorActionTarget.MutationTarget.ObjectOwner };
                     }
                 }
             }
@@ -47,8 +51,16 @@ namespace TSMapEditor.UI.CursorActions
 
         public override void OnActionEnter()
         {
+            buildingXWidth = buildingYWidth = 0;
             if (structure != null)
+            {
                 structure.Owner = CursorActionTarget.MutationTarget.ObjectOwner;
+                buildingType.ArtConfig.DoForFoundationCoords(point2D =>
+                {
+                    buildingXWidth = Math.Max(point2D.X, buildingXWidth);
+                    buildingYWidth = Math.Max(point2D.Y, buildingYWidth);
+                });
+            }
         }
 
         public override void PreMapDraw(Point2D cellCoords)
@@ -61,12 +73,12 @@ namespace TSMapEditor.UI.CursorActions
             bool canPlace = Map.CanPlaceObjectAt(structure, cellCoords, false,
                 overlapObjects);
 
-            if (!canPlace)
-                return;
-
-            var tile = CursorActionTarget.Map.GetTile(cellCoords);
-            tile.Structures.Add(structure);
-            CursorActionTarget.TechnoUnderCursor = structure;
+            if (canPlace)
+            {
+                var tile = CursorActionTarget.Map.GetTile(cellCoords);
+                tile.Structures.Add(structure);
+                CursorActionTarget.TechnoUnderCursor = structure;
+            }
             CursorActionTarget.AddRefreshPoint(cellCoords, 10);
         }
 
@@ -81,11 +93,10 @@ namespace TSMapEditor.UI.CursorActions
                 CursorActionTarget.AddRefreshPoint(cellCoords, 10);
             }
         }
-
         public override void LeftDown(Point2D cellCoords)
         {
             if (BuildingType == null)
-                throw new InvalidOperationException(nameof(BuildingType) + " cannot be null");
+                throw new InvalidOperationException(nameof(BuildingType) + " 不能为null");
 
             bool overlapObjects = KeyboardCommands.Instance.OverlapObjects.AreKeysOrModifiersDown(keyboard);
 

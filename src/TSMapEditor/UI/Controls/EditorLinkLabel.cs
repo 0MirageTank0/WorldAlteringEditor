@@ -38,11 +38,11 @@ namespace TSMapEditor.UI.Controls
                 }
                 catch (Win32Exception ex)
                 {
-                    Logger.Log($"Win32Exception when calling Process.Start from link label (URL: {URL}), exception message: {ex.Message}");
+                    Logger.Log($"调用 Process.Start 从链接标签 （URL： {URL}） 时出现 Win32Exception，异常消息: {ex.Message}");
                 }
                 catch (FileNotFoundException ex)
                 {
-                    Logger.Log($"FileNotFoundException when calling Process.Start from link label (URL: {URL}), exception message: {ex.Message}");
+                    Logger.Log($"从链接标签调用 Process.Start 时的 FileNotFoundException （URL： {URL}） ，异常消息: {ex.Message}");
                 }
             }
 

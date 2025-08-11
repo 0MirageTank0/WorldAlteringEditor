@@ -3,6 +3,7 @@ using Rampastring.XNAUI.XNAControls;
 using System;
 using TSMapEditor.CCEngine;
 using TSMapEditor.Models;
+using TSMapEditor.UI.Controls;
 
 namespace TSMapEditor.UI.Windows
 {
@@ -15,10 +16,12 @@ namespace TSMapEditor.UI.Windows
 
         private EditorConfig editorConfig;
 
+        private EditorDescriptionPanel panelContent;
         public override void Initialize()
         {
             Name = nameof(SelectScriptActionWindow);
             base.Initialize();
+            panelContent = FindChild<EditorDescriptionPanel>(nameof(panelContent));
         }
 
         protected override void LbObjectList_SelectedIndexChanged(object sender, EventArgs e)
@@ -30,6 +33,7 @@ namespace TSMapEditor.UI.Windows
             }
 
             SelectedObject = (ScriptAction)lbObjectList.SelectedItem.Tag;
+            panelContent.Text = SelectedObject.Description;
         }
 
         protected override void ListObjects()
