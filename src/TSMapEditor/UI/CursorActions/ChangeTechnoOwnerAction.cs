@@ -39,13 +39,12 @@ namespace TSMapEditor.UI.CursorActions
             if (tile.HasTechnoThatPassesCheck(techno => techno.Owner != newOwner))
             {
                 const string text = "更改所属";
-                var textDimensions = Renderer.GetTextDimensions(text, Constants.UIBoldFont);
+                var textDimensions = Renderer.GetTextDimensions(text, Constants.UIBoldFontSize);
                 int x = cellTopLeftPoint.X - (int)(textDimensions.X - Constants.CellSizeX) / 2;
 
                 Renderer.DrawStringWithShadow(text,
-                    Constants.UIBoldFont,
                     new Vector2(x, cellTopLeftPoint.Y),
-                    newOwner.XNAColor);
+                    newOwner.XNAColor, Constants.UIBoldFontSize);
             }
         }
 

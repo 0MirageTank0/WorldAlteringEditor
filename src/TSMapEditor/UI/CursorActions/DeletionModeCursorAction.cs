@@ -68,14 +68,13 @@ namespace TSMapEditor.UI.CursorActions
             cellCenterPoint = cellCenterPoint.ScaleBy(CursorActionTarget.Camera.ZoomLevel);
 
             const string text = "删除";
-            var textDimensions = Renderer.GetTextDimensions(text, Constants.UIBoldFont);
+            var textDimensions = Renderer.GetTextDimensions(text, Constants.UIBoldFontSize);
             int x = cellCenterPoint.X - (int)(textDimensions.X / 2);
             int y = cellCenterPoint.Y - (int)(textDimensions.Y / 2);
 
             Renderer.DrawStringWithShadow(text,
-                Constants.UIBoldFont,
                 new Vector2(x, y),
-                Color.Red);
+                Color.Red,Constants.UIBoldFontSize);
         }
 
         public override void LeftClick(Point2D cellCoords)

@@ -11,9 +11,9 @@ namespace TSMapEditor.UI.Windows
             InputEnabled = false;
         }
 
-        public int HeaderFontIndex { get; set; } = Constants.UIBoldFont;
+        public float HeaderFontSize { get; set; } = Constants.UIBoldFontSize;
 
-        public int TextFontIndex { get; set; } = Constants.UIDefaultFont;
+        public float TextFontSize { get; set; } = Constants.UIDefaultFontSize;
 
         private string headerText;
 
@@ -46,13 +46,13 @@ namespace TSMapEditor.UI.Windows
 
             if (!string.IsNullOrWhiteSpace(headerText))
             {
-                var headerSize = Renderer.GetTextDimensions(headerText, HeaderFontIndex);
+                var headerSize = Renderer.GetTextDimensions(headerText, HeaderFontSize);
                 width = (int)headerSize.X;
 
                 headerHeight = (int)headerSize.Y + Constants.UIEmptyTopSpace + Constants.UIVerticalSpacing;
             }
 
-            var descriptionSize = Renderer.GetTextDimensions(text, TextFontIndex);
+            var descriptionSize = Renderer.GetTextDimensions(text, TextFontSize);
             if (descriptionSize.X > width)
                 width = (int)descriptionSize.X;
 
@@ -89,16 +89,16 @@ namespace TSMapEditor.UI.Windows
 
             if (!string.IsNullOrWhiteSpace(headerText))
             {
-                DrawString(headerText, HeaderFontIndex,
+                DrawString(headerText,
                     new Vector2(Constants.UIEmptySideSpace, Constants.UIEmptyTopSpace),
-                    UISettings.ActiveSettings.TextColor);
+                    UISettings.ActiveSettings.TextColor, HeaderFontSize);
             }
 
             if (!string.IsNullOrWhiteSpace(text))
             {
-                DrawString(text, TextFontIndex,
+                DrawString(text,
                     new Vector2(Constants.UIEmptySideSpace, headerHeight),
-                    UISettings.ActiveSettings.TextColor);
+                    UISettings.ActiveSettings.TextColor, TextFontSize);
             }
         }
     }

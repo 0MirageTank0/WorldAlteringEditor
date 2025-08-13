@@ -56,7 +56,7 @@ namespace TSMapEditor.UI.Sidebar
             lbSelection.X = 0;
             lbSelection.Y = 0;
             lbSelection.Width = Width;
-            lbSelection.FontIndex = Constants.UIBoldFont;
+            lbSelection.FontSize = Constants.UIBoldFontSize;
 
             Debug.Assert(sidebarModeNames.Count == (int)SidebarMode.SidebarModeCount);
 

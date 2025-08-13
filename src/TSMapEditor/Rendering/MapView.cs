@@ -706,7 +706,7 @@ namespace TSMapEditor.Rendering
 
             if (subTileIndex >= tileImage.TMPImages.Length)
             {
-                Renderer.DrawString(subTileIndex.ToString(), 0, new Vector2(drawPoint.X, drawPoint.Y), Color.Red);
+                Renderer.DrawString(subTileIndex.ToString(), new Vector2(drawPoint.X, drawPoint.Y), Color.Red);
                 return;
             }
 
@@ -1003,7 +1003,7 @@ namespace TSMapEditor.Rendering
                 for (int i = 0; i < objectSpriteRecord.TextEntries.Count; i++)
                 {
                     var textEntry = objectSpriteRecord.TextEntries[i];
-                    Renderer.DrawStringWithShadow(textEntry.Text, Constants.UIBoldFont, textEntry.DrawPoint.ToXNAVector(), textEntry.Color, 1f, 1f, 1f);
+                    Renderer.DrawStringWithShadow(textEntry.Text,  textEntry.DrawPoint.ToXNAVector(), textEntry.Color,Constants.UIBoldFontSize);
                 }
 
                 Renderer.PopSettings();
@@ -1052,8 +1052,8 @@ namespace TSMapEditor.Rendering
             if ((graphics == null || graphics.GetFrame(frameIndex) == null) && (bibGraphics == null || bibGraphics.GetFrame(0) == null))
             {
                 SetPaletteEffectParams(palettedColorDrawEffect, null, false, false, 1.0f);
-                Renderer.DrawStringWithShadow(iniName, Constants.UIBoldFont, drawPoint.ToXNAVector(), replacementColor, 1.0f);
-                Renderer.DrawStringWithShadow("#" + baseNodeIndex, Constants.UIBoldFont, drawPoint.ToXNAVector() + new Vector2(0f, 20f), baseNodeIndexColor);
+                Renderer.DrawStringWithShadow(iniName, drawPoint.ToXNAVector(), replacementColor,  Constants.UIBoldFontSize);
+                Renderer.DrawStringWithShadow("#" + baseNodeIndex, drawPoint.ToXNAVector() + new Vector2(0f, 20f), baseNodeIndexColor, Constants.UIBoldFontSize);
                 return;
             }
 
@@ -1099,7 +1099,7 @@ namespace TSMapEditor.Rendering
             if (frame == null)
             {
                 SetPaletteEffectParams(palettedColorDrawEffect, null, false, false, 1.0f);
-                Renderer.DrawStringWithShadow("#" + baseNodeIndex, Constants.UIBoldFont, drawPoint.ToXNAVector(), baseNodeIndexColor);
+                Renderer.DrawStringWithShadow("#" + baseNodeIndex, drawPoint.ToXNAVector(), baseNodeIndexColor, Constants.UIBoldFontSize);
                 return;
             }
 
@@ -1121,7 +1121,7 @@ namespace TSMapEditor.Rendering
             }
 
             SetPaletteEffectParams(palettedColorDrawEffect, null, false, false, 1.0f);
-            Renderer.DrawStringWithShadow("#" + baseNodeIndex, Constants.UIBoldFont, drawPoint.ToXNAVector(), baseNodeIndexColor);
+            Renderer.DrawStringWithShadow("#" + baseNodeIndex,drawPoint.ToXNAVector(), baseNodeIndexColor, Constants.UIBoldFontSize);
         }
 
         private void DrawWaypoint(Waypoint waypoint)
@@ -1148,13 +1148,12 @@ namespace TSMapEditor.Rendering
             Renderer.DrawTexture(EditorGraphics.GenericTileTexture, drawRectangle, new Color(0, 0, 0, 128));
             Renderer.DrawTexture(EditorGraphics.TileBorderTexture, drawRectangle, waypointColor);
 
-            int fontIndex = Constants.UIBoldFont;
+            float fontSize = Constants.UIBoldFontSize;
             string waypointIdentifier = waypoint.Identifier.ToString();
-            var textDimensions = Renderer.GetTextDimensions(waypointIdentifier, fontIndex);
+            var textDimensions = Renderer.GetTextDimensions(waypointIdentifier, fontSize);
             Renderer.DrawStringWithShadow(waypointIdentifier,
-                fontIndex,
                 new Vector2(drawPoint.X + ((Constants.CellSizeX - textDimensions.X) / 2), drawPoint.Y + ((Constants.CellSizeY - textDimensions.Y) / 2)),
-                waypointColor);
+                waypointColor,fontSize);
         }
 
         private void DrawCellTag(CellTag cellTag)
@@ -1265,7 +1264,7 @@ namespace TSMapEditor.Rendering
         {
             if (tileUnderCursor == null)
             {
-                Renderer.DrawString("Null tile", 0, new Vector2(0f, 40f), Color.White);
+                Renderer.DrawString("Null tile", new Vector2(0f, 40f), Color.White);
                 return;
             }
 
@@ -1913,11 +1912,11 @@ namespace TSMapEditor.Rendering
                         string wpString = wp.Identifier.ToString(CultureInfo.InvariantCulture);
                         float scale = Constants.IsRA2YR ? 5.25f : 5.0f;
 
-                        var stringSize = Renderer.GetTextDimensions(wpString, Constants.UIBoldFont) * scale;
-                        Renderer.DrawString(wpString, Constants.UIBoldFont,
+                        var stringSize = Renderer.GetTextDimensions(wpString, Constants.UIBoldFontSize) * scale;
+                        Renderer.DrawString(wpString, 
                             new Vector2(wpRectangle.X + (wpRectangle.Width - stringSize.X) / 2,
                             wpRectangle.Y + (wpRectangle.Height - stringSize.Y) / 2),
-                            Color.White, scale, 0f);
+                            Color.White,Constants.UIBoldFontSize, scale * Vector2.One);
                     }
                 }
 

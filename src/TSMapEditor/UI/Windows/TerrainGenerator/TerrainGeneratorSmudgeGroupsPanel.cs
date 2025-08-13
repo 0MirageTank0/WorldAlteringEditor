@@ -42,7 +42,7 @@ namespace TSMapEditor.UI.Windows.TerrainGenerator
                 lblSmudgeTypes.Name = nameof(lblSmudgeTypes) + i;
                 lblSmudgeTypes.X = Constants.UIEmptySideSpace;
                 lblSmudgeTypes.Y = y;
-                lblSmudgeTypes.FontIndex = Constants.UIBoldFont;
+                lblSmudgeTypes.FontSize = Constants.UIBoldFontSize;
                 lblSmudgeTypes.Text = $"污迹类型名称 (组 #{i + 1})";
                 AddChild(lblSmudgeTypes);
 

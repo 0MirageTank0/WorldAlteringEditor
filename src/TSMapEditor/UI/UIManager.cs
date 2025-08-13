@@ -289,11 +289,11 @@ namespace TSMapEditor.UI
 
         private void InitTheme()
         {
-            bool boldFont = UserSettings.Instance.UseBoldFont;
-            if (boldFont)
-            {
-                Renderer.GetFontList()[0] = Renderer.GetFontList()[1];
-            }
+            // bool boldFont = UserSettings.Instance.UseBoldFont;
+            // if (boldFont)
+            // {
+            //     Renderer.GetFontList()[0] = Renderer.GetFontList()[1];
+            // }
 
             UISettings.ActiveSettings = EditorThemes.Themes[UserSettings.Instance.Theme];
 

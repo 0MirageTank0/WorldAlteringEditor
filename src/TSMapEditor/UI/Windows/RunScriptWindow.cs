@@ -71,7 +71,7 @@ namespace TSMapEditor.UI.Windows
             {
                 string confirmation = ScriptRunner.GetDescriptionFromScriptV1();
 
-                confirmation = Renderer.FixText(confirmation, Constants.UIDefaultFont, Width).Text;
+                // confirmation = Renderer.FixText(confirmation, Constants.UIDefaultFont, Width).Text;
 
                 var messageBox = EditorMessageBox.Show(WindowManager, "是否确定?",
                     confirmation, MessageBoxButtons.YesNo);
@@ -98,7 +98,7 @@ namespace TSMapEditor.UI.Windows
                 throw new InvalidOperationException("挂起的脚本路径为 null!");
 
             string result = ScriptRunner.RunScriptV1(scriptDependencies.Map, scriptPath);
-            result = Renderer.FixText(result, Constants.UIDefaultFont, Width).Text;
+            // result = Renderer.FixText(result, Constants.UIDefaultFont, Width).Text;
 
             EditorMessageBox.Show(WindowManager, "结果", result, MessageBoxButtons.OK);
             ScriptRun?.Invoke(this, EventArgs.Empty);

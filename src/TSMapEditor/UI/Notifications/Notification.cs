@@ -28,7 +28,7 @@ namespace TSMapEditor.UI.Notifications
 
         private void RecalculateSize()
         {
-            Vector2 textDimensions = Renderer.GetTextDimensions(Text, Constants.UIBoldFont);
+            Vector2 textDimensions = Renderer.GetTextDimensions(Text, Constants.UIBoldFontSize);
 
             Width = (int)textDimensions.X + Constants.UIEmptySideSpace * 2;
             Height = (int)textDimensions.Y + Constants.UIEmptyTopSpace + Constants.UIEmptyBottomSpace;
@@ -38,9 +38,9 @@ namespace TSMapEditor.UI.Notifications
         {
             base.Draw(gameTime);
 
-            DrawStringWithShadow(Text, Constants.UIBoldFont,
+            DrawStringWithShadow(Text,
                 new Vector2(Constants.UIEmptySideSpace, Constants.UIEmptyTopSpace),
-                UISettings.ActiveSettings.TextColor);
+                UISettings.ActiveSettings.TextColor, Constants.UIBoldFontSize);
         }
 
         public override void Update(GameTime gameTime)

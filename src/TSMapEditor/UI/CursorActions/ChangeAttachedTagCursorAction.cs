@@ -29,13 +29,12 @@ namespace TSMapEditor.UI.CursorActions
             Color textColor = cellTechno == null || cellTechno.AttachedTag == TagToAttach ? Color.Gray : Color.HotPink;
 
             const string text = "关联标记";
-            var textDimensions = Renderer.GetTextDimensions(text, Constants.UIBoldFont);
+            var textDimensions = Renderer.GetTextDimensions(text, Constants.UIBoldFontSize);
             int x = cellTopLeftPoint.X - (int)(textDimensions.X - Constants.CellSizeX) / 2;
 
             Renderer.DrawStringWithShadow(text,
-                Constants.UIBoldFont,
                 new Vector2(x, cellTopLeftPoint.Y),
-                textColor);
+                textColor, Constants.UIBoldFontSize);
         }
 
         public override void LeftClick(Point2D cellCoords)

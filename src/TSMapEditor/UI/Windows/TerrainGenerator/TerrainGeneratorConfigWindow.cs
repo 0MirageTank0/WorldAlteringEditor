@@ -47,7 +47,7 @@ namespace TSMapEditor.UI.Windows.TerrainGenerator
 
             var lblHeader = new XNALabel(WindowManager);
             lblHeader.Name = nameof(lblHeader);
-            lblHeader.FontIndex = Constants.UIBoldFont;
+            lblHeader.FontSize = Constants.UIBoldFontSize;
             lblHeader.Text = "地形生成器配置";
             lblHeader.Y = Constants.UIEmptyTopSpace;
             AddChild(lblHeader);
@@ -107,7 +107,7 @@ namespace TSMapEditor.UI.Windows.TerrainGenerator
             tabControl.Y = ddPresets.Bottom + Constants.UIEmptyTopSpace;
             tabControl.Width = Width;
             tabControl.Height = idleTexture.Height;
-            tabControl.FontIndex = Constants.UIBoldFont;
+            tabControl.FontSize = Constants.UIBoldFontSize;
             tabControl.AddTab("地形类型", idleTexture, selectedTexture);
             tabControl.AddTab("地形图块", idleTexture, selectedTexture);
             tabControl.AddTab("覆盖物", idleTexture, selectedTexture);

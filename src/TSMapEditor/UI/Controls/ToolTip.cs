@@ -59,7 +59,7 @@ namespace TSMapEditor.UI.Controls
             set
             {
                 base.Text = value;
-                Vector2 textSize = Renderer.GetTextDimensions(base.Text, Constants.UIDefaultFont);
+                Vector2 textSize = Renderer.GetTextDimensions(base.Text, Constants.UIDefaultFontSize);
                 Width = (int)textSize.X + ToolTipMargin * 2;
                 Height = (int)textSize.Y + ToolTipMargin * 2;
             }
@@ -164,7 +164,7 @@ namespace TSMapEditor.UI.Controls
                 UISettings.ActiveSettings.BackgroundColor * Alpha);
             Renderer.DrawRectangle(ClientRectangle,
                 UISettings.ActiveSettings.AltColor * Alpha);
-            Renderer.DrawString(Text, Constants.UIDefaultFont,
+            Renderer.DrawString(Text,
                 new Vector2(X + ToolTipMargin, Y + ToolTipMargin),
                 UISettings.ActiveSettings.AltColor * Alpha, 1.0f);
         }

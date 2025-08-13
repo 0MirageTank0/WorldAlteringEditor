@@ -51,7 +51,7 @@ namespace TSMapEditor.UI.Windows
             string confirmation = stagingINI.GetStringValue(EditorSection, "Confirmation", null);
             if (!string.IsNullOrWhiteSpace(confirmation))
             {
-                confirmation = Renderer.FixText(confirmation, Constants.UIDefaultFont, Width).Text;
+                // confirmation = Renderer.FixText(confirmation, Constants.UIDefaultFontSize, Width).Text;
 
                 var messageBox = EditorMessageBox.Show(WindowManager, "是否确定？",
                     confirmation, MessageBoxButtons.YesNo);
@@ -70,7 +70,7 @@ namespace TSMapEditor.UI.Windows
 
             string successMessage = "INI 代码已成功添加到地图中。";
             successMessage = stagingINI.GetStringValue(EditorSection, "Success", successMessage);
-            successMessage = Renderer.FixText(successMessage, Constants.UIDefaultFont, Width).Text;
+            // successMessage = Renderer.FixText(successMessage, Constants.UIDefaultFont, Width).Text;
 
             stagingINI.RemoveSection(EditorSection);
 

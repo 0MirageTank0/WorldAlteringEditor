@@ -73,8 +73,8 @@ namespace TSMapEditor
         public const int UIHorizontalSpacing = 6;
         public const int UIVerticalSpacing = 6;
 
-        public const int UIDefaultFont = 0;
-        public const int UIBoldFont = 1;
+        public const float UIDefaultFontSize = 16.0f;
+        public const float UIBoldFontSize = 16.0f;
 
         public const int UITextBoxHeight = 21;
         public const int UIButtonHeight = 23;

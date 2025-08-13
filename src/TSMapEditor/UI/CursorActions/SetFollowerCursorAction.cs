@@ -30,7 +30,7 @@ namespace TSMapEditor.UI.CursorActions
             cellTopLeftPoint = cellTopLeftPoint.ScaleBy(CursorActionTarget.Camera.ZoomLevel);
 
             const string text = "左键单击一个单位将其设置为“追随者”\r\n\r\n按 ESC 清除“追随者”";
-            var textDimensions = Renderer.GetTextDimensions(text, Constants.UIBoldFont);
+            var textDimensions = Renderer.GetTextDimensions(text, Constants.UIBoldFontSize);
             int x = cellTopLeftPoint.X + (int)(Constants.CellSizeX - textDimensions.X) / 2;
             int y = cellTopLeftPoint.Y + (int)(Constants.CellSizeY - textDimensions.Y) / 2;
 
@@ -51,9 +51,8 @@ namespace TSMapEditor.UI.CursorActions
             Renderer.DrawRectangle(rect, UISettings.ActiveSettings.PanelBorderColor);
 
             Renderer.DrawStringWithShadow(text,
-                Constants.UIBoldFont,
                 new Vector2(x, y),
-                color);
+                color, Constants.UIBoldFontSize);
         }
 
         public override void OnKeyPressed(KeyPressEventArgs e, Point2D cellCoords)

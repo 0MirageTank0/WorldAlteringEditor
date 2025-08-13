@@ -118,10 +118,11 @@ namespace TSMapEditor.Rendering
             Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
 
             AssetLoader.Initialize(GraphicsDevice, Content);
-            AssetLoader.AssetSearchPaths.Add(Environment.CurrentDirectory + DSC + "Content" + DSC);
+            var currentDirectory = Environment.CurrentDirectory + DSC + "Content" + DSC;
+            AssetLoader.AssetSearchPaths.Add(currentDirectory);
 
             windowManager = new WindowManager(this, graphics);
-            windowManager.Initialize(Content, Environment.CurrentDirectory + DSC + "Content" + DSC);
+            windowManager.Initialize(Content, currentDirectory,[File.ReadAllBytes(currentDirectory + "AiDianFengYaHeiChangTi(ShangYongMianFei.ttf")]);
             // windowManager.InitializeIME(Get);
             new Parser(windowManager);
 
@@ -141,7 +142,7 @@ namespace TSMapEditor.Rendering
 
             windowManager.SetRenderResolution(menuRenderWidth, menuRenderHeight);
             windowManager.CenterOnScreen();
-            windowManager.Cursor.LoadNativeCursor(Environment.CurrentDirectory + DSC + "Content" + DSC + "cursor.cur");
+            windowManager.Cursor.LoadNativeCursor(currentDirectory + "cursor.cur");
             windowManager.SetBorderlessMode(false);
 
             Components.Add(windowManager);

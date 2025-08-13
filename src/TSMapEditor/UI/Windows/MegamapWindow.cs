@@ -281,7 +281,7 @@ namespace TSMapEditor.UI.Windows
 
             if (!enableToolbar)
             {
-                DrawStringWithShadow("按 ESC 关闭", 1, new Vector2(Constants.UIEmptySideSpace, Constants.UIEmptyTopSpace), Color.Red, 1.0f);
+                DrawStringWithShadow("按 ESC 关闭", new Vector2(Constants.UIEmptySideSpace, Constants.UIEmptyTopSpace), Color.Red, Constants.UIDefaultFontSize);
             }
 
             DrawPanelBorders();

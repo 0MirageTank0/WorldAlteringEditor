@@ -123,7 +123,7 @@ namespace TSMapEditor.UI.Windows.MainMenuWindows
 
             const int margin = 60;
             string errorList = string.Join("\r\n\r\n", MapLoader.MapLoadErrors);
-            int errorListHeight = (int)Renderer.GetTextDimensions(errorList, Constants.UIDefaultFont).Y;
+            int errorListHeight = (int)Renderer.GetTextDimensions(errorList, Constants.UIDefaultFontSize).Y;
 
             if (errorListHeight > windowManager.RenderResolutionY - margin)
             {

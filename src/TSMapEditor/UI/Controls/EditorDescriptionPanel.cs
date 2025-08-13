@@ -15,7 +15,7 @@ namespace TSMapEditor.UI.Controls
         public override string Text
         {
             get => lblDescription.Text;
-            set => lblDescription.Text = string.Join(Environment.NewLine, Renderer.GetFixedTextLines(value, lblDescription.FontIndex, Width - (Constants.UIEmptySideSpace * 2), true, true));
+            set => lblDescription.Text = string.Join(Environment.NewLine, Renderer.GetFixedTextLines(value, Width - (Constants.UIEmptySideSpace * 2), lblDescription.FontSize, true, true));
         }
 
         public override void Initialize()

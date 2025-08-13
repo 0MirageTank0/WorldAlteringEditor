@@ -53,7 +53,7 @@ namespace TSMapEditor.UI.Windows
             XNALabel lblCaption = new XNALabel(WindowManager);
             lblCaption.X = Constants.UIEmptySideSpace;
             lblCaption.Y = Constants.UIEmptyTopSpace;
-            lblCaption.FontIndex = Constants.UIBoldFont;
+            lblCaption.FontSize = Constants.UIBoldFontSize;
             lblCaption.Text = caption;
             AddChild(lblCaption);
 
@@ -68,8 +68,8 @@ namespace TSMapEditor.UI.Windows
             lblDescription.Y = line.Bottom + Constants.UIEmptyTopSpace;
             AddChild(lblDescription);
 
-            Vector2 textDimensions = Renderer.GetTextDimensions(lblDescription.Text, lblDescription.FontIndex);
-            int captionWidth = (int)Renderer.GetTextDimensions(caption, lblCaption.FontIndex).X;
+            Vector2 textDimensions = Renderer.GetTextDimensions(lblDescription.Text, lblDescription.FontSize);
+            int captionWidth = (int)Renderer.GetTextDimensions(caption, lblCaption.FontSize).X;
             Width = Math.Max((int)textDimensions.X, captionWidth) + Constants.UIEmptySideSpace * 2;
             line.Width = Width - (Constants.UIEmptySideSpace * 2);
 
@@ -189,8 +189,10 @@ namespace TSMapEditor.UI.Windows
         public static EditorMessageBox Show(WindowManager windowManager, string caption, string description, MessageBoxButtons messageBoxButtons)
         {
             var msgBox = new EditorMessageBox(windowManager,
-                Renderer.GetSafeString(caption, 1),
-                Renderer.FixText(Renderer.GetSafeString(description, 0), 0, windowManager.RenderResolutionX).Text,
+                // Renderer.GetSafeString(caption, 1),
+                caption,
+                // Renderer.FixText(Renderer.GetSafeString(description, 0), 0, windowManager.RenderResolutionX).Text,
+                description,
                 messageBoxButtons);
 
             DarkeningPanel.AddAndInitializeWithControl(windowManager, msgBox, true);

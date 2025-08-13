@@ -10,7 +10,7 @@ namespace TSMapEditor.UI
         {
             Width = 250;
             TextHorizontalPadding = Constants.UIEmptySideSpace;
-            FontIndex = Constants.UIBoldFont;
+            FontSize = Constants.UIBoldFontSize;
             ItemHeight = 25;
         }
 

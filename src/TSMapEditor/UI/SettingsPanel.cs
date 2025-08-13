@@ -96,7 +96,7 @@ namespace TSMapEditor.UI
 
             var lblHeader = new XNALabel(WindowManager);
             lblHeader.Name = nameof(lblHeader);
-            lblHeader.FontIndex = Constants.UIBoldFont;
+            lblHeader.FontSize = Constants.UIBoldFontSize;
             lblHeader.Text = "设置";
             lblHeader.Y = Constants.UIEmptyTopSpace;
             AddChild(lblHeader);

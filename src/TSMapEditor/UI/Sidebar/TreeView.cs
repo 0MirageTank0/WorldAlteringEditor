@@ -446,7 +446,7 @@ namespace TSMapEditor.UI.Sidebar
                     else
                         text = category.Text;
 
-                    DrawStringWithShadow(text, Constants.UIDefaultFont, new Vector2(x, y + CategoryMargin), UISettings.ActiveSettings.AltColor);
+                    DrawStringWithShadow(text, new Vector2(x, y + CategoryMargin), UISettings.ActiveSettings.AltColor, Constants.UIDefaultFontSize);
                 }
 
                 height += CategoryHeight;
@@ -471,9 +471,9 @@ namespace TSMapEditor.UI.Sidebar
                             }
 
                             x = TextBorderDistance + NODE_INDENTATION;
-                            int textHeight = (int)Renderer.GetTextDimensions(node.Text, Constants.UIDefaultFont).Y;
+                            int textHeight = (int)Renderer.GetTextDimensions(node.Text, Constants.UIDefaultFontSize).Y;
                             int textY = y + ((LineHeight - textHeight) / 2);
-                            DrawStringWithShadow(node.Text, Constants.UIDefaultFont, new Vector2(x, textY), UISettings.ActiveSettings.AltColor);
+                            DrawStringWithShadow(node.Text, new Vector2(x, textY), UISettings.ActiveSettings.AltColor, Constants.UIDefaultFontSize);
 
                             if (node.Texture != null)
                             {

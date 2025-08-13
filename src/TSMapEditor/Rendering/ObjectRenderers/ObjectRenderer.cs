@@ -188,7 +188,7 @@ namespace TSMapEditor.Rendering.ObjectRenderers
                 DrawObjectFacingArrow(techno.Facing, drawPoint);
             }
 
-            Renderer.DrawString(text, 1, drawPoint.ToXNAVector(), ReplacementColor, 1.0f);
+            Renderer.DrawString(text, drawPoint.ToXNAVector(), ReplacementColor);
         }
 
         protected void DrawObjectFacingArrow(byte facing, Point2D drawPoint)

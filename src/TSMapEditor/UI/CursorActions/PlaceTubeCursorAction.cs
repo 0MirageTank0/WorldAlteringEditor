@@ -79,7 +79,7 @@ namespace TSMapEditor.UI.CursorActions
                 "按 ESC 键清除\r\n" +
                 "按 B 键后退\r\n" +
                 "右键 退出";
-            var textDimensions = Renderer.GetTextDimensions(text, Constants.UIBoldFont);
+            var textDimensions = Renderer.GetTextDimensions(text, Constants.UIBoldFontSize);
             int x = cellTopLeftPoint.X - (int)(textDimensions.X - Constants.CellSizeX) / 2;
 
             Vector2 textPosition = new Vector2(x + 60, cellTopLeftPoint.Y - 150);
@@ -92,7 +92,7 @@ namespace TSMapEditor.UI.CursorActions
             Renderer.FillRectangle(textBackgroundRectangle, UISettings.ActiveSettings.PanelBackgroundColor);
             Renderer.DrawRectangle(textBackgroundRectangle, UISettings.ActiveSettings.PanelBorderColor);
 
-            Renderer.DrawStringWithShadow(text, Constants.UIBoldFont, textPosition, Color.Yellow);
+            Renderer.DrawStringWithShadow(text, textPosition, Color.Yellow, Constants.UIBoldFontSize);
         }
 
         public override void OnKeyPressed(KeyPressEventArgs e, Point2D cellCoords)

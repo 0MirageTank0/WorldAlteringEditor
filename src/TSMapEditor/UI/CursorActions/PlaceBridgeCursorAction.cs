@@ -44,7 +44,7 @@ namespace TSMapEditor.UI.CursorActions
             cellTopLeftPoint = cellTopLeftPoint.ScaleBy(CursorActionTarget.Camera.ZoomLevel);
 
             const string text = "按住左键绘制桥梁.\r\n\r\nENTER 键确认\r\nBackspace 键清除\r\n右键或 ESC 退出";
-            var textDimensions = Renderer.GetTextDimensions(text, Constants.UIBoldFont);
+            var textDimensions = Renderer.GetTextDimensions(text, Constants.UIBoldFontSize);
             int x = cellTopLeftPoint.X - (int)(textDimensions.X - Constants.CellSizeX) / 2;
 
             Vector2 textPosition = new Vector2(x + 60, cellTopLeftPoint.Y - 150);
@@ -57,7 +57,7 @@ namespace TSMapEditor.UI.CursorActions
             Renderer.FillRectangle(textBackgroundRectangle, UISettings.ActiveSettings.PanelBackgroundColor);
             Renderer.DrawRectangle(textBackgroundRectangle, UISettings.ActiveSettings.PanelBorderColor);
 
-            Renderer.DrawStringWithShadow(text, Constants.UIBoldFont, textPosition, Color.Yellow);
+            Renderer.DrawStringWithShadow(text, textPosition, Color.Yellow, Constants.UIBoldFontSize);
 
             Func<Point2D, Map, Point2D> getCellCenterPoint = Is2DMode ? CellMath.CellCenterPointFromCellCoords : CellMath.CellCenterPointFromCellCoords_3D;
 

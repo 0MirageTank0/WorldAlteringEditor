@@ -16,7 +16,7 @@ namespace TSMapEditor.UI.Controls
             textColor = TextIdleColor;
         }
 
-        public int FontIndex { get; set; } = 1;
+        public float FontSize { get; set; } = 16.0f;
 
         public Color TextIdleColor { get; set; }
         public Color TextHoverColor { get; set; }
@@ -59,12 +59,12 @@ namespace TSMapEditor.UI.Controls
                 if (!ReferenceEquals(oldText, Text))
                 {
                     oldText = Text;
-                    cachedText = Renderer.GetStringWithLimitedWidth(Text, FontIndex, Width - TEXT_HORIZONTAL_MARGIN);
+                    cachedText = Text;
                 }
 
-                DrawStringWithShadow(cachedText, FontIndex,
+                DrawStringWithShadow(cachedText,
                     new Vector2(TEXT_HORIZONTAL_MARGIN, TEXT_VERTICAL_MARGIN),
-                    textColor);
+                    textColor,FontSize);
             }
 
             base.Draw(gameTime);

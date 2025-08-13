@@ -13,7 +13,7 @@ namespace TSMapEditor.UI.Controls
         public MenuButton(WindowManager windowManager) : base(windowManager)
         {
             Height = Constants.UITopBarMenuHeight;
-            FontIndex = Constants.UIBoldFont;
+            FontSize = Constants.UIBoldFontSize;
         }
 
         public MenuButton(WindowManager windowManager, XNAContextMenu contextMenu) : this(windowManager)
@@ -53,7 +53,7 @@ namespace TSMapEditor.UI.Controls
         {
             base.Initialize();
 
-            Width = (int)Renderer.GetTextDimensions(Text, FontIndex).X + Constants.UIEmptySideSpace * 2;
+            Width = (int)Renderer.GetTextDimensions(Text, FontSize).X + Constants.UIEmptySideSpace * 2;
         }
 
         private void ContextMenu_EnabledChanged(object sender, System.EventArgs e)

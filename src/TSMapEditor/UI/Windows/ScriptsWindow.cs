@@ -868,10 +868,10 @@ namespace TSMapEditor.UI.Windows
         {
             ScriptAction action = GetScriptAction(index);
             string description = action == null ? "未知脚本行为。它很可能是用另一个编辑器添加的." : action.Description;
-
-            return Renderer.FixText(description,
-                lblActionDescriptionValue.FontIndex,
-                lblActionDescriptionValue.Parent.Width - lblActionDescriptionValue.X * 2).Text;
+            return description;
+            // return Renderer.FixText(description,
+            //     lblActionDescriptionValue.FontIndex,
+            //     lblActionDescriptionValue.Parent.Width - lblActionDescriptionValue.X * 2).Text;
         }
 
         private ScriptAction GetScriptAction(int index)

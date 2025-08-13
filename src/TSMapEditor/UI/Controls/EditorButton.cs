@@ -10,7 +10,7 @@ namespace TSMapEditor.UI.Controls
     {
         public EditorButton(WindowManager windowManager) : base(windowManager)
         {
-            FontIndex = Constants.UIBoldFont;
+            FontSize = Constants.UIBoldFontSize;
             Height = Constants.UIButtonHeight;
             AlphaRate = 0.005f; // Override default animation rate in UISettings
         }

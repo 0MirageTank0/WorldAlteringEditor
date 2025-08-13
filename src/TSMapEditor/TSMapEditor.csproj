@@ -335,6 +335,9 @@
     <None Update="Config\Default\UI\Windows\CreateRandomTriggerSetWindow.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Content\AiDianFengYaHeiChangTi(ShangYongMianFei.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Content\celltag.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -487,6 +490,7 @@
     <Reference Include="Rampastring.XNAUI.WindowsDX">
       <HintPath>Rampastring.XNAUI.WindowsDX.dll</HintPath>
     </Reference>
+    <PackageReference Include="FontStashSharp" Version="1.3.10" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.3" />
     <PackageReference Include="Rampastring.Tools" Version="2.0.7" />

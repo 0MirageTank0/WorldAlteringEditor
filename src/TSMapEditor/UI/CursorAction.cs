@@ -146,7 +146,7 @@ namespace TSMapEditor.UI
             Point2D cellTopLeftPoint = cellTopLeftCoordInWorld - cameraTopLeftPoint;
             cellTopLeftPoint = cellTopLeftPoint.ScaleBy(CursorActionTarget.Camera.ZoomLevel);
 
-            var textDimensions = Renderer.GetTextDimensions(text, Constants.UIBoldFont);
+            var textDimensions = Renderer.GetTextDimensions(text, Constants.UIBoldFontSize);
             int x = cellTopLeftPoint.X - (int)(textDimensions.X - Constants.CellSizeX) / 2;
 
             Vector2 textPosition = new Vector2(x + xOffset, cellTopLeftPoint.Y + yOffset);
@@ -158,7 +158,7 @@ namespace TSMapEditor.UI
             Renderer.FillRectangle(textBackgroundRectangle, UISettings.ActiveSettings.PanelBackgroundColor);
             Renderer.DrawRectangle(textBackgroundRectangle, UISettings.ActiveSettings.PanelBorderColor);
 
-            Renderer.DrawStringWithShadow(text, Constants.UIBoldFont, textPosition, textColor);
+            Renderer.DrawStringWithShadow(text, textPosition, textColor);
         }
     }
 }

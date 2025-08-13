@@ -42,7 +42,7 @@ namespace TSMapEditor.UI.Windows.TerrainGenerator
                 lblTerrainTypes.Name = nameof(lblTerrainTypes) + i;
                 lblTerrainTypes.X = Constants.UIEmptySideSpace;
                 lblTerrainTypes.Y = y;
-                lblTerrainTypes.FontIndex = Constants.UIBoldFont;
+                lblTerrainTypes.FontSize = Constants.UIBoldFontSize;
                 lblTerrainTypes.Text = $"地形类型 (组 #{i + 1})";
                 AddChild(lblTerrainTypes);
 

@@ -46,7 +46,7 @@ namespace TSMapEditor.UI.Windows.TerrainGenerator
                 lblTileSet.Name = nameof(lblTileSet) + i;
                 lblTileSet.X = Constants.UIEmptySideSpace;
                 lblTileSet.Y = y;
-                lblTileSet.FontIndex = Constants.UIBoldFont;
+                lblTileSet.FontSize = Constants.UIBoldFontSize;
                 lblTileSet.Text = $"覆盖物类型名称 (组 #{i + 1})";
                 AddChild(lblTileSet);
 
