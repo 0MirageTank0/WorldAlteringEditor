@@ -58,48 +58,64 @@ namespace TSMapEditor.Models
 
                 if (setter == null)
                     continue;
-
                 if (propertyType.Equals(typeof(int)))
-                    setter.Invoke(this, new object[] { iniSection.GetIntValue(property.Name, (int)property.GetValue(this, null)) });
+                    setter.Invoke(this, [iniSection.GetIntValue(property.Name, (int)property.GetValue(this, null))]);
                 else if (propertyType.Equals(typeof(double)))
-                    setter.Invoke(this, new object[] { iniSection.GetDoubleValue(property.Name, (double)property.GetValue(this, null)) });
+                    setter.Invoke(this, [iniSection.GetDoubleValue(property.Name, (double)property.GetValue(this, null))]);
                 else if (propertyType.Equals(typeof(float)))
-                    setter.Invoke(this, new object[] { iniSection.GetSingleValue(property.Name, (float)property.GetValue(this, null)) });
+                    setter.Invoke(this, [iniSection.GetSingleValue(property.Name, (float)property.GetValue(this, null))]);
                 else if (propertyType.Equals(typeof(bool)))
-                    setter.Invoke(this, new object[] { iniSection.GetBooleanValue(property.Name, (bool)property.GetValue(this, null)) });
+                    setter.Invoke(this, [iniSection.GetBooleanValue(property.Name, (bool)property.GetValue(this, null))]);
                 else if (propertyType.Equals(typeof(string)))
-                    setter.Invoke(this, new object[] { iniSection.GetStringValue(property.Name, (string)property.GetValue(this, null)) });
+                    setter.Invoke(this, [iniSection.GetStringValue(property.Name, (string)property.GetValue(this, null))]);
                 else if (propertyType.Equals(typeof(byte)))
-                    setter.Invoke(this, new object[] { (byte)Math.Min(byte.MaxValue, iniSection.GetIntValue(property.Name, (byte)property.GetValue(this, null))) });
+                    setter.Invoke(this, [(byte)Math.Min(byte.MaxValue, iniSection.GetIntValue(property.Name, (byte)property.GetValue(this, null)))]);
                 else if (propertyType.Equals(typeof(char)))
-                    setter.Invoke(this, new object[] { iniSection.GetStringValue(property.Name, ((char)property.GetValue(this, null)).ToString())[0] });
+                    setter.Invoke(this, [iniSection.GetStringValue(property.Name, ((char)property.GetValue(this, null)).ToString())[0]]);
                 else if (propertyType.Equals(typeof(int?)))
                 {
                     if (int.TryParse(iniSection.GetStringValue(property.Name, ""), CultureInfo.InvariantCulture, out int value))
-                        setter.Invoke(this, new object[] { value });
+                        setter.Invoke(this, [value]);
                 }
                 else if (propertyType.Equals(typeof(double?)))
                 {
                     if (double.TryParse(iniSection.GetStringValue(property.Name, ""), CultureInfo.InvariantCulture, out double value))
-                        setter.Invoke(this, new object[] { value });
+                        setter.Invoke(this, [value]);
                 }
                 else if (propertyType.Equals(typeof(float?)))
                 {
                     if (float.TryParse(iniSection.GetStringValue(property.Name, ""), CultureInfo.InvariantCulture, out float value))
-                        setter.Invoke(this, new object[] { value });
+                        setter.Invoke(this, [value]);
                 }
                 else if (propertyType.Equals(typeof(bool?)))
                 {
                     if (iniSection.KeyExists(property.Name))
                     {
-                        setter.Invoke(this, new object[] { iniSection.GetBooleanValue(property.Name, ((bool?)property.GetValue(this, null)).GetValueOrDefault()) });
+                        setter.Invoke(this, [iniSection.GetBooleanValue(property.Name, ((bool?)property.GetValue(this, null)).GetValueOrDefault())]);
                     }
                 }
                 else if (propertyType.Equals(typeof(List<string>)))
-                    setter.Invoke(this, new object[] { iniSection.GetListValue(property.Name, ',', (s) => s) });
+                    setter.Invoke(this, [iniSection.GetListValue(property.Name, ',', (s) => s)]);
             }
         }
 
+        public void ReadUINameFromCSFFile(StringTable stringTable)
+        {
+            var type = GetType();
+            var uiNameProperty = type.GetProperty("UIName");
+            if (uiNameProperty == null || !uiNameProperty.CanRead)
+                return;
+            var uiName = (string)uiNameProperty.GetValue(this, null);
+            if (string.IsNullOrWhiteSpace(uiName))
+                return;
+            var property = type.GetProperty("DisplayName");
+            if (property == null || !property.CanWrite)
+                return;
+                
+            var setter = property.GetSetMethod();
+            var csfName = stringTable.LookUpValue(uiName);
+            setter.Invoke(this, [csfName]);
+        }
 
         public void WritePropertiesToIniSection(IniSection iniSection)
         {

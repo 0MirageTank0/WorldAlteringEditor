@@ -12,29 +12,29 @@ namespace TSMapEditor.Models
 {
     public class Rules
     {
-        public List<UnitType> UnitTypes = new List<UnitType>();
-        public List<InfantryType> InfantryTypes = new List<InfantryType>();
-        public List<BuildingType> BuildingTypes = new List<BuildingType>();
-        public List<AircraftType> AircraftTypes = new List<AircraftType>();
-        public List<TerrainType> TerrainTypes = new List<TerrainType>();
-        public List<OverlayType> OverlayTypes = new List<OverlayType>();
-        public List<SmudgeType> SmudgeTypes = new List<SmudgeType>();
+        public List<UnitType> UnitTypes = [];
+        public List<InfantryType> InfantryTypes = [];
+        public List<BuildingType> BuildingTypes = [];
+        public List<AircraftType> AircraftTypes = [];
+        public List<TerrainType> TerrainTypes = [];
+        public List<OverlayType> OverlayTypes = [];
+        public List<SmudgeType> SmudgeTypes = [];
 
-        public List<string> Sides = new List<string>();
-        public List<InfantrySequence> InfantrySequences = new List<InfantrySequence>();
-        public List<RulesColor> Colors = new List<RulesColor>();
-        public List<TiberiumType> TiberiumTypes = new List<TiberiumType>();
-        public List<AnimType> AnimTypes = new List<AnimType>();
-        public List<GlobalVariable> GlobalVariables = new List<GlobalVariable>();
-        public List<Weapon> Weapons = new List<Weapon>();
-        public List<SuperWeaponType> SuperWeaponTypes = new List<SuperWeaponType>();
-        public List<ParticleSystemType> ParticleSystemTypes = new List<ParticleSystemType>();
+        public List<string> Sides = [];
+        public List<InfantrySequence> InfantrySequences = [];
+        public List<RulesColor> Colors = [];
+        public List<TiberiumType> TiberiumTypes = [];
+        public List<AnimType> AnimTypes = [];
+        public List<GlobalVariable> GlobalVariables = [];
+        public List<Weapon> Weapons = [];
+        public List<SuperWeaponType> SuperWeaponTypes = [];
+        public List<ParticleSystemType> ParticleSystemTypes = [];
 
-        public List<TaskForce> TaskForces = new List<TaskForce>();
-        public List<Script> Scripts = new List<Script>();
-        public List<TeamType> TeamTypes = new List<TeamType>();
+        public List<TaskForce> TaskForces = [];
+        public List<Script> Scripts = [];
+        public List<TeamType> TeamTypes = [];
 
-        public List<HouseType> RulesHouseTypes = new List<HouseType>();
+        public List<HouseType> RulesHouseTypes = [];
 
         public TutorialLines TutorialLines { get; set; }
         public Themes Themes { get; set; }
@@ -205,14 +205,16 @@ namespace TSMapEditor.Models
 
         public void InitEditorOverrides(IniFile iniFile)
         {
-            List<GameObjectType> gameObjectTypes = new List<GameObjectType>();
-            gameObjectTypes.AddRange(UnitTypes);
-            gameObjectTypes.AddRange(InfantryTypes);
-            gameObjectTypes.AddRange(BuildingTypes);
-            gameObjectTypes.AddRange(AircraftTypes);
-            gameObjectTypes.AddRange(TerrainTypes);
-            gameObjectTypes.AddRange(OverlayTypes);
-            gameObjectTypes.AddRange(SmudgeTypes);
+            List<GameObjectType> gameObjectTypes =
+            [
+                .. UnitTypes,
+                .. InfantryTypes,
+                .. BuildingTypes,
+                .. AircraftTypes,
+                .. TerrainTypes,
+                .. OverlayTypes,
+                .. SmudgeTypes,
+            ];
 
             var section = iniFile.GetSection("ObjectCategoryOverrides");
             if (section != null)
@@ -250,7 +252,7 @@ namespace TSMapEditor.Models
         {
             var houseTypesSection = iniFile.GetSection(sectionName);
             if (houseTypesSection == null)
-                return new List<HouseType>(0);
+                return [];
 
             var houseTypes = new List<HouseType>();
 
@@ -320,7 +322,7 @@ namespace TSMapEditor.Models
         {
             var housesSection = iniFile.GetSection(sectionName);
             if (housesSection == null)
-                return new List<House>(0);
+                return [];
 
             var houses = new List<House>();
 

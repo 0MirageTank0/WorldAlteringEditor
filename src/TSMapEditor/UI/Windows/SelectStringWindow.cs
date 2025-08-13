@@ -49,7 +49,7 @@ namespace TSMapEditor.UI.Windows
                 string preview;
 
                 // Add ellipsis ("...") to string content preview if it's too long.
-                const int maxLength = 56;
+                const int maxLength = 46;
                 if (csf.ID.Length > maxLength)
                     preview = csf.ID[..maxLength];
                 else

@@ -233,6 +233,7 @@ namespace TSMapEditor.Models
             const int marginX = 4;
 
             InitEditorConfig();
+            InitializeStringTable();
             InitializeRules(gameConfigINIFiles);
             LoadedINI = new IniFileEx();
             var baseMap = Helpers.ReadConfigINIEx("BaseMap.ini", ccFileManager);
@@ -289,10 +290,25 @@ namespace TSMapEditor.Models
             CreateGraphicalNodesFromBaseNodes();
 
             Lighting.ReadFromIniFile(mapIni);
-
-            StringTable = new(ccFileManager.CsfFiles);
         }
-
+        private void InitializeStringTable()
+        {
+            int maxCapacity = 0;
+            for (int i = 0; i < ccFileManager.CsfFiles.Count; i++) {
+                var csfFile = ccFileManager.CsfFiles[i];
+                if (csfFile.StringTable.map.Count > maxCapacity)
+                    maxCapacity = csfFile.StringTable.map.Count;
+            }
+            StringTable = new StringTable("total",maxCapacity);
+            for (int i = 0; i < ccFileManager.CsfFiles.Count; i++)
+            {
+                var csfFile = ccFileManager.CsfFiles[i];
+                foreach (CsfString csf in csfFile.StringTable.GetStringEnumerator())
+                {
+                    StringTable.map[csf.ID] = csf;
+                }
+            }
+        }
         private void CreateGraphicalNodesFromBaseNodes()
         {
             // Check base nodes and create graphical base node instances from them
@@ -1591,7 +1607,7 @@ namespace TSMapEditor.Models
         {
             if (gameConfigINIFiles == null)
                 throw new ArgumentNullException(nameof(gameConfigINIFiles));
-
+            
             Rules = new Rules();
             Rules.InitFromINI(gameConfigINIFiles.RulesIni, initializer);
 

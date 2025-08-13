@@ -17,6 +17,11 @@ namespace TSMapEditor.Models
         [INI(false)]
         public int Index { get; set; }
 
+        [INI(false)]
+        public string DisplayName { get; set; }
+
+        public string UIName { get; set; }
+
         public string Name { get; set; }
         public string FSName { get; set; }
         public string EditorCategory { get; set; }
@@ -43,8 +48,10 @@ namespace TSMapEditor.Models
         public string GetEditorDisplayName()
         {
             string name;
-
-            if (!string.IsNullOrWhiteSpace(FSName))
+            if (!string.IsNullOrWhiteSpace(DisplayName))
+            {
+                name = DisplayName;
+            }else if (!string.IsNullOrWhiteSpace(FSName))
             {
                 name = FSName;
             }

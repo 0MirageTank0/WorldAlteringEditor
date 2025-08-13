@@ -61,7 +61,8 @@ namespace TSMapEditor.Initialization
                 return;
 
             obj.ReadPropertiesFromIniSection(objectSection);
-
+            obj.ReadUINameFromCSFFile(map.StringTable);
+            
             if (objectTypeInitializers.TryGetValue(typeof(T), out var action))
                 action(obj, iniFile, objectSection);
         }

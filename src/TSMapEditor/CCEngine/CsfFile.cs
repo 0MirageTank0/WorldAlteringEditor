@@ -82,7 +82,7 @@ namespace TSMapEditor.CCEngine
         private readonly string fileName;
         private CsfFileHeader csfFileHeader;
 
-        public CsfString[] Strings { get; private set; }
+        public StringTable StringTable { get; private set; }
 
         /// <summary>
         /// Creates a CSf file from a directory + path or from MIX file system.
@@ -136,16 +136,16 @@ namespace TSMapEditor.CCEngine
             try
             {
                 csfFileHeader = new CsfFileHeader(buffer);
-                var strings = new List<CsfString>((int)csfFileHeader.NumberOfLabels);
+                StringTable = new StringTable(fileName,(int)csfFileHeader.NumberOfLabels);
 
                 using (var memoryStream = new MemoryStream(buffer))
                 {
                     memoryStream.Position = CsfFileHeader.SizeOf;
-                    for (int i = 0; i < csfFileHeader.NumberOfLabels; i++)
-                        strings.Add(ParseLabel(memoryStream));
+                    for (int i = 0; i < csfFileHeader.NumberOfLabels; i++) {
+                        var csfString = ParseLabel(memoryStream);
+                        StringTable.map[csfString.ID] = csfString;
+                    }  
                 }
-
-                Strings = strings.ToArray();
             }
             catch (CsfLoadException ex)
             {
@@ -173,7 +173,7 @@ namespace TSMapEditor.CCEngine
 
             var labelBuffer = new byte[labelLength];
             memoryStream.Read(labelBuffer, 0, labelBuffer.Length);
-            var csfLabel = System.Text.Encoding.ASCII.GetString(labelBuffer);
+            var csfLabel = System.Text.Encoding.ASCII.GetString(labelBuffer).ToUpper();
 
             var csfString = ParseString(memoryStream, buffer);
             for (uint i = 1; i < numberOfPairs; i++)

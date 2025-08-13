@@ -280,7 +280,7 @@ namespace TSMapEditor.UI.Sidebar
                 for (int categoryIndex = 0; categoryIndex < categories.Count; categoryIndex++)
                 {
                     var category = FindOrMakeCategory(categories[categoryIndex].Name, sideCategories);
-
+                    
                     category.Nodes.Add(new TreeViewNode()
                     {
                         Text = objectType.GetEditorDisplayName() + " (" + objectType.ININame + ")",

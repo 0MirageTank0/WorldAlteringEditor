@@ -3,22 +3,13 @@ using TSMapEditor.CCEngine;
 
 namespace TSMapEditor.Models
 {
-    public class StringTable
+    public class StringTable(string csfFileName,int capacity = 0)
     {
         /// <summary>
         /// Map of all CSF label/string pairs that have been parsed.
         /// </summary>
-        private Dictionary<string, CsfString> map = new();
-
-        public StringTable(List<CsfFile> csfFiles)
-        {
-            foreach (var csfFile in csfFiles)
-            {
-                foreach (var csfString in csfFile.Strings)
-                    map[csfString.ID] = csfString;
-            }
-        }
-
+        public readonly Dictionary<string, CsfString> map = new Dictionary<string, CsfString>(capacity);
+        public string CSFFileName = csfFileName;
         public IEnumerable<CsfString> GetStringEnumerator()
         {
             return map.Values;
@@ -26,12 +17,12 @@ namespace TSMapEditor.Models
 
         public string LookUpValue(string label)
         {
-            return map.TryGetValue(label, out var result) ? result.Value : null;
+            return map.TryGetValue(label.ToUpper(), out var result) ? result.Value : null;
         }
 
         public CsfString LookUpString(string label)
         {
-            return map.TryGetValue(label, out var result) ? result : null;
+            return map.TryGetValue(label.ToUpper(), out var result) ? result : null;
         }
     }
 }
