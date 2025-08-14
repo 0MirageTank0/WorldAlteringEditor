@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using Rampastring.XNAUI;
-using Rampastring.XNAUI.Input;
+using Rampastring.XNAUI.C;
+using Rampastring.XNAUI.C.Input;
 using System;
 using TSMapEditor.GameMath;
 using TSMapEditor.Models;
@@ -97,7 +97,7 @@ namespace TSMapEditor.UI
         /// </summary>
         /// <param name="e">The key press event from the XNAUI library.</param>
         /// <param name="cellCoords">Coordinates of the cell under the cursor.</param>
-        public virtual void OnKeyPressed(Rampastring.XNAUI.Input.KeyPressEventArgs e, Point2D cellCoords) { }
+        public virtual void OnKeyPressed(KeyPressEventArgs e, Point2D cellCoords) { }
 
         /// <summary>
         /// Called prior to drawing the map.

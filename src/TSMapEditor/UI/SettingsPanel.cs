@@ -1,5 +1,5 @@
-﻿using Rampastring.XNAUI;
-using Rampastring.XNAUI.XNAControls;
+﻿using Rampastring.XNAUI.C;
+using Rampastring.XNAUI.C.XNAControls;
 using System;
 using System.Globalization;
 using System.Windows.Forms;
@@ -76,6 +76,7 @@ namespace TSMapEditor.UI
 
         private XNADropDown ddRenderScale;
         private XNADropDown ddTargetFPS;
+        private XNACheckBox chkUnitPreview;
         private XNACheckBox chkBorderless;
         private XNADropDown ddTheme;
         private XNADropDown ddScrollRate;
@@ -183,10 +184,17 @@ namespace TSMapEditor.UI
                 ddScrollRate.AddItem(new XNADropDownItem() { Text = scrollRateNames[i], Tag = scrollRateValues[i] });
             }
 
+            chkUnitPreview = new XNACheckBox(WindowManager);
+            chkUnitPreview.Name = nameof(chkUnitPreview);
+            chkUnitPreview.X = Constants.UIEmptySideSpace;
+            chkUnitPreview.Y = ddScrollRate.Bottom + Constants.UIVerticalSpacing;
+            chkUnitPreview.Text = "单位预览图";
+            AddChild(chkUnitPreview);
+
             chkBorderless = new XNACheckBox(WindowManager);
             chkBorderless.Name = nameof(chkBorderless);
             chkBorderless.X = Constants.UIEmptySideSpace;
-            chkBorderless.Y = ddScrollRate.Bottom + Constants.UIVerticalSpacing;
+            chkBorderless.Y = chkUnitPreview.Bottom + Constants.UIVerticalSpacing;
             chkBorderless.Text = "无边界模式";
             AddChild(chkBorderless);
 
@@ -244,6 +252,7 @@ namespace TSMapEditor.UI
             ddTheme.SelectedIndex = selectedTheme;
             ddScrollRate.SelectedIndex = ddScrollRate.Items.FindIndex(item => (int)item.Tag == userSettings.ScrollRate.GetValue());
 
+            chkUnitPreview.Checked = userSettings.UnitPreview;
             chkBorderless.Checked = userSettings.Borderless;
             chkUseBoldFont.Checked = userSettings.UseBoldFont;
             chkGraphicsLevel.Checked = userSettings.GraphicsLevel > 0;
@@ -264,6 +273,7 @@ namespace TSMapEditor.UI
             if (ddScrollRate.SelectedItem != null)
                 userSettings.ScrollRate.UserDefinedValue = (int)ddScrollRate.SelectedItem.Tag;
 
+            userSettings.UnitPreview.UserDefinedValue = chkUnitPreview.Checked;
             userSettings.Borderless.UserDefinedValue = chkBorderless.Checked;
             userSettings.FullscreenWindowed.UserDefinedValue = chkBorderless.Checked;
 

@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using Rampastring.XNAUI;
+using Rampastring.XNAUI.C;
 using TSMapEditor.GameMath;
 
 namespace TSMapEditor.UI.Windows

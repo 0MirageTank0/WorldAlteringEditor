@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using Rampastring.XNAUI;
+using Rampastring.XNAUI.C;
+using Rampastring.XNAUI.C.XNAControls;
 using System;
 
 namespace TSMapEditor.UI.Notifications
@@ -11,7 +12,7 @@ namespace TSMapEditor.UI.Notifications
 
         public Notification(WindowManager windowManager) : base(windowManager) 
         {
-            DrawMode = Rampastring.XNAUI.XNAControls.ControlDrawMode.UNIQUE_RENDER_TARGET;
+            DrawMode = ControlDrawMode.UNIQUE_RENDER_TARGET;
             Text = string.Empty;
             AlphaRate = AppearAlphaRate;
             Alpha = 0.0f;

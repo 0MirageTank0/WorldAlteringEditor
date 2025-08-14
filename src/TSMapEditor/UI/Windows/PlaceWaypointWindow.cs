@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
-using Rampastring.XNAUI;
-using Rampastring.XNAUI.XNAControls;
+using Rampastring.XNAUI.C;
+using Rampastring.XNAUI.C.XNAControls;
 using TSMapEditor.GameMath;
 using TSMapEditor.Models;
 using TSMapEditor.Mutations;

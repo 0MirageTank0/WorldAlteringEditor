@@ -1,4 +1,4 @@
-﻿using Rampastring.XNAUI.XNAControls;
+﻿using Rampastring.XNAUI.C.XNAControls;
 
 namespace TSMapEditor.UI.Sidebar
 {

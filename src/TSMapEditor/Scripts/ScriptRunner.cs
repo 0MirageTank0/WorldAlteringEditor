@@ -1,5 +1,5 @@
 ﻿using Rampastring.Tools;
-using Rampastring.XNAUI;
+using Rampastring.XNAUI.C;
 using System;
 using System.IO;
 using System.Reflection;

@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Rampastring.XNAUI;
+using Rampastring.XNAUI.C;
 using System;
 using System.Collections.Generic;
 using TSMapEditor.CCEngine;
@@ -30,14 +30,14 @@ namespace TSMapEditor.Rendering.ObjectRenderers
 
         // Static table for creating triangles out of vertices
         private static readonly int[][] VertexIndexTriangles =
-        {
-            new [] { 0, 1, 2 }, new [] { 2, 3, 0 }, // up
-            new [] { 7, 6, 5 }, new [] { 5, 4, 7 }, // down
-            new [] { 4, 5, 1 }, new [] { 1, 0, 4 }, // forward
-            new [] { 3, 2, 6 }, new [] { 6, 7, 3 }, // backward
-            new [] { 1, 5, 6 }, new [] { 6, 2, 1 }, // right
-            new [] { 4, 0, 3 }, new [] { 3, 7, 4 }, // left
-        };
+        [
+            [0, 1, 2], [2, 3, 0], // up
+            [7, 6, 5], [5, 4, 7], // down
+            [4, 5, 1], [1, 0, 4], // forward
+            [3, 2, 6], [6, 7, 3], // backward
+            [1, 5, 6], [6, 2, 1], // right
+            [4, 0, 3], [3, 7, 4] // left
+        ];
 
         public static (Texture2D texture, Point2D offset) Render(GraphicsDevice graphicsDevice, byte facing, RampType ramp, VxlFile vxl, HvaFile hva, Palette palette, VplFile vpl = null, bool forRemap = false)
         {
@@ -181,13 +181,13 @@ namespace TSMapEditor.Rendering.ObjectRenderers
         }
 
         private static readonly int[] SlopeAxisZAngles =
-        {
+        [
             135, -135, -45, 45,
             180, -90, 0, 90,
             180, -90, 0, 90,
             180, -90, 0, 90,
             180, -90, 0, 90
-        };
+        ];
 
         private static void RenderVoxel(Vector3 position, Color color, int vertexIndexCount, List<int> vertexIndices, VertexPositionColor[] verticesArray)
         {

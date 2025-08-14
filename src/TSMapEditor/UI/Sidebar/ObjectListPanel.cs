@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Rampastring.XNAUI;
-using Rampastring.XNAUI.XNAControls;
+using Rampastring.XNAUI.C;
+using Rampastring.XNAUI.C.XNAControls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +9,7 @@ using TSMapEditor.CCEngine;
 using TSMapEditor.Models;
 using TSMapEditor.Models.ArtConfig;
 using TSMapEditor.Rendering;
+using TSMapEditor.Settings;
 
 namespace TSMapEditor.UI.Sidebar
 {
@@ -86,9 +87,10 @@ namespace TSMapEditor.UI.Sidebar
             AddChild(ObjectTreeView);
             ObjectTreeView.BackgroundTexture = AssetLoader.CreateTexture(new Color(0, 0, 0, 222), 2, 2);
 
+            // ObjectTreeView.HoveredItemChanged += ObjectTreeView_HoveredItemChanged;
             ObjectTreeView.SelectedItemChanged += ObjectTreeView_SelectedItemChanged;
             EditorState.ObjectOwnerChanged += EditorState_ObjectOwnerChanged;
-
+            
             base.Initialize();
 
             RefreshHouseList();
@@ -104,7 +106,7 @@ namespace TSMapEditor.UI.Sidebar
             Map.HousesChanged += (s, e) => RefreshHouseList();
             Map.HouseColorChanged += (s, e) => RefreshHouseList();
         }
-
+        
         private void NextSidebarNode_Triggered(object sender, EventArgs e)
         {
             if (Enabled)
@@ -273,7 +275,7 @@ namespace TSMapEditor.UI.Sidebar
                     }
                 }
 
-                var extractedTextures = GetObjectTextures(objectType, textures);
+                var extractedTextures = UserSettings.Instance.UnitPreview ? GetObjectTextures(objectType, textures) : (null,null);
 
                 categories = categories.OrderBy(c => Map.EditorConfig.EditorRulesIni.GetIntValue("ObjectCategoryPriorities", c.Name, 0)).ToList();
 
@@ -348,6 +350,19 @@ namespace TSMapEditor.UI.Sidebar
             ddOwner.SelectedIndex = Map.GetHouses().FindIndex(h => h == EditorState.ObjectOwner);
 
             ddOwner.SelectedIndexChanged += DdOwner_SelectedIndexChanged;
+        }
+        public override void Draw(GameTime gameTime)
+        {
+            base.Draw(gameTime);
+            if (ObjectTreeView?.HoveredNode?.Texture == null)
+            {
+                return;
+            }
+            var texture2D = ObjectTreeView.HoveredNode.Texture;
+            DrawTexture(texture2D,
+                new Rectangle(Width,
+                    100,
+                    texture2D.Width, texture2D.Height), Color.White);
         }
     }
 }

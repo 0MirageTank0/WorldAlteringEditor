@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
-using Rampastring.XNAUI;
-using Rampastring.XNAUI.XNAControls;
+using Rampastring.XNAUI.C;
+using Rampastring.XNAUI.C.Input;
+using Rampastring.XNAUI.C.XNAControls;
 using System;
 using System.Linq;
 using TSMapEditor.Misc;
@@ -567,7 +568,7 @@ namespace TSMapEditor.UI
             overlayFrameSelector.ClientRectangleUpdated += UpdateTileAndOverlaySelectorArea;
         }
 
-        private void Keyboard_OnKeyDown(object sender, Rampastring.XNAUI.Input.KeyPressEventArgs e)
+        private void Keyboard_OnKeyDown(object sender, KeyPressEventArgs e)
         {
             if (!WindowManager.HasFocus)
                 return;

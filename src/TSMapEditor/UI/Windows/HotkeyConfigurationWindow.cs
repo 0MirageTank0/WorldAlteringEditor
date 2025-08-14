@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Input;
-using Rampastring.XNAUI;
-using Rampastring.XNAUI.XNAControls;
+using Rampastring.XNAUI.C;
+using Rampastring.XNAUI.C.Input;
+using Rampastring.XNAUI.C.XNAControls;
 using System;
 using System.Collections.Generic;
 using TSMapEditor.Settings;
@@ -126,7 +127,7 @@ namespace TSMapEditor.UI.Windows
             ClearInfo();
         }
 
-        private void Keyboard_OnKeyPressed(object sender, Rampastring.XNAUI.Input.KeyPressEventArgs e)
+        private void Keyboard_OnKeyPressed(object sender, KeyPressEventArgs e)
         {
             if (!Enabled || GetSelectedCommand() == null)
             {

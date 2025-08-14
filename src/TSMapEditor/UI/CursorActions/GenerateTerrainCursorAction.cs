@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using Rampastring.XNAUI;
+using Rampastring.XNAUI.C;
 using System;
 using System.Collections.Generic;
 using TSMapEditor.GameMath;

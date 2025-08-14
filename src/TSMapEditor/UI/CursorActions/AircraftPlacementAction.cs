@@ -1,5 +1,5 @@
 ﻿using System;
-using Rampastring.XNAUI.Input;
+using Rampastring.XNAUI.C.Input;
 using TSMapEditor.GameMath;
 using TSMapEditor.Models;
 using TSMapEditor.Mutations.Classes;

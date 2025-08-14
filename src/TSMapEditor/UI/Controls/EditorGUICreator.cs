@@ -1,4 +1,4 @@
-﻿using Rampastring.XNAUI;
+﻿using Rampastring.XNAUI.C;
 
 namespace TSMapEditor.UI.Controls
 {

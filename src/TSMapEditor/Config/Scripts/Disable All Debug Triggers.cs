@@ -10,7 +10,7 @@ using TSMapEditor.CCEngine;
 using TSMapEditor.Rendering;
 using TSMapEditor.GameMath;
 using TSMapEditor.UI.Windows;
-using Rampastring.XNAUI;
+using Rampastring.XNAUI.C;
 
 namespace WAEScript
 {

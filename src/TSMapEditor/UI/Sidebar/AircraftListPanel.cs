@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework.Graphics;
-using Rampastring.XNAUI;
+using Rampastring.XNAUI.C;
 using TSMapEditor.Models;
 using TSMapEditor.Rendering;
 using TSMapEditor.UI.CursorActions;

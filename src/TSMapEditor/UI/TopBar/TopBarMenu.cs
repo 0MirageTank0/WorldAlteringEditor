@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using Rampastring.XNAUI;
+using Rampastring.XNAUI.C;
 using TSMapEditor.Models;
 using TSMapEditor.Mutations;
 using TSMapEditor.Scripts;

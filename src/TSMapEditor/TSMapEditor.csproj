@@ -14,6 +14,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
@@ -487,8 +488,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Rampastring.XNAUI.WindowsDX">
-      <HintPath>Rampastring.XNAUI.WindowsDX.dll</HintPath>
+    <Reference Include="Rampastring.XNAUI.C.WindowsDX">
+      <HintPath>Rampastring.XNAUI.C.WindowsDX.dll</HintPath>
     </Reference>
     <PackageReference Include="FontStashSharp" Version="1.3.10" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
@@ -504,7 +505,7 @@
     <Folder Include="Content\ToolIcons\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Content\Rampastring.XNAUI.WindowsDX.dll">
+    <None Include="Content\Rampastring.XNAUI.C.WindowsDX.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>    
     <None Include="Config\Scripts\Apply Animated Water.cs">

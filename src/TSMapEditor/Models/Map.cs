@@ -215,10 +215,11 @@ namespace TSMapEditor.Models
         public Map(CCFileManager ccFileManager)
         {
             InitCells();
-
+            
             initializer = new Initializer(this);
-
             this.ccFileManager = ccFileManager;
+            
+            InitializeStringTable();
         }
 
         private void InitEditorConfig()
@@ -233,7 +234,6 @@ namespace TSMapEditor.Models
             const int marginX = 4;
 
             InitEditorConfig();
-            InitializeStringTable();
             InitializeRules(gameConfigINIFiles);
             LoadedINI = new IniFileEx();
             var baseMap = Helpers.ReadConfigINIEx("BaseMap.ini", ccFileManager);

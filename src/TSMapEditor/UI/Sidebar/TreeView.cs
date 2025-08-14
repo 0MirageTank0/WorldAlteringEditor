@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Rampastring.XNAUI;
-using Rampastring.XNAUI.XNAControls;
+using Rampastring.XNAUI.C;
+using Rampastring.XNAUI.C.XNAControls;
 using System;
 using System.Collections.Generic;
 
@@ -84,6 +84,8 @@ namespace TSMapEditor.UI.Sidebar
         }
 
         private TreeViewNode _selectedNode;
+        private TreeViewNode _hoverNode;
+
         public TreeViewNode SelectedNode
         {
             get => _selectedNode;
@@ -97,7 +99,18 @@ namespace TSMapEditor.UI.Sidebar
             }
         }
 
-        public TreeViewNode HoveredNode { get; set; }
+        public TreeViewNode HoveredNode
+        {
+            get => _hoverNode;
+            set
+            {
+                if (_hoverNode != value)
+                {
+                    _hoverNode = value;
+                    HoveredItemChanged?.Invoke(this, EventArgs.Empty);
+                }
+            }
+        }
 
         public List<TreeViewCategory> Categories { get; set; } = new List<TreeViewCategory>();
 
@@ -418,7 +431,7 @@ namespace TSMapEditor.UI.Sidebar
         public override void Draw(GameTime gameTime)
         {
             DrawPanel();
-
+            
             int drawnWidth = Width;
             int height = MARGIN;
             for (int i = 0; i < Categories.Count; i++)
@@ -489,7 +502,7 @@ namespace TSMapEditor.UI.Sidebar
                                 }
                                 else
                                     textureYPosition = (LineHeight - textureHeight) / 2;
-
+                                
                                 DrawTexture(node.Texture,
                                     new Rectangle(Width - ScrollBar.Width - textureWidth - MARGIN,
                                     y + textureYPosition,

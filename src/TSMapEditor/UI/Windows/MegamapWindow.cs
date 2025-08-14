@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Rampastring.XNAUI;
+using Rampastring.XNAUI.C;
 using System;
 using TSMapEditor.GameMath;
 using TSMapEditor.UI.Controls;

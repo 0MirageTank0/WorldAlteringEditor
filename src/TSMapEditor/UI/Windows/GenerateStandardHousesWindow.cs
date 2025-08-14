@@ -1,4 +1,4 @@
-﻿using Rampastring.XNAUI;
+﻿using Rampastring.XNAUI.C;
 using System;
 using TSMapEditor.Models;
 using TSMapEditor.UI.Controls;

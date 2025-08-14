@@ -1,5 +1,6 @@
 ﻿using System;
-using Rampastring.XNAUI;
+using Rampastring.XNAUI.C;
+using Rampastring.XNAUI.C.Input;
 using TSMapEditor.GameMath;
 using TSMapEditor.Models;
 using TSMapEditor.UI.Controls;
@@ -135,7 +136,7 @@ namespace TSMapEditor.UI.Windows
             }
         }
 
-        private void Keyboard_OnKeyDown(object sender, Rampastring.XNAUI.Input.KeyPressEventArgs e)
+        private void Keyboard_OnKeyDown(object sender, KeyPressEventArgs e)
         {
             if (e.PressedKey == Microsoft.Xna.Framework.Input.Keys.Enter)
             {

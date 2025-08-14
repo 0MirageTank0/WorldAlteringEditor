@@ -1,5 +1,5 @@
 using Rampastring.Tools;
-using Rampastring.XNAUI;
+using Rampastring.XNAUI.C;
 using System;
 using System.IO;
 using TSMapEditor.CCEngine;
@@ -49,7 +49,6 @@ namespace TSMapEditor.UI.Windows.MainMenuWindows
             var sounds = new Sounds(IniFileEx.FromPathOrMix(Constants.SoundIniPath, gameDirectory, ccFileManager));
 
             Map map = new Map(ccFileManager);
-
             if (createNew)
             {
                 if (newMapParameters == null)

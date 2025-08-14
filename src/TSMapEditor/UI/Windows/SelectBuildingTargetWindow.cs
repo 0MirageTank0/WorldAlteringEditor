@@ -1,5 +1,5 @@
-﻿using Rampastring.XNAUI.XNAControls;
-using Rampastring.XNAUI;
+﻿using Rampastring.XNAUI.C.XNAControls;
+using Rampastring.XNAUI.C;
 using System;
 using TSMapEditor.Models;
 using TSMapEditor.CCEngine;

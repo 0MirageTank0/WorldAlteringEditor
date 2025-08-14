@@ -1,11 +1,11 @@
 ﻿using Rampastring.Tools;
 using System;
 using System.Collections.Generic;
-using Rampastring.XNAUI.Input;
+using Rampastring.XNAUI.C.Input;
 using TSMapEditor.GameMath;
 using TSMapEditor.Models;
 using TSMapEditor.Mutations.Classes;
-using Rampastring.XNAUI;
+using Rampastring.XNAUI.C;
 using Microsoft.Xna.Framework;
 using System.Linq;
 using TSMapEditor.UI.Controls;

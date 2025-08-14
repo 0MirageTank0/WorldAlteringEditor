@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Rampastring.XNAUI;
+using Rampastring.XNAUI.C;
 using TSMapEditor.Models;
 using TSMapEditor.Rendering;
 using TSMapEditor.UI.CursorActions;
@@ -160,7 +160,7 @@ namespace TSMapEditor.UI.Sidebar
 
             Renderer.EndDraw();
 
-            var finalRenderTarget = new RenderTarget2D(GraphicsDevice, ObjectTreeView.Width, ObjectTreeView.LineHeight, false, SurfaceFormat.Color, DepthFormat.None);
+            var finalRenderTarget = new RenderTarget2D(GraphicsDevice, renderTarget.Width, renderTarget.Height, false, SurfaceFormat.Color, DepthFormat.None);
             Texture2D regularFinal = Helpers.RenderTextureAsSmaller(renderTarget, finalRenderTarget, GraphicsDevice);
             Texture2D remapFinal = Helpers.RenderTextureAsSmaller(remapRenderTarget, finalRenderTarget, GraphicsDevice);
 

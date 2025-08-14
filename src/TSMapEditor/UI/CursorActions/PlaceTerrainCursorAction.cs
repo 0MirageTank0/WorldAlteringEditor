@@ -1,4 +1,4 @@
-﻿using Rampastring.XNAUI.Input;
+﻿using Rampastring.XNAUI.C.Input;
 using System;
 using System.Collections.Generic;
 using TSMapEditor.GameMath;

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Input;
 using Rampastring.Tools;
-using Rampastring.XNAUI.Input;
+using Rampastring.XNAUI.C.Input;
 using System;
 
 namespace TSMapEditor.UI

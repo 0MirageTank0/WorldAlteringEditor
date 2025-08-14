@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using Rampastring.XNAUI;
-using Rampastring.XNAUI.Input;
+using Rampastring.XNAUI.C;
+using Rampastring.XNAUI.C.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;

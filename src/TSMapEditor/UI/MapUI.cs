@@ -1,11 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Rampastring.XNAUI;
-using Rampastring.XNAUI.XNAControls;
+using Rampastring.XNAUI.C;
+using Rampastring.XNAUI.C.XNAControls;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Rampastring.XNAUI.C.Input;
 using Microsoft.VisualBasic.Logging;
 using TSMapEditor.GameMath;
 using TSMapEditor.Misc;
@@ -685,7 +686,7 @@ namespace TSMapEditor.UI
             return cursorMapPoint;
         }
 
-        public void HandleKeyDown(object sender, Rampastring.XNAUI.Input.KeyPressEventArgs e)
+        public void HandleKeyDown(object sender, KeyPressEventArgs e)
         {
             if (e.Handled)
                 return;

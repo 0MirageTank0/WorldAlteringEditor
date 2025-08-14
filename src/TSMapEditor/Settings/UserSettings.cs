@@ -19,8 +19,9 @@ namespace TSMapEditor.Settings
 
             UserSettingsIni = new IniFile(Environment.CurrentDirectory + "/MapEditorSettings.ini");
 
-            settings = new IINILoadable[]
-            {
+            settings =
+            [
+                UnitPreview,
                 TargetFPS,
                 GraphicsLevel,
                 ResolutionWidth,
@@ -44,7 +45,7 @@ namespace TSMapEditor.Settings
                 LastScenarioPath,
 
                 TextEditorPath
-            };
+            ];
 
             foreach (var setting in settings)
                 setting.LoadValue(UserSettingsIni);
@@ -75,6 +76,7 @@ namespace TSMapEditor.Settings
 
         private readonly IINILoadable[] settings;
 
+        public BoolSetting UnitPreview = new BoolSetting(Display, "UnitPreview", true);
         public IntSetting TargetFPS = new IntSetting(Display, "TargetFPS", 240);
         public IntSetting GraphicsLevel = new IntSetting(Display, nameof(GraphicsLevel), 1);
         public IntSetting ResolutionWidth = new IntSetting(Display, "ResolutionWidth", -1);

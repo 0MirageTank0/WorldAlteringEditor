@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Input;
-using Rampastring.XNAUI;
-using Rampastring.XNAUI.XNAControls;
+using Rampastring.XNAUI.C;
+using Rampastring.XNAUI.C.Input;
+using Rampastring.XNAUI.C.XNAControls;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -140,7 +141,7 @@ namespace TSMapEditor.UI.Sidebar
             RefreshSize();
         }
 
-        private void Keyboard_OnKeyPressed(object sender, Rampastring.XNAUI.Input.KeyPressEventArgs e)
+        private void Keyboard_OnKeyPressed(object sender, KeyPressEventArgs e)
         {
             if (!WindowManager.HasFocus)
                 return;

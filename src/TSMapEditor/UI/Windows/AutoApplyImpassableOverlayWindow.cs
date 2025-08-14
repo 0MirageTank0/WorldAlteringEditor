@@ -1,6 +1,6 @@
 ﻿using Rampastring.Tools;
-using Rampastring.XNAUI;
-using Rampastring.XNAUI.XNAControls;
+using Rampastring.XNAUI.C;
+using Rampastring.XNAUI.C.XNAControls;
 using System;
 using TSMapEditor.GameMath;
 using TSMapEditor.Models;
