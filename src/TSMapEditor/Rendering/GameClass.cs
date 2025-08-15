@@ -122,7 +122,7 @@ namespace TSMapEditor.Rendering
             AssetLoader.AssetSearchPaths.Add(currentDirectory);
 
             windowManager = new WindowManager(this, graphics);
-            windowManager.Initialize(Content, currentDirectory,[File.ReadAllBytes(currentDirectory + "AiDianFengYaHeiChangTi(ShangYongMianFei.ttf")]);
+            windowManager.Initialize(Content, currentDirectory,[File.ReadAllBytes(currentDirectory + "XiangcuiDengcusong.ttf")]);
             // windowManager.InitializeIME(Get);
             new Parser(windowManager);
 

@@ -10,9 +10,9 @@ namespace TSMapEditor.UI.Controls
     /// </summary>
     public class ToolTip : XNAControl
     {
-        private const int ToolTipMargin = 5;
-        private const int DisplayOffsetX = 10;
-        private const int DisplayOffsetY = 10;
+        protected const int ToolTipMargin = 5;
+        protected const int DisplayOffsetX = 10;
+        protected const int DisplayOffsetY = 10;
         private const float AlphaRate = 5.0f;
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace TSMapEditor.UI.Controls
         /// Sets the tool tip's location, checking that it doesn't exceed the window's bounds.
         /// </summary>
         /// <param name="location">The point at location coordinates.</param>
-        public void DisplayAtLocation(Point location)
+        public virtual void DisplayAtLocation(Point location)
         {
             X = location.X + Width > WindowManager.RenderResolutionX ?
                 WindowManager.RenderResolutionX - Width : location.X;
@@ -166,7 +166,7 @@ namespace TSMapEditor.UI.Controls
                 UISettings.ActiveSettings.AltColor * Alpha);
             Renderer.DrawString(Text,
                 new Vector2(X + ToolTipMargin, Y + ToolTipMargin),
-                UISettings.ActiveSettings.AltColor * Alpha, 1.0f);
+                UISettings.ActiveSettings.AltColor * Alpha);
         }
 
         private Point SumPoints(Point p1, Point p2) => p1 + p2;
