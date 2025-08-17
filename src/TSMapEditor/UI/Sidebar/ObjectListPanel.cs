@@ -275,7 +275,7 @@ namespace TSMapEditor.UI.Sidebar
                     }
                 }
 
-                var extractedTextures = UserSettings.Instance.UnitPreview ? GetObjectTextures(objectType, textures) : (null,null);
+                // var extractedTextures = UserSettings.Instance.UnitPreview ? GetObjectTextures(objectType, textures) : (null,null);
 
                 categories = categories.OrderBy(c => Map.EditorConfig.EditorRulesIni.GetIntValue("ObjectCategoryPriorities", c.Name, 0)).ToList();
 
@@ -286,8 +286,8 @@ namespace TSMapEditor.UI.Sidebar
                     category.Nodes.Add(new TreeViewNode()
                     {
                         Text = objectType.GetEditorDisplayName() + " (" + objectType.ININame + ")",
-                        Texture = extractedTextures.regular,
-                        RemapTexture = extractedTextures.remap,
+                        Texture = null,//extractedTextures.regular,
+                        RemapTexture = null,//extractedTextures.remap,
                         RemapColor = categories[categoryIndex].RemapColor,
                         Tag = objectType
                     });

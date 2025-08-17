@@ -15,6 +15,10 @@ namespace TSMapEditor.Rendering.ObjectRenderers
     /// <typeparam name="T">The type of game object to render.</typeparam>
     public abstract class ObjectRenderer<T> where T : GameObject
     {
+        /// <summary>
+        /// 是否立即使用Renderer绘制出来
+        /// </summary>
+        public bool DrawImmediate = false;
         protected ObjectRenderer(RenderDependencies renderDependencies)
         {
             RenderDependencies = renderDependencies;
@@ -35,7 +39,7 @@ namespace TSMapEditor.Rendering.ObjectRenderers
         /// </summary>
         /// <param name="gameObject">The game object to render.</param>
         /// <param name="checkInCamera">Whether the object's presence within the camera should be checked.</param>
-        public void Draw(T gameObject, bool checkInCamera)
+        public void Draw(T gameObject, bool checkInCamera = false)
         {
             Point2D drawPoint = GetDrawPoint(gameObject);
 
@@ -520,8 +524,23 @@ namespace TSMapEditor.Rendering.ObjectRenderers
             color = new Color((color.R / 255.0f) * lightingColor.X / 2f,
                 (color.B / 255.0f) * lightingColor.Y / 2f,
                 (color.B / 255.0f) * lightingColor.Z / 2f, textureWidthCenterPoint);
-
-            RenderDependencies.ObjectSpriteRecord.AddGraphicsEntry(new ObjectSpriteEntry(paletteTexture, texture, drawingBounds, color, false, false, depthAddition));
+            if (DrawImmediate)
+            {
+                var camera = RenderDependencies.Camera;
+                drawingBounds.Location = new Point(
+                    (int)(camera.ZoomLevel * (drawingBounds.Location.X - camera.TopLeftPoint.X)),
+                    (int)(camera.ZoomLevel * (drawingBounds.Location.Y - camera.TopLeftPoint.Y))
+                    );
+                drawingBounds.Size = new Point(
+                    (int)(camera.ZoomLevel * drawingBounds.Size.X),
+                    (int)(camera.ZoomLevel * drawingBounds.Size.Y)
+                );
+                Renderer.DrawTexture(texture,drawingBounds,color);
+            }
+            else
+            {
+                RenderDependencies.ObjectSpriteRecord.AddGraphicsEntry(new ObjectSpriteEntry(paletteTexture, texture, drawingBounds, color, false, false, depthAddition));
+            }
 
             if (drawRemap && remapFrame != null)
             {
@@ -530,8 +549,15 @@ namespace TSMapEditor.Rendering.ObjectRenderers
                     (remapColor.G / 255.0f),
                     (remapColor.B / 255.0f),
                     textureWidthCenterPoint);
-
-                RenderDependencies.ObjectSpriteRecord.AddGraphicsEntry(new ObjectSpriteEntry(paletteTexture, remapFrame.Texture, drawingBounds, remapColor, true, false, depthAddition));
+                if (DrawImmediate)
+                {
+                    //在这里不需要进行变换 因为drawBounds已在上文处理
+                    Renderer.DrawTexture(texture,drawingBounds,color);
+                }
+                else
+                {
+                    RenderDependencies.ObjectSpriteRecord.AddGraphicsEntry(new ObjectSpriteEntry(paletteTexture, remapFrame.Texture, drawingBounds, remapColor, true, false, depthAddition));
+                }
             }
         }
 

@@ -92,7 +92,7 @@ namespace TSMapEditor.Rendering
 
             int width = (int)(windowManager.RenderResolutionX / ZoomLevel);
             int height = (int)(windowManager.RenderResolutionY / ZoomLevel);
-
+            
             TopLeftPoint = new Point2D(cellPixelCoords.X - (width / 2), cellPixelCoords.Y - (height / 2));
         }
 

@@ -35,6 +35,8 @@ namespace TSMapEditor.UI
             set { _mapTile = value; RefreshInfo(); }
         }
 
+        public SubCell SubCell;
+
         private XNATextRenderer textRenderer;
 
         public override void Initialize()
@@ -254,7 +256,7 @@ namespace TSMapEditor.UI
         private void AddObjectInformation<T>(string objectTypeLabel, Techno<T> techno) where T : TechnoType
         {
             textRenderer.AddTextLine(new XNATextPart(objectTypeLabel,
-                Constants.UIDefaultFontSize, Color.Gray));
+                Constants.UIDefaultFontSize, Color.Yellow));
             textRenderer.AddTextPart(new XNATextPart(techno.ObjectType.Name + " (" + techno.ObjectType.ININame + "), 所属:",
                     Constants.UIDefaultFontSize, Color.White));
             textRenderer.AddTextPart(new XNATextPart(techno.Owner.ININame, Constants.UIBoldFontSize, techno.Owner.XNAColor));
@@ -279,6 +281,12 @@ namespace TSMapEditor.UI
                         string followerName = unit.FollowerUnit.UnitType.GetEditorDisplayName();
                         textRenderer.AddTextPart(new XNATextPart("跟随单位: " + followerName + " 位于 " + unit.FollowerUnit.Position, Constants.UIDefaultFontSize, Color.White));
                     }
+                }
+            }else if (techno is Infantry infantry)
+            {
+                if (infantry.SubCell == SubCell)
+                {
+                    textRenderer.AddTextPart(new XNATextPart("[所选]",Constants.UIDefaultFontSize / 2,Color.Yellow));
                 }
             }
             

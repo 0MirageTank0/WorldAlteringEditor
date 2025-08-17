@@ -132,6 +132,7 @@ namespace TSMapEditor.UI
         }
 
         private MapTile tileUnderCursor;
+        private SubCell subCellUnderCursor;
         private MapTile lastTileUnderCursor;
 
         private int scrollRate;
@@ -286,12 +287,7 @@ namespace TSMapEditor.UI
 
         private void RotateUnitOneStep_Triggered(object sender, EventArgs e)
         {
-            if (tileUnderCursor == null)
-                return;
-
-            var tilePosition = GetRelativeTilePositionFromCursorPosition(tileUnderCursor);
-            var selectedObject = tileUnderCursor.GetObject(tilePosition) as TechnoBase;
-            if (selectedObject == null)
+            if (tileUnderCursor?.GetObject(subCellUnderCursor) is not TechnoBase selectedObject)
                 return;
 
             const int step = 32;
@@ -417,8 +413,7 @@ namespace TSMapEditor.UI
             // Attempt dragging or rotating an object
             if (CursorAction == null && tileUnderCursor != null && Cursor.LeftDown && !isDraggingObject && !isRotatingObject && cursorPoint != pressedDownPoint)
             {
-                var tilePosition = GetRelativeTilePositionFromCursorPosition(tileUnderCursor);
-                var cellObject = tileUnderCursor.GetObject(tilePosition);
+                var cellObject = tileUnderCursor.GetObject(subCellUnderCursor);
 
                 if (cellObject != null)
                 {
@@ -546,22 +541,34 @@ namespace TSMapEditor.UI
         {
             if (tileUnderCursor != null && CursorAction == null)
             {
+                
+                if (tileUnderCursor.Vehicles.Count > 0)
+                    windowController.VehicleOptionsWindow.Open(tileUnderCursor.Vehicles[0]);
+                
+                if (tileUnderCursor.Aircraft.Count > 0)
+                    windowController.AircraftOptionsWindow.Open(tileUnderCursor.Aircraft[0]);
+                
                 if (tileUnderCursor.Structures.Count > 0)
                     windowController.StructureOptionsWindow.Open(tileUnderCursor.Structures[0]);
 
-                if (tileUnderCursor.Vehicles.Count > 0)
-                    windowController.VehicleOptionsWindow.Open(tileUnderCursor.Vehicles[0]);
-
-                if (tileUnderCursor.Aircraft.Count > 0)
-                    windowController.AircraftOptionsWindow.Open(tileUnderCursor.Aircraft[0]);
-
-                var tilePosition = GetRelativeTilePositionFromCursorPosition(tileUnderCursor);
-                var closestOccupiedSubCell = tileUnderCursor.GetSubCellClosestToPosition(tilePosition, true);
-                if (closestOccupiedSubCell != SubCell.None)
+                var noInfantryUnderCell = true;
+                if (subCellUnderCursor != SubCell.None)
                 {
-                    Infantry infantry = tileUnderCursor.GetInfantryFromSubCellSpot(closestOccupiedSubCell);
+                    var infantry = tileUnderCursor.GetInfantryFromSubCellSpot(subCellUnderCursor);
                     if (infantry != null)
+                    {
                         windowController.InfantryOptionsWindow.Open(infantry);
+                        noInfantryUnderCell = false;
+                    }
+                }
+                // 当前鼠标下的子单元不存在步兵 则尝试显示所有步兵的信息
+                if(noInfantryUnderCell)
+                {
+                    var infantry = tileUnderCursor.GetFirstInfantry();
+                    if (infantry != null)
+                    {
+                        windowController.InfantryOptionsWindow.Open(infantry);
+                    }
                 }
             }
         }
@@ -591,15 +598,15 @@ namespace TSMapEditor.UI
             rightClickScrollInitPos = new Point(-1, -1);
         }
 
-        private MapTile CalculateBestTileUnderCursor()
+        private (MapTile,SubCell) CalculateBestTileUnderCursor()
         {
             Point2D cursorMapPoint = GetCursorMapPoint();
             Point2D tileCoords = EditorState.Is2DMode ?
                 CellMath.CellCoordsFromPixelCoords_2D(cursorMapPoint, Map) :
                 CellMath.CellCoordsFromPixelCoords(cursorMapPoint, Map, CursorAction == null || CursorAction.SeeThrough);
-
+            
             var tile = Map.GetTile(tileCoords.X, tileCoords.Y);
-
+            var subCell = SubCell.None;
             if (tile != null && (CursorAction == null || CursorAction.UseOnBridge) && !Constants.IsFlatWorld && !EditorState.Is2DMode)
             {
                 if (tile.GetTechno() == null)
@@ -613,12 +620,17 @@ namespace TSMapEditor.UI
                     {
                         var techno = otherTile.GetTechno();
                         if (techno != null && techno.IsOnBridge())
-                            return otherTile;
+                            tile = otherTile;
                     }
                 }
+                // 计算子单元
+                var cellTopLeft = Constants.IsFlatWorld && EditorState.Is2DMode ?
+                    CellMath.CellTopLeftPointFromCellCoords_NoBaseline(tile.CoordsToPoint(), Map) :
+                    CellMath.CellTopLeftPointFromCellCoords_3D_NoBaseline(tile.CoordsToPoint(), Map);
+                var offset = cursorMapPoint - cellTopLeft;
+                subCell = tile.GetSubCellClosestToPosition(offset,false);
             }
-
-            return tile;
+            return (tile,subCell);
         }
 
         public override void Update(GameTime gameTime)
@@ -659,14 +671,16 @@ namespace TSMapEditor.UI
             
             windowController.MinimapWindow.CameraRectangle = new Rectangle(Camera.TopLeftPoint.ToXNAPoint(), new Point2D(Width, Height).ScaleBy(1.0 / Camera.ZoomLevel).ToXNAPoint());
 
-            var tile = CalculateBestTileUnderCursor();
-
-            tileUnderCursor = tile;
-            TileInfoDisplay.MapTile = tile;
+            var tileAndCell = CalculateBestTileUnderCursor();
+            
+            tileUnderCursor = tileAndCell.Item1;
+            TileInfoDisplay.MapTile = tileAndCell.Item1;
+            TileInfoDisplay.SubCell = tileAndCell.Item2;
+            subCellUnderCursor = tileAndCell.Item2;
+            
             if (IsActive && tileUnderCursor != null)
             {
-                var tilePosition = GetRelativeTilePositionFromCursorPosition(tileUnderCursor);
-                TechnoUnderCursor = tileUnderCursor.GetTechno(tilePosition);
+                TechnoUnderCursor = tileUnderCursor.GetTechno(subCellUnderCursor);
                 if (KeyboardCommands.Instance.DeleteObject.AreKeysDown(Keyboard))
                 {
                     if (WindowManager.SelectedControl == null || WindowManager.SelectedControl is not XNATextBox)
@@ -732,7 +746,7 @@ namespace TSMapEditor.UI
         {
             mapView.Draw(IsActive, TechnoUnderCursor, tileUnderCursor, CursorAction);
 
-            mapView.DrawOnTileUnderCursor(tileUnderCursor, CursorAction, isDraggingObject,
+            mapView.DrawOnTileUnderCursor(tileUnderCursor,subCellUnderCursor, CursorAction, isDraggingObject,
                 isRotatingObject, draggedOrRotatedObject,
                 KeyboardCommands.Instance.CloneObject.AreKeysOrModifiersDown(Keyboard),
                 KeyboardCommands.Instance.OverlapObjects.AreKeysOrModifiersDown(Keyboard));

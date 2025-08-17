@@ -335,7 +335,7 @@ namespace TSMapEditor.Models
             return Array.Find(Infantry, inf => inf != null && predicate(inf));
         }
 
-        public TechnoBase GetTechno(Point2D? position = null)
+        public TechnoBase GetTechno(SubCell subCell = SubCell.None)
         {
             if (Structures.Count > 0)
                 return Structures[0];
@@ -346,30 +346,13 @@ namespace TSMapEditor.Models
             if (Aircraft.Count > 0)
                 return Aircraft[0];
 
-            if (position != null)
-            {
-                var closestSubcell = GetSubCellClosestToPosition((Point2D)position, true);
-                if (closestSubcell == SubCell.None)
-                    return null;
-
-                return GetInfantryFromSubCellSpot(closestSubcell);                
-            }
-            else
-            {
-                return GetFirstInfantry();
-            }            
+            return subCell != SubCell.None ? GetInfantryFromSubCellSpot(subCell) ?? GetFirstInfantry() : GetFirstInfantry();            
         }        
 
-        public GameObject GetObject(Point2D? position = null)
+        public GameObject GetObject(SubCell subCell = SubCell.None)
         {
-            GameObject obj = GetTechno(position);
-            if (obj != null)
-                return obj;
-
-            if (TerrainObject != null)
-                return TerrainObject;
-
-            return null;
+            GameObject obj = GetTechno(subCell);
+            return obj ?? TerrainObject;
         }
 
         /// <summary>

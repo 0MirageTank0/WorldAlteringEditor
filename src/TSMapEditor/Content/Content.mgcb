@@ -43,6 +43,12 @@
 /processorParam:DebugMode=Auto
 /build:Shaders/DepthApply.fx
 
+#begin Shaders/OutlineEffect.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Shaders/OutlineEffect.fx
+
 #begin Shaders/PalettedColorDraw.fx
 /importer:EffectImporter
 /processor:EffectProcessor
